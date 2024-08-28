@@ -1,6 +1,5 @@
-import { Router, Response, Request } from "express";
+import { Router } from "express";
 import { allJobs, createJob } from "../controllers/jobs.controller";
-import Job from "../models/jobs";
 
 const router = Router();
 

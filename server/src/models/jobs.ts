@@ -41,6 +41,11 @@ const jobSchema = new Schema(
       type: String,
       required: true,
     },
+    postedBy: {
+      type: Schema.Types.ObjectId,
+      // ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );
