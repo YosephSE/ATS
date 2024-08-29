@@ -11,14 +11,15 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-const singleJob = async (req: Request, res: Response) => {
-  try {
-    const job = await Job.findById(req.params.id);
-    res.status(200).json(job);
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+const singleJob = asyncHandler(async (req: Request, res: Response) => {
+  const job = await Job.findById(req.params.id);
+  if (!job) {
+    const error = new Error();
+    (error as any).status = 404;
+    throw error;
   }
-};
+  res.status(200).json(job);
+});
 
 const createJob = async (req: Request, res: Response) => {
   try {
