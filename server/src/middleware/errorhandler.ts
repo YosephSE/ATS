@@ -1,35 +1,25 @@
 import { Request, Response, NextFunction } from "express";
-import ErrorLog from "../models/errorLog"; // Adjust the path as necessary
+import logger from "../utils/logger";
 
-const errorHandler = async (
+const errorHandler = (
   err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err.stack);
+  logger.error({
+    name: err.name,
+    message: err.message,
+    stack: err.stack,
+    status: err.status,
+    additionalInfo: {
+      method: req.method,
+      url: req.originalUrl,
+      headers: req.headers,
+      body: req.body,
+    },
+  });
 
-  // Save the error to the database
-  try {
-    const errorLog = new ErrorLog({
-      name: err.name,
-      message: err.message,
-      stack: err.stack,
-      status: err.status,
-      additionalInfo: {
-        method: req.method,
-        url: req.originalUrl,
-        headers: req.headers,
-        body: req.body,
-      },
-    });
-
-    await errorLog.save();
-  } catch (dbError) {
-    console.error("Failed to save error log to the database", dbError);
-  }
-
-  // Respond to the client
   if (err.name === "ValidationError") {
     return res.status(400).json({
       message: "Validation Error",
