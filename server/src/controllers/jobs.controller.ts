@@ -3,12 +3,33 @@ import Job from "../models/jobs";
 import asyncHandler from "express-async-handler";
 
 const allJobs = asyncHandler(async (req: Request, res: Response) => {
-  try {
-    const jobs = await Job.find();
-    res.status(200).json(jobs);
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+  const {
+    title,
+    location,
+    department,
+    type,
+    status,
+    postedBy,
+    createdAt,
+    description,
+  } = req.query;
+
+  const filter: any = {};
+
+  if (title) filter.title = title;
+  if (location) filter.location = location;
+  if (department) filter.department = department;
+  if (type) filter.type = type;
+  if (status) filter.status = status;
+  if (postedBy) filter.postedBy = postedBy;
+  if (createdAt) filter.createdAt = createdAt;
+  if (description) {
+    filter.description = { $regex: description, $options: "i" };
   }
+
+  const jobs = await Job.find(filter);
+
+  res.status(200).json(jobs);
 });
 
 const singleJob = asyncHandler(async (req: Request, res: Response) => {
@@ -21,15 +42,11 @@ const singleJob = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(job);
 });
 
-const createJob = async (req: Request, res: Response) => {
-  try {
-    const newJob = new Job(req.body);
-    await newJob.save();
-    res.status(201).json({ message: "Job created successfully" });
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
-  }
-};
+const createJob = asyncHandler(async (req: Request, res: Response) => {
+  const newJob = new Job(req.body);
+  await newJob.save();
+  res.status(201).json({ message: "Job created successfully" });
+});
 
 const updateJob = asyncHandler(async (req: Request, res: Response) => {
   try {
