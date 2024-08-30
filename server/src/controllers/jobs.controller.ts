@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Job from "../models/jobs";
 import asyncHandler from "express-async-handler";
+import mongoose from "mongoose";
 
 const allJobs = asyncHandler(async (req: Request, res: Response) => {
   const {
@@ -49,23 +50,15 @@ const createJob = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const updateJob = asyncHandler(async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true });
-    res.status(201).json({ message: "Job updated successfully" });
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
-  }
+  const id = req.params.id;
+  const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true });
+  res.status(201).json({ message: "Job updated successfully" });
 });
 
 const deleteJob = asyncHandler(async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    await Job.findByIdAndDelete(id);
-    res.status(201).json({ message: "Job deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
-  }
+  const id = req.params.id;
+  await Job.findByIdAndDelete(id);
+  res.status(201).json({ message: "Job deleted successfully" });
 });
 
 export { allJobs, singleJob, createJob, updateJob, deleteJob };

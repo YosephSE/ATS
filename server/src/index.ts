@@ -19,7 +19,14 @@ requestLogger(app);
 
 app.use("/api/jobs", jobsRoute);
 
+app.use((req, res, next) => {
+  const err = new Error();
+  (err as any).status = 404;
+  next(err);
+});
+
 app.use(errorHandler);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
