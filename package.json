@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node server/dist/index.js",
     "dev": "ts-node-dev server/src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "server": "npm run dev",
+    "client": "cd client && npm run dev"
   },
   "keywords": [],
   "author": "",
