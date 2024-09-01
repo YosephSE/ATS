@@ -61,7 +61,12 @@ const updateJob = asyncHandler(async (req: Request, res: Response) => {
 
 const deleteJob = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id;
-  await Job.findByIdAndDelete(id);
+  const deletedJob = await Job.findByIdAndDelete(id);
+  if (!deletedJob) {
+    const error = new Error();
+    (error as any).status = 404;
+    throw error;
+  }
   res.status(201).json({ message: "Job deleted successfully" });
 });
 
