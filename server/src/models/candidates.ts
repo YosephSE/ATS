@@ -93,6 +93,12 @@ const candidateSchema = new Schema({
       },
     },
   ],
+  bookmarks: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Job",
+    },
+  ],
 });
 
 const Candidate = model("Candidate", candidateSchema, "Candidates");
