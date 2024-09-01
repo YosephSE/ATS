@@ -42,11 +42,18 @@ npm install
 
 4. Configure the environment variables (see Configuration section)
 5. Run the application:
+   - Backend
 
 ```
 npm start
 ```
-
+  - Frontend
+```
+cd client
+```
+```
+npm start
+```
 ## Configuration
 
 Create a `.env` file in the root directory and add the following variables:
