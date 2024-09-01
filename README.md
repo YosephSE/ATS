@@ -42,7 +42,7 @@ npm install
 
 4. Configure the environment variables (see Configuration section)
 5. Run the application:
-   - Backend
+ - Backend
 
 ```
 npm start
