@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import Job from "../models/jobs";
 import asyncHandler from "express-async-handler";
-import mongoose from "mongoose";
 
 const allJobs = asyncHandler(async (req: Request, res: Response) => {
   const {
@@ -51,7 +50,12 @@ const createJob = asyncHandler(async (req: Request, res: Response) => {
 
 const updateJob = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true });
+  if (!req.body || Object.keys(req.body).length === 0) {
+    const error = new Error("Request body is missing");
+    (error as any).status = 400;
+    throw error;
+  }
+  await Job.findByIdAndUpdate(id, req.body, { new: true });
   res.status(201).json({ message: "Job updated successfully" });
 });
 
