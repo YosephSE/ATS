@@ -1,4 +1,4 @@
-# ATS (Application Tracking System)
+# Application Tracking System (ATS)
 ## Overview
 
 ATS is an Application Tracking System designed to streamline the recruitment process for organizations. This system helps manage job applications, track candidates, and facilitate the hiring workflow.
