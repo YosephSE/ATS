@@ -1,4 +1,6 @@
 import { Router } from "express";
+import verifyToken from "../middleware/verifyToken";
+import adminAuthorize from "../middleware/adminAuthorize";
 import {
   allJobs,
   createJob,
@@ -9,14 +11,14 @@ import {
 
 const router = Router();
 
-router.get("/", allJobs);
+router.get("/", verifyToken, allJobs);
 
-router.post("/", createJob);
+router.post("/", verifyToken, adminAuthorize, createJob);
 
-router.get("/:id", singleJob);
+router.get("/:id", adminAuthorize, verifyToken, singleJob);
 
-router.put("/:id", updateJob);
+router.put("/:id", verifyToken, adminAuthorize, updateJob);
 
-router.delete("/:id", deleteJob);
+router.delete("/:id", verifyToken, adminAuthorize, deleteJob);
 
 export default router;
