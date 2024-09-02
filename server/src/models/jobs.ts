@@ -43,7 +43,7 @@ const jobSchema = new Schema(
     },
     postedBy: {
       type: Schema.Types.ObjectId,
-      // ref: "User",
+      ref: "Admin",
       required: true,
     },
   },

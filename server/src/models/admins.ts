@@ -26,6 +26,7 @@ const adminSchema = new Schema(
       type: String,
       required: true,
     },
+    // Super admins and admins
     role: {
       type: String,
       required: true,
