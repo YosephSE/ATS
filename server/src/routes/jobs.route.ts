@@ -6,16 +6,17 @@ import {
   updateJob,
   deleteJob,
 } from "../controllers/jobs.controller";
+import verifyToken from "../middleware/verifyToken";
 const router = Router();
 
-router.get("/", allJobs);
+router.get("/", verifyToken, allJobs);
 
-router.post("/", createJob);
+router.post("/", verifyToken,  createJob);
 
-router.get("/:id", singleJob);
+router.get("/:id",verifyToken, singleJob);
 
-router.put("/:id", updateJob);
+router.put("/:id",verifyToken, updateJob);
 
-router.delete("/:id", deleteJob);
+router.delete("/:id",verifyToken, deleteJob);
 
 export default router;

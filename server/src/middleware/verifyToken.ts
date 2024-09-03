@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-const jwtSecret = process.env.JWT_SECRET || "aRbbSGDxnRX92nLW2KWaP0cvbqxJZuV3KMu3KXUiro9dlNq0uPypSelqk2lMT9PKYq7dXCtCJFQ4VXLhQGyyEWs3jdpSZFPVrdTg";
+const jwtSecret = process.env.SECRET_KEY || "aRbbSGDxnRX92nLW2KWaP0cvbqxJZuV3KMu3KXUiro9dlNq0uPypSelqk2lMT9PKYq7dXCtCJFQ4VXLhQGyyEWs3jdpSZFPVrdTg";
 
 export interface CustomRequest extends Request {
   user?: any;

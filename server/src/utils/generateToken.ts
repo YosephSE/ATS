@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
 
-const jwtSecret = process.env.JWT_SECRET || "aRbbSGDxnRX92nLW2KWaP0cvbqxJZuV3KMu3KXUiro9dlNq0uPypSelqk2lMT9PKYq7dXCtCJFQ4VXLhQGyyEWs3jdpSZFPVrdTg";
+const jwtSecret = process.env.SECRET_KEY || "aRbbSGDxnRX92nLW2KWaP0cvbqxJZuV3KMu3KXUiro9dlNq0uPypSelqk2lMT9PKYq7dXCtCJFQ4VXLhQGyyEWs3jdpSZFPVrdTg";
 
 const generateToken = (res: Response, user: any) => {
   const payload = {
