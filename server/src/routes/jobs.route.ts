@@ -1,6 +1,4 @@
 import { Router } from "express";
-import verifyToken from "../middleware/verifyToken";
-import adminAuthorize from "../middleware/adminAuthorize";
 import {
   allJobs,
   createJob,
@@ -8,17 +6,16 @@ import {
   updateJob,
   deleteJob,
 } from "../controllers/jobs.controller";
-
 const router = Router();
 
-router.get("/", verifyToken, allJobs);
+router.get("/", allJobs);
 
-router.post("/", verifyToken, createJob);
+router.post("/", createJob);
 
-router.get("/:id", verifyToken, singleJob);
+router.get("/:id", singleJob);
 
-router.put("/:id", verifyToken, updateJob);
+router.put("/:id", updateJob);
 
-router.delete("/:id", verifyToken, deleteJob);
+router.delete("/:id", deleteJob);
 
 export default router;
