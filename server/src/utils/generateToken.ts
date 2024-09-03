@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
 
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET || "aRbbSGDxnRX92nLW2KWaP0cvbqxJZuV3KMu3KXUiro9dlNq0uPypSelqk2lMT9PKYq7dXCtCJFQ4VXLhQGyyEWs3jdpSZFPVrdTg";
 
 const generateToken = (res: Response, user: any) => {
   const payload = {
-    id: user.id,
+    id: user._id,
     role: user.role || "user",
   };
 
