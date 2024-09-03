@@ -13,12 +13,12 @@ const router = Router();
 
 router.get("/", verifyToken, allJobs);
 
-router.post("/", verifyToken, adminAuthorize, createJob);
+router.post("/", verifyToken, createJob);
 
-router.get("/:id", adminAuthorize, verifyToken, singleJob);
+router.get("/:id", verifyToken, singleJob);
 
-router.put("/:id", verifyToken, adminAuthorize, updateJob);
+router.put("/:id", verifyToken, updateJob);
 
-router.delete("/:id", verifyToken, adminAuthorize, deleteJob);
+router.delete("/:id", verifyToken, deleteJob);
 
 export default router;
