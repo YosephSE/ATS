@@ -15,14 +15,13 @@ router.get("/", verifyToken, allJobs);
 router.post(
   "/",
   verifyToken,
-  adminAuthorize(["super admin", "admin"]),
   createJob
 );
 
 router.get(
   "/:id",
   verifyToken,
-  adminAuthorize(["super admin", "admin"]),
+
   singleJob
 );
 

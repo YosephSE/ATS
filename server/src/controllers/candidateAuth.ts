@@ -3,48 +3,8 @@ import bcrypt from "bcryptjs";
 import Candidate from "../models/candidates";
 import generateToken from "../utils/generateToken";
 import asyncHandler from "express-async-handler";
-import { Document, Schema } from "mongoose";
 
-// interface Education {
-//   schoolName: string;
-//   degree: string;
-//   fieldOfStudy: string;
-//   startYear: number;
-//   endYear: number;
-// }
-
-// // Experience sub-document interface
-// interface Experience {
-//   title: string;
-//   company: string;
-//   location: string;
-//   startDate: Date;
-//   endDate: Date;
-//   description: string;
-// }
-
-// // Skills sub-document interface
-// interface Skill {
-//   skill: string;
-// }
-
-// // Main Candidate interface
-// export interface ICandidate extends Document {
-//   firstName: string;
-//   lastName: string;
-//   gender: string;
-//   email: string;
-//   password: string;
-//   phoneNumber: string;
-//   resume: string;
-//   linkedIn: string;
-//   education?: Education[];
-//   experience?: Experience[];
-//   skills?: Skill[];
-//   bookmarks?: Schema.Types.ObjectId[];
-// }
-
-const loginCandidate = asyncHandler(async (req, res) => {
+const loginCandidate = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const user = await Candidate.findOne({ email });
@@ -72,7 +32,7 @@ const loginCandidate = asyncHandler(async (req, res) => {
   }
 });
 
-const registerCandidate = asyncHandler(async (req, res) => {
+const registerCandidate = asyncHandler(async (req: Request, res: Response) => {
   const { firstName, lastName, email, password } = req.body;
 
   const userExists = await Candidate.findOne({ email });
@@ -105,7 +65,7 @@ const registerCandidate = asyncHandler(async (req, res) => {
   }
 });
 
-const logoutCandidate = asyncHandler(async (req, res) => {
+const logoutCandidate = asyncHandler(async (req: Request, res: Response) => {
   res.cookie("auth", "", {
     httpOnly: true,
     expires: new Date(0),
