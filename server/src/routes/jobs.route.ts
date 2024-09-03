@@ -1,6 +1,4 @@
 import { Router } from "express";
-import verifyToken from "../middleware/verifyToken";
-import adminAuthorize from "../middleware/adminAuthorize";
 import {
   allJobs,
   createJob,
@@ -8,7 +6,6 @@ import {
   updateJob,
   deleteJob,
 } from "../controllers/jobs.controller";
-
 const router = Router();
 
 router.get("/", verifyToken, allJobs);
