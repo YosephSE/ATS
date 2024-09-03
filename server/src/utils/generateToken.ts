@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
-
-const jwtSecret = process.env.SECRET_KEY || "aRbbSGDxnRX92nLW2KWaP0cvbqxJZuV3KMu3KXUiro9dlNq0uPypSelqk2lMT9PKYq7dXCtCJFQ4VXLhQGyyEWs3jdpSZFPVrdTg";
+import dotenv from 'dotenv';
+dotenv.config();
+const jwtSecret = process.env.SECRET_KEY;
 
 const generateToken = (res: Response, user: any) => {
   const payload = {
