@@ -6,7 +6,6 @@ import {
   updateJob,
   deleteJob,
 } from "../controllers/jobs.controller";
-
 const router = Router();
 
 router.get("/", allJobs);

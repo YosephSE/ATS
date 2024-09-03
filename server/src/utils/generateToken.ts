@@ -1,7 +1,15 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
-const generateToken = (res: Response, userId: any) => {
-  const token = jwt.sign({ userId }, process.env.SECRET_KEY!, {
+
+const jwtSecret = process.env.JWT_SECRET || "aRbbSGDxnRX92nLW2KWaP0cvbqxJZuV3KMu3KXUiro9dlNq0uPypSelqk2lMT9PKYq7dXCtCJFQ4VXLhQGyyEWs3jdpSZFPVrdTg";
+
+const generateToken = (res: Response, user: any) => {
+  const payload = {
+    id: user._id,
+    role: user.role || "user",
+  };
+
+  const token = jwt.sign(payload, jwtSecret!, {
     expiresIn: "30d",
   });
   res.cookie("auth", token, {
