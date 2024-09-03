@@ -7,16 +7,37 @@ import {
   deleteJob,
 } from "../controllers/jobs.controller";
 import verifyToken from "../middleware/verifyToken";
+import adminAuthorize from "../middleware/adminAuthorize";
 const router = Router();
 
 router.get("/", verifyToken, allJobs);
 
-router.post("/", verifyToken,  createJob);
+router.post(
+  "/",
+  verifyToken,
+  adminAuthorize(["super admin", "admin"]),
+  createJob
+);
 
-router.get("/:id",verifyToken, singleJob);
+router.get(
+  "/:id",
+  verifyToken,
+  adminAuthorize(["super admin", "admin"]),
+  singleJob
+);
 
-router.put("/:id",verifyToken, updateJob);
+router.put(
+  "/:id",
+  verifyToken,
+  adminAuthorize(["super admin", "admin"]),
+  updateJob
+);
 
-router.delete("/:id",verifyToken, deleteJob);
+router.delete(
+  "/:id",
+  verifyToken,
+  adminAuthorize(["super admin", "admin"]),
+  deleteJob
+);
 
 export default router;
