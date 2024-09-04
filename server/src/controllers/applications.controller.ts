@@ -16,7 +16,9 @@ const allApplications = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const singleApplication = asyncHandler(async (req: Request, res: Response) => {
-  const application = await Application.findById(req.params.id);
+  const application = await Application.findById(req.params.id)
+    .populate({ path: "jobId" })
+    .populate({ path: "candidateId" });
   if (!application) {
     const error = new Error();
     (error as any).status = 404;
@@ -27,9 +29,10 @@ const singleApplication = asyncHandler(async (req: Request, res: Response) => {
 
 const createApplication = asyncHandler(
   async (req: CustomRequest, res: Response) => {
-    const { jobId, status } = req.body;
+    const { jobId } = req.body;
 
     const candidateId = req.user._id;
+    const status = 'pending';
     const newApplication = {
       jobId,
       candidateId,
