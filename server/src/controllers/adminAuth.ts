@@ -57,6 +57,7 @@ const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
       name: user.firstName,
       email: user.email,
       role: user.role,
+      message: "Admin Created Successfully",
     });
   } else {
     res.status(400);
