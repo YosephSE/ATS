@@ -11,6 +11,7 @@ const SignInForm = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null)
 
   const dispatch = useDispatch()
 
@@ -22,8 +23,11 @@ const SignInForm = () => {
             console.log('Email:', emailRef.current.value);
             console.log('Password:', passwordRef.current.value);
             setLoading(false);
+            dispatch(setClosed())
+        } else {
+            setError("Required filled is missing")
+            setLoading(false)
         }
-        dispatch(setClosed())
     }, 2000);
   };
 
@@ -77,6 +81,14 @@ const SignInForm = () => {
                 shrink: true,
             }}
         />
+        <div>
+            {
+                error?
+                <p className = "text-red-500">{error}</p>
+                :
+                <></>
+            }
+        </div>
         <Button
             type="submit"
             variant="contained"
