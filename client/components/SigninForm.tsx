@@ -1,18 +1,16 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { 
-  Modal, 
   TextField, 
   Button, 
   CircularProgress 
 } from '@mui/material';
 
 interface Props{
-    open: boolean
     onClose: () => void
 }
 
-const SignInModal = ({ open, onClose }: Props) => {
+const SignInForm = ({ onClose }: Props) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -31,14 +29,7 @@ const SignInModal = ({ open, onClose }: Props) => {
   };
 
   return (
-    <Modal
-        className='bg-blue-800 outline-none w-full h-full bg-opacity-50 flex justify-center items-center'
-        open={open}
-        onClose={onClose}
-        aria-labelledby="sign-in-modal"
-        aria-describedby="sign-in-form">
-
-    <div className="w-[90%] bg-[#F8FDFF] max-w-xl shadow-2xl p-6 rounded-3xl">
+    <div>
       <h2 id="sign-in-modal" className="text-2xl font-semibold mb-4 text-center">Sign In</h2>
       <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
         <TextField
@@ -92,13 +83,13 @@ const SignInModal = ({ open, onClose }: Props) => {
             variant="contained"
             disabled={loading}
             sx={{
-                backgroundColor: '#1976d2', // Default MUI primary color
+                backgroundColor: '#1976d2',
                 '&:hover': {
-                    backgroundColor: '#1565c0', // Darker shade on hover
+                    backgroundColor: '#1565c0',
                 },
                 '&.Mui-disabled': {
-                    backgroundColor: '#1976d2', // Same as default when disabled (loading)
-                    color: 'white', // Ensure text color remains white
+                    backgroundColor: '#1976d2', 
+                    color: 'white', 
                 },
             }}
         >
@@ -111,8 +102,7 @@ const SignInModal = ({ open, onClose }: Props) => {
       </form>
       <p className='text-center mt-5'>Don’t have an account? <Link href=""><span className='text-blue-500 hover:underline hover:text-blue-700'>Sign Up</span></Link></p>
     </div>
-  </Modal>
   );
 };
 
-export default SignInModal;
+export default SignInForm;
