@@ -7,7 +7,7 @@ const env = process.env.ENV;
 
 const generateToken = (res: Response, user: any) => {
   const payload = {
-    id: user._id,
+    _id: user._id,
     role: user.role || "user",
   };
 

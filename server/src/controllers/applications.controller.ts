@@ -7,7 +7,11 @@ interface CustomRequest extends Request {
 }
 
 const allApplications = asyncHandler(async (req: Request, res: Response) => {
-  const applications = await Application.find();
+  const applications = await Application.find()
+    .populate({
+      path: "jobId",
+    })
+    .populate({ path: "candidateId", select: "firstName lastName email" });
   res.status(200).json(applications);
 });
 
@@ -24,9 +28,11 @@ const singleApplication = asyncHandler(async (req: Request, res: Response) => {
 const createApplication = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const { jobId, status } = req.body;
+
+    const candidateId = req.user._id;
     const newApplication = {
       jobId,
-      candidateId: req.user._id,
+      candidateId,
       status,
     };
     const applicationExists = await Application.findOne({
