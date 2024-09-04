@@ -8,7 +8,7 @@ import {
 import { Router } from "express";
 import verifyToken from "../middleware/verifyToken";
 import adminAuthorize from "../middleware/adminAuthorize";
-import { verify } from "crypto";
+
 
 const router = Router();
 
@@ -33,3 +33,6 @@ router.put(
 );
 
 router.delete("/:id",verifyToken, deleteProfile);
+
+
+export default router;

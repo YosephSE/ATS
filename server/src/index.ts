@@ -5,7 +5,8 @@ import connectDB from "./config/DB";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import jobsRoute from "./routes/jobs.route";
-import candidateAuth from "./routes/candidateAuth"
+import candidateAuth from "./routes/candidateAuth";
+import candidateRoute from "./routes/candidates.route";
 import adminAuth from "./routes/adminAuth";
 import applicationRoute from "./routes/applications.route";
 import requestLogger from "./utils/requests";
@@ -23,6 +24,7 @@ requestLogger(app);
 
 app.use("/api/jobs", jobsRoute);
 app.use("/api/candidates", candidateAuth);
+app.use("/api/candidates", candidateRoute);
 app.use("/api/admins", adminAuth);
 app.use("/api/applications", applicationRoute);
 
