@@ -55,7 +55,12 @@ const updateJob = asyncHandler(async (req: Request, res: Response) => {
     (error as any).status = 400;
     throw error;
   }
-  await Job.findByIdAndUpdate(id, req.body, { new: true });
+  const updatedJob = await Job.findByIdAndUpdate(id, req.body, { new: true });
+  if (!updatedJob){
+    const error = new Error();
+    (error as any).status = 404;
+    throw error;
+  }
   res.status(201).json({ message: "Job updated successfully" });
 });
 
