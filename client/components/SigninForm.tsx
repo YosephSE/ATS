@@ -1,19 +1,18 @@
 import React, { useRef, useState } from 'react';
-import Link from 'next/link';
 import { 
   TextField, 
   Button, 
   CircularProgress 
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setClosed, setRegister } from '@/redux/slices/ModalSlice';
 
-interface Props{
-    onClose: () => void
-}
-
-const SignInForm = ({ onClose }: Props) => {
+const SignInForm = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,7 +23,7 @@ const SignInForm = ({ onClose }: Props) => {
             console.log('Password:', passwordRef.current.value);
             setLoading(false);
         }
-        onClose();
+        dispatch(setClosed())
     }, 2000);
   };
 
@@ -100,7 +99,7 @@ const SignInForm = ({ onClose }: Props) => {
             )}
         </Button>
       </form>
-      <p className='text-center mt-5'>Don’t have an account? <Link href=""><span className='text-blue-500 hover:underline hover:text-blue-700'>Sign Up</span></Link></p>
+      <p className='text-center mt-5'>Don’t have an account? <span className='text-blue-500 hover:underline hover:text-blue-700 hover:cursor-pointer' onClick={() => dispatch(setRegister())}>Sign Up</span></p>
     </div>
   );
 };

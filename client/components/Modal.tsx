@@ -1,25 +1,34 @@
 import { Modal } from '@mui/material';
 import SignInForm from './SigninForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/Store';
+import { setClosed } from '@/redux/slices/ModalSlice';
+import SignUpForm from './SignUpForm';
 
-interface Props{
-    open: boolean
-    onClose: () => void
-}
+const SignInModal = () => {
+    const modalValue = useSelector((state: RootState) => state.modal.value)
+    const dispatch = useDispatch()
 
-const SignInModal = ({ open, onClose }: Props) => {
-  return (
-    <Modal
-        className='bg-blue-800 outline-none w-full h-full bg-opacity-50 flex justify-center items-center'
-        open={open}
-        onClose={onClose}
-        aria-labelledby="sign-in-modal"
-        aria-describedby="sign-in-form">
+    return (
+        <Modal
+            className='bg-blue-800 outline-none w-full h-full bg-opacity-50 flex justify-center items-center'
+            open={modalValue !== "closed"}
+            onClose={() => dispatch(setClosed())}
+            aria-labelledby="modal"
+            aria-describedby="form">
 
-    <div className="w-[90%] bg-[#F8FDFF] max-w-xl shadow-2xl p-6 rounded-3xl">
-        <SignInForm onClose={onClose}/>
-    </div>
-  </Modal>
-  );
-};
+        <div className="w-[90%] bg-[#F8FDFF] max-w-xl shadow-2xl p-6 rounded-3xl">
+            {
+                modalValue === "signin"
+                ?
+                <SignInForm />
+                :
+                <SignUpForm />
+            
+            }
+        </div>
+    </Modal>
+    );
+    };
 
 export default SignInModal;

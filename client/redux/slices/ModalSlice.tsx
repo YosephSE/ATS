@@ -30,6 +30,8 @@ const ModalSlice = createSlice({
             state = {
                 value: "closed"
             }
+
+            return state
         }
 
 

@@ -1,15 +1,13 @@
 "use client";
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import SignInModal from '../components/Modal';
+import Modal from '../components/Modal';
+import { setLogin } from '@/redux/slices/ModalSlice';
 import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
 
 const HomePage = () => {
-  const [modalOpen, setModalInOpen] = useState(false);
-
-  const handleOpenModal = () => setModalInOpen(true);
-  const handleCloseModal = () => setModalInOpen(false);
+  const dipatch = useDispatch()
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white from-0% via-[rgba(165,220,247,0.36)] via-55% to-[rgba(116,200,242,0.63)] to-100% font-sans">
@@ -23,8 +21,8 @@ const HomePage = () => {
           </Link>
           <div className="h-6 w-px bg-gray-300"></div>
           <Button
-              variant='contained' 
-              onClick={handleOpenModal}
+              variant='contained'
+              onClick = {() => dipatch(setLogin())} 
           >
             Sign In
           </Button>
@@ -67,7 +65,7 @@ const HomePage = () => {
         <h6>@All rights reserved 2024</h6>
       </footer>
 
-      <SignInModal open={modalOpen} onClose={handleCloseModal} />
+      <Modal />
     </div>
   );
 };
