@@ -7,6 +7,7 @@ import cors from "cors";
 import jobsRoute from "./routes/jobs.route";
 import candidateAuth from "./routes/candidateAuth"
 import adminAuth from "./routes/adminAuth";
+import applicationRoute from "./routes/applications.route";
 import requestLogger from "./utils/requests";
 
 dotenv.config();
@@ -23,6 +24,7 @@ requestLogger(app);
 app.use("/api/jobs", jobsRoute);
 app.use("/api/candidates", candidateAuth);
 app.use("/api/admins", adminAuth);
+app.use("/api/applications", applicationRoute);
 
 app.use((req, res, next) => {
   const err = new Error();

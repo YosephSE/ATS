@@ -1,5 +1,100 @@
-// const allapplications 
-// const singleApplication
-// const createApplication
-// const updateApplication
-// const deleteApplication
+import { Request, Response } from "express";
+import asyncHandler from "express-async-handler";
+import Application from "../models/applications";
+
+interface CustomRequest extends Request {
+  user?: any;
+}
+
+const allApplications = asyncHandler(async (req: Request, res: Response) => {
+  const applications = await Application.find();
+  res.status(200).json(applications);
+});
+
+const singleApplication = asyncHandler(async (req: Request, res: Response) => {
+  const application = await Application.findById(req.params.id);
+  if (!application) {
+    const error = new Error();
+    (error as any).status = 404;
+    throw error;
+  }
+  res.status(200).json(application);
+});
+
+const createApplication = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const { jobId, status } = req.body;
+    const newApplication = {
+      jobId,
+      candidateId: req.user._id,
+      status,
+    };
+    const applicationExists = await Application.findOne({
+      jobId,
+      candidateId: req.user._id,
+    });
+    if (applicationExists) {
+      const error = new Error("Application already exists");
+      (error as any).status = 400;
+      throw error;
+    }
+    const application = new Application(newApplication);
+    await application.save();
+    res.status(201).json({ message: "Application created successfully" });
+  }
+);
+
+const updateApplication = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const id = req.params.id;
+    if (!req.body || Object.keys(req.body).length === 0) {
+      const error = new Error("Request body is missing");
+      (error as any).status = 400;
+      throw error;
+    }
+    const updatedApplication = await Application.findByIdAndUpdate(
+      id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    if (!updatedApplication) {
+      const error = new Error();
+      (error as any).status = 404;
+      throw error;
+    } else if (updatedApplication.candidateId !== req.user._id) {
+      const error = new Error(
+        "You do not have permission to update this application"
+      );
+      (error as any).status = 403;
+      throw error;
+    }
+    res.status(200).json(updatedApplication);
+  }
+);
+
+const deleteApplication = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const application = await Application.findByIdAndDelete(req.params.id);
+    if (!application) {
+      const error = new Error();
+      (error as any).status = 404;
+      throw error;
+    } else if (application.candidateId !== req.user._id) {
+      const error = new Error(
+        "You do not have permission to delete this application"
+      );
+      (error as any).status = 403;
+      res.status(200).json({ message: "Application deleted successfully" });
+    }
+  }
+);
+
+export {
+  allApplications,
+  singleApplication,
+  createApplication,
+  updateApplication,
+  deleteApplication,
+};
