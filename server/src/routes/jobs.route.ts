@@ -22,7 +22,7 @@ router.post(
 router.get(
   "/:id",
   verifyToken,
-  adminAuthorize(["super admin", "admin"]),
+ adminAuthorize(["super admin", "admin"]),
   singleJob
 );
 
