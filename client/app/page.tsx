@@ -1,7 +1,15 @@
+"use client";
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import SignInModal from '../components/SignIn';
 
 const HomePage = () => {
+  const [signInOpen, setSignInOpen] = useState(false);
+
+  const handleOpenSignIn = () => setSignInOpen(true);
+  const handleCloseSignIn = () => setSignInOpen(false);
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white from-0% via-[rgba(165,220,247,0.36)] via-55% to-[rgba(116,200,242,0.63)] to-100% font-sans">
       <nav className="flex items-center justify-between px-6 py-3 border-b shadow-lg">
@@ -13,7 +21,10 @@ const HomePage = () => {
             Jobs
           </Link>
           <div className="h-6 w-px bg-gray-300"></div>
-          <button className="px-3 py-1 md:text-base text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap  transition duration-300 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <button 
+            className="px-3 py-1 md:text-base text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap transition duration-300 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            onClick={handleOpenSignIn}
+          >
             Sign In
           </button>
         </div>
@@ -52,8 +63,10 @@ const HomePage = () => {
       </main>
 
       <footer className='w-full text-center'>
-        <h6>@All rights reserved  2024</h6>
+        <h6>@All rights reserved 2024</h6>
       </footer>
+
+      <SignInModal open={signInOpen} onClose={handleCloseSignIn} />
     </div>
   );
 };
