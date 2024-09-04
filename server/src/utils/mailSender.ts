@@ -3,15 +3,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const email = process.env.EMAIL_USER;
-const password = process.env.EMAIL_PASS;
-async function sendPasswordEmail(toEmail: string) {
-  const password = "123456";
-
+const emailPassword = process.env.EMAIL_PASS;
+async function sendPasswordEmail(toEmail: string, password: string) {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: email,
-      pass: password,
+      pass: emailPassword,
     },
   });
 

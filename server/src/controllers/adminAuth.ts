@@ -3,10 +3,11 @@ import bcrypt from "bcryptjs";
 import Admin from "../models/admins";
 import generateToken from "../utils/generateToken";
 import asyncHandler from "express-async-handler";
+import generatePassword from "../utils/generatePassword";
+import sendPasswordEmail from "../utils/mailSender";
 
 const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log(email, password);
   const user = await Admin.findOne({ email });
 
   if (user) {
@@ -31,7 +32,8 @@ const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
-  const { firstName, lastName, email, password, phoneNumber, role } = req.body;
+  const { firstName, lastName, email, phoneNumber, role } = req.body;
+  const password = generatePassword();
 
   const userExists = await Admin.findOne({ email });
   if (userExists) {
@@ -49,7 +51,7 @@ const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
     role,
   });
   if (user) {
-    await generateToken(res, user);
+    await sendPasswordEmail(user.email, password);
     res.status(201).json({
       _id: user._id,
       name: user.firstName,
