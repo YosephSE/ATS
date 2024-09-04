@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import SignInModal from '../components/SignIn';
+import { Button } from '@mui/material';
 
 const HomePage = () => {
   const [signInOpen, setSignInOpen] = useState(false);
@@ -21,12 +22,12 @@ const HomePage = () => {
             Jobs
           </Link>
           <div className="h-6 w-px bg-gray-300"></div>
-          <button 
-            className="px-3 py-1 md:text-base text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap transition duration-300 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-            onClick={handleOpenSignIn}
+          <Button
+              variant='contained' 
+              onClick={handleOpenSignIn}
           >
             Sign In
-          </button>
+          </Button>
         </div>
       </nav>
 
