@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginAdmin, registerAdmin } from "../controllers/adminAuth";
+import { loginAdmin, registerAdmin, stats } from "../controllers/admins.controller";
 import verifyToken from "../middleware/verifyToken";
 import adminAuthorize from "../middleware/adminAuthorize";
 
@@ -13,5 +13,7 @@ router.post(
   adminAuthorize(["super admin"]),
   registerAdmin
 );
+
+router.get("/stats", verifyToken, adminAuthorize(["super admin", "admin"]), stats);
 
 export default router;

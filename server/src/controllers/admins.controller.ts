@@ -5,6 +5,9 @@ import generateToken from "../utils/generateToken";
 import asyncHandler from "express-async-handler";
 import generatePassword from "../utils/generatePassword";
 import sendPasswordEmail from "../utils/mailSender";
+import Application from "../models/applications";
+import Job from "../models/jobs";
+import Candidate from "../models/candidates";
 
 const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -65,4 +68,17 @@ const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export { loginAdmin, registerAdmin };
+const stats: any = asyncHandler(async (req: Request, res: Response) => {
+  const totalApplicaitons = await Application.countDocuments();
+  const totalJobs = await Job.countDocuments();
+  const totalCandidates = await Candidate.countDocuments();
+  const stat = {
+    totalApplicaitons,
+    totalJobs,
+    totalCandidates,
+  };
+  res.status(200).json(stat);
+  }
+)
+
+export { loginAdmin, registerAdmin, stats };
