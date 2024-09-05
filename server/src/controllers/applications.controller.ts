@@ -40,8 +40,8 @@ const createApplication = asyncHandler(
     const candidateDetails = await Candidate.findById(candidateId);
 
     const toBeScored = {
-      ...jobDetails,
-      ...candidateDetails,
+      job: jobDetails,
+      candidate: candidateDetails,
     };
     const score = applicationScore(toBeScored);
 
