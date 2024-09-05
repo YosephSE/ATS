@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import JobList from '../../components/JobList'
+
 
 export default function Home() {
   return (
@@ -11,7 +11,6 @@ export default function Home() {
       </Head>
 
       <main>
-        <JobList />
       </main>
     </div>
   );
