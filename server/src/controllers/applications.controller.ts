@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import Application from "../models/applications";
+import Job from "../models/jobs";
+import Candidate from "../models/candidates";
+import applicationScore from "../utils/applicationScore";
 
 interface CustomRequest extends Request {
   user?: any;
@@ -30,13 +33,23 @@ const singleApplication = asyncHandler(async (req: Request, res: Response) => {
 const createApplication = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const { jobId } = req.body;
-
     const candidateId = req.user._id;
-    const status = 'pending';
+    const status = "pending";
+
+    const jobDetails = await Job.findById(jobId);
+    const candidateDetails = await Candidate.findById(candidateId);
+
+    const toBeScored = {
+      job: jobDetails,
+      candidate: candidateDetails,
+    };
+    const score = applicationScore(toBeScored);
+
     const newApplication = {
       jobId,
       candidateId,
       status,
+      AIScore: score,
     };
     const applicationExists = await Application.findOne({
       jobId,
