@@ -1,3 +1,4 @@
+"use client"
 import { Modal } from '@mui/material';
 import SignInForm from './SigninForm';
 import { RootState } from '@/redux/Store';

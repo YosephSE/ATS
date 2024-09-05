@@ -1,35 +1,11 @@
-"use client"
 import Image from 'next/image';
-import Link from 'next/link';
 import Modal from '../components/Modal';
-import { setLogin } from '@/redux/slices/ModalSlice';
-import { Button } from '@mui/material';
-import { useAppDispatch, useAppStore } from '@/redux/Hooks';
+import Header from '@/components/Header';
 
 const HomePage = () => {
-  const store = useAppStore()
-  const dipatch = useAppDispatch()
-
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white from-0% via-[rgba(165,220,247,0.36)] via-55% to-[rgba(116,200,242,0.63)] to-100% font-sans">
-      <nav className="flex items-center justify-between px-6 py-3 border-b shadow-lg">
-        <Link href="/" className="flex items-center space-x-2 focus:outline-none">
-          <span className="text-xl md:text-2xl font-medium text-blue-700 hover:text-blue-800">Company Name</span>
-        </Link>
-        <div className="flex items-center space-x-6">
-          <Link href="/jobs" className="text-base text-gray-600 hover:text-gray-800">
-            Jobs
-          </Link>
-          <div className="h-6 w-px bg-gray-300"></div>
-          <Button
-              variant='contained'
-              onClick = {() => dipatch(setLogin())} 
-          >
-            Sign In
-          </Button>
-        </div>
-      </nav>
-
+      <Header page= "home"/>
       <main className="flex-grow flex px-6 py-12 md:items-center">
         <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center">
           <div className="w-full md:w-1/2 mb-8 md:mb-0 pr-0 md:pr-12 lg:pr-24">
