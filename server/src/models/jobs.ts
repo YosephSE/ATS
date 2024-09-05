@@ -6,37 +6,46 @@ const jobSchema = new Schema(
       type: String,
       required: true,
     },
-    description: {
-      aboutJob: {
-        type: String,
-        required: true,
-      },
-      requirements: {
-        type: String,
-        required: true,
-      },
-      responsibilities: {
-        type: String,
-        required: true,
-      },
-      additional: {
-        type: String,
-      },
+    type: {
+      type: String,
+      required: true,
     },
     location: {
       type: String,
       required: true,
     },
+
     department: {
       type: String,
       required: true,
     },
-    // types: full-time, part-time, contract, internship, Inperson, Remote
-    type: {
+    salary: {
+      min: {
+        type: Number,
+        required: true,
+      },
+      max: {
+        type: Number,
+        required: true,
+      },
+    },
+    description: {
       type: String,
       required: true,
     },
-    // status: active, inactive
+    requirements: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+    responsibilities: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+
     status: {
       type: String,
       required: true,
