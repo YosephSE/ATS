@@ -16,6 +16,9 @@ const applicationSchema = new Schema(
       type: String,
       required: true,
     },
+    AIScore: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

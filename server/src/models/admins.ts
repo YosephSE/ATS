@@ -24,7 +24,7 @@ const adminSchema = new Schema(
     },
     profilePicture: {
       type: String,
-      required: true,
+
     },
     // Super admins and admins
     role: {

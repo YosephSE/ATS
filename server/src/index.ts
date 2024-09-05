@@ -5,6 +5,9 @@ import connectDB from "./config/DB";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import jobsRoute from "./routes/jobs.route";
+import candidateRoute from "./routes/candidates.route";
+import adminAuth from "./routes/adminAuth";
+import applicationRoute from "./routes/applications.route";
 import requestLogger from "./utils/requests";
 
 dotenv.config();
@@ -13,11 +16,15 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 requestLogger(app);
 
 app.use("/api/jobs", jobsRoute);
+app.use("/api/candidates", candidateRoute);
+app.use("/api/admins", adminAuth);
+app.use("/api/applications", applicationRoute);
 
 app.use((req, res, next) => {
   const err = new Error();

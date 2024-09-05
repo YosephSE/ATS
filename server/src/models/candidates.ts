@@ -11,7 +11,6 @@ const candidateSchema = new Schema({
   },
   gender: {
     type: String,
-    required: true,
   },
   email: {
     type: String,
@@ -23,17 +22,14 @@ const candidateSchema = new Schema({
   },
   phoneNumber: {
     type: String,
-    required: true,
   },
   resume: {
     type: String,
-    required: true,
   },
   linkedIn: {
     type: String,
-    required: true,
   },
-  educaiton: [
+  education: [
     {
       schoolName: {
         type: String,
@@ -87,10 +83,8 @@ const candidateSchema = new Schema({
   ],
   skills: [
     {
-      skill: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
     },
   ],
   bookmarks: [

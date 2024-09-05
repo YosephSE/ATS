@@ -1,12 +1,22 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
-const generateToken = (res: Response, userId: any) => {
-  const token = jwt.sign({ userId }, process.env.SECRET_KEY!, {
+import dotenv from "dotenv";
+dotenv.config();
+const jwtSecret = process.env.SECRET_KEY;
+const env = process.env.ENV;
+
+const generateToken = (res: Response, user: any) => {
+  const payload = {
+    _id: user._id,
+    role: user.role || "user",
+  };
+
+  const token = jwt.sign(payload, jwtSecret!, {
     expiresIn: "30d",
   });
   res.cookie("auth", token, {
     httpOnly: true,
-    secure: true,
+    secure: env === "production",
     sameSite: "none",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
