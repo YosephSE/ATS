@@ -1,9 +1,12 @@
+
 import Image from 'next/image';
 import Modal from '../components/Modal';
 import Header from '@/components/Header';
 
+
 const HomePage = () => {
   return (
+
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white from-0% via-[rgba(165,220,247,0.36)] via-55% to-[rgba(116,200,242,0.63)] to-100% font-sans">
       <Header page= "home"/>
       <main className="flex-grow flex px-6 py-12 md:items-center">
@@ -37,6 +40,7 @@ const HomePage = () => {
           </div>
         </div>
       </main>
+
 
       <footer className='w-full text-center'>
         <h6>@All rights reserved 2024</h6>
