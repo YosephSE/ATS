@@ -22,7 +22,7 @@ interface NavItem {
   icon: React.ReactElement;
 }
 
-const Sidebar: React.FC = () => {
+const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems: NavItem[] = [
