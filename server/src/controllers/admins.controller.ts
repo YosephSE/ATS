@@ -69,16 +69,32 @@ const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const stats: any = asyncHandler(async (req: Request, res: Response) => {
-  const totalApplicaitons = await Application.countDocuments();
+  const totalApplications = await Application.countDocuments();
   const totalJobs = await Job.countDocuments();
   const totalCandidates = await Candidate.countDocuments();
+  const pendingApplications = await Application.countDocuments({
+    status: "pending",
+  });
+  const acceptedApplications = await Application.countDocuments({
+    status: "accepted",
+  });
+  const rejectedApplications = await Application.countDocuments({
+    status: "rejected",
+  });
+  const activeJobs = await Job.countDocuments({ status: "active" });
+  const inactiveJobs = await Job.countDocuments({ status: "inactive" });
+
   const stat = {
-    totalApplicaitons,
+    totalApplications,
     totalJobs,
     totalCandidates,
+    pendingApplications,
+    acceptedApplications,
+    rejectedApplications,
+    activeJobs,
+    inactiveJobs,
   };
   res.status(200).json(stat);
-  }
-)
+});
 
 export { loginAdmin, registerAdmin, stats };
