@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 interface ModalState{
-    value: "closed" | "signin" | "signup"
+    value: "closed" | "signin" | "signup" | "contact"
 }
 
 const initialState: ModalState = {
@@ -26,6 +26,14 @@ const ModalSlice = createSlice({
 
             return state
         },
+        setContact: (state) => {
+            state = {
+                value: "contact"
+            }
+
+            return state
+        }, 
+
         setClosed: (state) => {
             state = {
                 value: "closed"
@@ -38,6 +46,6 @@ const ModalSlice = createSlice({
     }
 })
 
-export const { setClosed, setRegister, setLogin} = ModalSlice.actions
+export const { setClosed, setRegister, setLogin, setContact} = ModalSlice.actions
 
 export default ModalSlice.reducer;

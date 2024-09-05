@@ -4,7 +4,7 @@ import { Button } from '@mui/material'
 import Header from '@/components/Header'
 import { useAppDispatch } from '@/redux/Hooks'
 import Modal from "../../components/Modal"
-import { setLogin, setRegister } from '@/redux/slices/ModalSlice'
+import { setLogin, setRegister, setContact } from '@/redux/slices/ModalSlice'
 
 const RolesPage = () => {
     const dispatch = useAppDispatch()
@@ -39,7 +39,7 @@ const RolesPage = () => {
                         >
                             Login
                         </Button>
-                        <p className='text-center mt-5'>Don’t have an account? <span className='text-blue-500 hover:underline hover:text-blue-700 hover:cursor-pointer' onClick={() => dispatch(setRegister())}>Contact Admin</span></p>
+                        <p className='text-center mt-5'>Don’t have an account? <span className='text-blue-500 hover:underline hover:text-blue-700 hover:cursor-pointer' onClick={() => dispatch(setContact())}>Contact Admin</span></p>
                     </div>
                 </div>
                 <div className='flex justify-center items-center min-h-screen'>

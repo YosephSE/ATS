@@ -4,6 +4,7 @@ import SignInForm from './SigninForm';
 import { RootState } from '@/redux/Store';
 import { setClosed } from '@/redux/slices/ModalSlice';
 import SignUpForm from './SignUpForm';
+import ContactForm from './ContactForm';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 
 const SignInModal = () => {
@@ -24,8 +25,10 @@ const SignInModal = () => {
                 ?
                 <SignInForm />
                 :
+                modalValue === "signup"?
                 <SignUpForm />
-            
+                :
+                <ContactForm />  
             }
         </div>
     </Modal>
