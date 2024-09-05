@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@mui/material'
 import { useAppDispatch } from '@/redux/Hooks'
 import { setLogin } from '@/redux/slices/ModalSlice'
+import { useRouter } from 'next/navigation'
 
 interface Props {
     page: string
@@ -11,6 +12,7 @@ interface Props {
 
 const Header = ({ page }: Props) => {
     const dispatch = useAppDispatch()
+    const router = useRouter()
     const [roles, setRoles] = useState(false)
     const [home, setHome] = useState(false)
 
@@ -34,7 +36,7 @@ const Header = ({ page }: Props) => {
                 <div className="h-6 w-px bg-gray-300"></div>
                 <Button
                     variant='contained'
-                    onClick = {() =>  dispatch(setLogin())} 
+                    onClick = {() =>  roles? dispatch(setLogin()): router.push('/roles')} 
                 >
                     Sign In
                 </Button>
