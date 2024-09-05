@@ -1,10 +1,11 @@
+"use client"
 import React, { useRef, useState } from 'react';
 import { 
   TextField, 
   Button, 
   CircularProgress 
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/redux/Hooks';
 import { setClosed, setLogin} from '@/redux/slices/ModalSlice';
 
 const SignUpForm = () => {
@@ -16,7 +17,7 @@ const SignUpForm = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

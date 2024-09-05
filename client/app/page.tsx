@@ -1,13 +1,14 @@
-"use client";
+"use client"
 import Image from 'next/image';
 import Link from 'next/link';
 import Modal from '../components/Modal';
 import { setLogin } from '@/redux/slices/ModalSlice';
 import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppStore } from '@/redux/Hooks';
 
 const HomePage = () => {
-  const dipatch = useDispatch()
+  const store = useAppStore()
+  const dipatch = useAppDispatch()
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white from-0% via-[rgba(165,220,247,0.36)] via-55% to-[rgba(116,200,242,0.63)] to-100% font-sans">

@@ -1,13 +1,13 @@
 import { Modal } from '@mui/material';
 import SignInForm from './SigninForm';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/Store';
 import { setClosed } from '@/redux/slices/ModalSlice';
 import SignUpForm from './SignUpForm';
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 
 const SignInModal = () => {
-    const modalValue = useSelector((state: RootState) => state.modal.value)
-    const dispatch = useDispatch()
+    const modalValue = useAppSelector((state: RootState) => state.modal.value)
+    const dispatch = useAppDispatch()
 
     return (
         <Modal
