@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import Candidate from "../models/candidates";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken";
+import Application from "../models/applications";
 
 interface CustomRequest extends Request {
   user?: any;
@@ -143,7 +144,9 @@ const logoutCandidate = asyncHandler(async (req: Request, res: Response) => {
 
 const myApplications = asyncHandler(
   async (req: CustomRequest, res: Response) => {
-    const applications = await Candidate.find({ candidateId: req.user._id });
+    const candidateId = req.user._id;
+    console.log(candidateId);
+    const applications = await Application.find({ candidateId}).populate({path: "jobId"});
     res.status(200).json(applications);
   }
 );
