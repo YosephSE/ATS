@@ -34,7 +34,7 @@ const Header = ({ page }: Props) => {
                 <div className="h-6 w-px bg-gray-300"></div>
                 <Button
                     variant='contained'
-                    onClick = {() => dispatch(setLogin())} 
+                    onClick = {() =>  dispatch(setLogin())} 
                 >
                     Sign In
                 </Button>
