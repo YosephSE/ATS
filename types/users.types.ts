@@ -22,3 +22,18 @@ export interface ContactPayload {
     phoneNumber: string
     email:string;
 }
+
+interface User {
+    _id: string;
+    name: string;
+    email: string;
+    role: string;
+}
+
+export interface UserSlice {
+    loggedInUser: User | null;
+    isLoading: boolean;
+    isError: boolean;
+    isSuccess: boolean;
+    error: string | null;
+}
