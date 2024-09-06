@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginUserPayload, ContactPayload, UserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
+import { resetError } from "./UserSlice";
 
 const initialState: UserSlice = {
     loggedInUser: null,
@@ -53,6 +54,10 @@ const adminSlice = createSlice({
     reducers: {
         resetSuccess(state){
             state.isSuccess = false
+        },
+        errorReset(state){
+            state.error = null
+            state.isError = false
         }
     },
     extraReducers: (builder) => {
@@ -114,5 +119,5 @@ const adminSlice = createSlice({
     },
 });
 
-export const { resetSuccess } = adminSlice.actions;
+export const { resetSuccess, errorReset } = adminSlice.actions;
 export default adminSlice.reducer;

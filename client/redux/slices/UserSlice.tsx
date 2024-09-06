@@ -53,6 +53,10 @@ const userSlice = createSlice({
     reducers: {
         resetSuccess(state){
             state.isSuccess = false
+        },
+        resetError(state){
+            state.isError = false
+            state.error = null
         }
     },
     extraReducers: (builder) => {
@@ -114,5 +118,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { resetSuccess } = userSlice.actions;
+export const { resetSuccess, resetError } = userSlice.actions;
 export default userSlice.reducer;

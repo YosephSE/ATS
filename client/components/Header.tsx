@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { setLoginCandidate } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
 import { RootState } from '@/redux/store'
-import { logOut } from '@/redux/slices/UserSlice'
+import { logOut, resetSuccess } from '@/redux/slices/UserSlice'
 
 interface Props {
     page: "home" | "roles"
@@ -30,6 +30,7 @@ const Header = ({ page }: Props) => {
     const handleButton = () => {
         if (user.loggedInUser) {
             dispatch(logOut())
+            dispatch(resetSuccess())
         }else{
             if (roles){
                 dispatch(setLoginCandidate())
