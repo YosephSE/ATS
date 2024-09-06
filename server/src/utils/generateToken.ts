@@ -18,7 +18,7 @@ const generateToken = (res: Response, user: any) => {
   });
   res.cookie("auth", token, {
     httpOnly: true,
-    secure: env === "production",
+    secure: false,
     sameSite: "none",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });

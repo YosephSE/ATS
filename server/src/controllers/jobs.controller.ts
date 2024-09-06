@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import Job from "../models/jobs";
 import asyncHandler from "express-async-handler";
 import { CustomRequest } from "../middleware/verifyToken";
-
 const allJobs = asyncHandler(async (req: Request, res: Response) => {
   const {
     title,
@@ -13,6 +12,8 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
     postedBy,
     createdAt,
     description,
+    minSalary,
+    maxSalary,
   } = req.query;
 
   const filter: any = {};
@@ -28,25 +29,18 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
     filter.description = { $regex: description, $options: "i" };
   }
 
+
+  if (minSalary || maxSalary) {
+    filter["salary.min"] = { $lte: maxSalary || 9000000000000 };
+    filter["salary.max"] = { $gte: minSalary || 0 }; 
+  }
+
   const jobs = await Job.find(filter).populate(
     "postedBy",
     "firstName lastName email"
   );
 
   res.status(200).json(jobs);
-});
-
-const singleJob = asyncHandler(async (req: Request, res: Response) => {
-  const job = await Job.findById(req.params.id).populate(
-    "postedBy",
-    "firstName lastName email"
-  );
-  if (!job) {
-    const error = new Error();
-    (error as any).status = 404;
-    throw error;
-  }
-  res.status(200).json(job);
 });
 
 const createJob = asyncHandler(async (req: CustomRequest, res: Response) => {
@@ -71,6 +65,19 @@ const updateJob = asyncHandler(async (req: Request, res: Response) => {
     throw error;
   }
   res.status(201).json({ message: "Job updated successfully" });
+});
+
+const singleJob = asyncHandler(async (req: Request, res: Response) => {
+  const job = await Job.findById(req.params.id).populate(
+    "postedBy",
+    "firstName lastName email"
+  );
+  if (!job) {
+    const error = new Error();
+    (error as any).status = 404;
+    throw error;
+  }
+  res.status(200).json(job);
 });
 
 const deleteJob = asyncHandler(async (req: Request, res: Response) => {
