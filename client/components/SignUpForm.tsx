@@ -6,7 +6,7 @@ import {
   CircularProgress 
 } from '@mui/material';
 import { useAppDispatch } from '@/redux/Hooks';
-import { setClosed, setLogin} from '@/redux/slices/ModalSlice';
+import { setClosed, setLoginCandidate} from '@/redux/slices/ModalSlice';
 import { register, resetSuccess} from '@/redux/slices/UserSlice';
 import { useAppSelector } from '@/redux/Hooks';
 import { RootState } from '@/redux/store';
@@ -208,7 +208,7 @@ const SignUpForm = () => {
                 )}
             </Button>
         </form>
-        <p className='text-center mt-5'>Have an account? <span className='text-blue-500 hover:underline hover:text-blue-700 hover:cursor-pointer' onClick={() => dispatch(setLogin())}>Sign In</span></p>
+        <p className='text-center mt-5'>Have an account? <span className='text-blue-500 hover:underline hover:text-blue-700 hover:cursor-pointer' onClick={() => dispatch(setLoginCandidate())}>Sign In</span></p>
         </div>
     );
 };
