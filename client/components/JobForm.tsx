@@ -10,21 +10,11 @@ import {
   IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Jobs } from "../../types/job.types"
 
 interface Props {
     page: boolean
-    initialData?: {
-        title: string
-        location: string
-        department: string
-        type: string
-        status: boolean
-        description: string
-        minSalary: number
-        maxSalary: number
-        requirments: string[]
-        responsibilities: string[]
-    }
+    initialData?: Jobs
 }
 
 const JobForm = ({ page, initialData}: Props) => {
@@ -165,8 +155,8 @@ const JobForm = ({ page, initialData}: Props) => {
                             <MenuItem disabled value="">
                             <em>Job Type</em>
                             </MenuItem>
-                            <MenuItem value="Full-time">Full Time</MenuItem>
-                            <MenuItem value="Part-time">Part Time</MenuItem>
+                            <MenuItem value="Full-Time">Full Time</MenuItem>
+                            <MenuItem value="Part-Time">Part Time</MenuItem>
                             <MenuItem value="Contract">Contract</MenuItem>
                         </Select>
                     </div>
