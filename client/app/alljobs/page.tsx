@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "@/components/SideBar";
 import { GridColDef } from "@mui/x-data-grid";
-import DataTable from "@/components/adminJobs/JobsTable";
+import DataTable from "@/components/admin/JobsTable";
 
 const allJobs = () => {
   const columns: GridColDef[] = [
