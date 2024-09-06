@@ -7,7 +7,7 @@ import { setLogin } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
 
 interface Props {
-    page: string
+    page: "home" | "roles"
 }
 
 const Header = ({ page }: Props) => {
