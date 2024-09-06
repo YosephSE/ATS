@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { setLogin } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
 import { RootState } from '@/redux/store'
-import { resetUser } from '@/redux/slices/UserSlice'
+import { logOut, resetUser } from '@/redux/slices/UserSlice'
 
 interface Props {
     page: "home" | "roles"
@@ -29,7 +29,7 @@ const Header = ({ page }: Props) => {
 
     const handleButton = () => {
         if (user) {
-            dispatch(resetUser())
+            dispatch(logOut())
         }else{
             if (roles){
                 dispatch(setLogin())
@@ -52,6 +52,7 @@ const Header = ({ page }: Props) => {
                 <Button
                     variant='contained'
                     onClick = {handleButton} 
+                    className='text-nowrap'
                 >
                     {
                         user?
