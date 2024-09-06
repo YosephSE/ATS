@@ -1,36 +1,45 @@
 "use client"
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
   TextField, 
   Button, 
   CircularProgress 
 } from '@mui/material';
-import { useAppDispatch } from '@/redux/Hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { setClosed, setRegister } from '@/redux/slices/ModalSlice';
+import { login, resetSuccess } from '@/redux/slices/UserSlice';
+import { RootState } from '@/redux/store';
+import { useRouter } from 'next/navigation';
+
 
 const SignInForm = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null)
 
   const dispatch = useAppDispatch()
+  const router = useRouter()
+  const currentState = useAppSelector((state: RootState) => state.user)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-        if(emailRef && emailRef.current && passwordRef && passwordRef.current){
-            console.log('Email:', emailRef.current.value);
-            console.log('Password:', passwordRef.current.value);
-            setLoading(false);
-            dispatch(setClosed())
-        } else {
-            setError("Required filled is missing")
-            setLoading(false)
-        }
-    }, 2000);
+    if(emailRef && emailRef.current && passwordRef && passwordRef.current){
+        dispatch(login({
+            email: emailRef.current.value,
+            password: passwordRef.current.value
+        }))
+    }
   };
+
+  useEffect(() => {
+        if (currentState.isSuccess){
+            dispatch(setClosed())
+            router.push('/jobs')
+            dispatch(resetSuccess())
+        }else if (currentState.isError){
+            setError(currentState.error)
+        }
+    }, [currentState.loggedInUser, currentState.isError])
 
   return (
     <div>
@@ -93,7 +102,7 @@ const SignInForm = () => {
         <Button
             type="submit"
             variant="contained"
-            disabled={loading}
+            disabled={currentState.isLoading}
             sx={{
                 backgroundColor: '#1976d2',
                 '&:hover': {
@@ -105,7 +114,7 @@ const SignInForm = () => {
                 },
             }}
         >
-            {loading ? (
+            {currentState.isLoading ? (
                 <CircularProgress size={24} className="text-white"/>
             ) : (
                 'Login'
