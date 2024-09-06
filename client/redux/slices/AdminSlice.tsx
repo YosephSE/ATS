@@ -1,24 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, ContactPayload } from "../../../types/users.types";
+import { LoginUserPayload, ContactPayload, UserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
+import { resetError } from "./UserSlice";
 
-interface User {
-    _id: string;
-    name: string;
-    email: string;
-    role: string;
-}
-
-interface AdminSlice {
-    loggedInUser: User | null;
-    isLoading: boolean;
-    isError: boolean;
-    isSuccess: boolean;
-    error: string | null;
-}
-
-const initialState: AdminSlice = {
+const initialState: UserSlice = {
     loggedInUser: null,
     isLoading: false,
     isError: false,
@@ -27,7 +13,7 @@ const initialState: AdminSlice = {
 };
 
 export const contact = createAsyncThunk(
-    "user/contact",
+    "admin/contact",
     async (user: ContactPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/admins/contact`, user);
@@ -39,7 +25,7 @@ export const contact = createAsyncThunk(
 );
 
 export const login = createAsyncThunk(
-    "user/login",
+    "admin/login",
     async ( user: LoginUserPayload, { rejectWithValue }) => {
         try{
             const response = await axios.post(`${api}/admins/login`, user)
@@ -51,7 +37,7 @@ export const login = createAsyncThunk(
 )
 
 export const logOut = createAsyncThunk(
-    "user/logout",
+    "admin/logout",
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/logout`);
@@ -68,6 +54,10 @@ const adminSlice = createSlice({
     reducers: {
         resetSuccess(state){
             state.isSuccess = false
+        },
+        errorReset(state){
+            state.error = null
+            state.isError = false
         }
     },
     extraReducers: (builder) => {
@@ -129,5 +119,5 @@ const adminSlice = createSlice({
     },
 });
 
-export const { resetSuccess } = adminSlice.actions;
+export const { resetSuccess, errorReset } = adminSlice.actions;
 export default adminSlice.reducer;

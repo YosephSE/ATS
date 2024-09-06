@@ -6,7 +6,8 @@ import { setClosed } from '@/redux/slices/ModalSlice';
 import SignUpForm from './SignUpForm';
 import ContactForm from './ContactForm';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
-import { resetSuccess } from '@/redux/slices/AdminSlice';
+import { errorReset, resetSuccess } from '@/redux/slices/AdminSlice';
+import { resetError } from '@/redux/slices/UserSlice';
 
 const SignInModal = () => {
     const modalValue = useAppSelector((state: RootState) => state.modal.value)
@@ -14,6 +15,8 @@ const SignInModal = () => {
 
     const handleOnClose = () =>{
         dispatch(resetSuccess())
+        dispatch(resetError())
+        dispatch(errorReset())
         dispatch(setClosed())
     }
 

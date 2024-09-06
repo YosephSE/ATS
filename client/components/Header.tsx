@@ -1,19 +1,19 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Button } from '@mui/material'
+import { Button, CircularProgress } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
-import { setLogin } from '@/redux/slices/ModalSlice'
+import { setLoginCandidate } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
 import { RootState } from '@/redux/store'
-import { logOut } from '@/redux/slices/UserSlice'
+import { logOut, resetSuccess } from '@/redux/slices/UserSlice'
 
 interface Props {
     page: "home" | "roles"
 }
 
 const Header = ({ page }: Props) => {
-    const user = useAppSelector((state: RootState) => state.user.loggedInUser)
+    const user = useAppSelector((state: RootState) => state.user)
     const dispatch = useAppDispatch()
     const router = useRouter()
     const [roles, setRoles] = useState(false)
@@ -28,11 +28,12 @@ const Header = ({ page }: Props) => {
     }, [])
 
     const handleButton = () => {
-        if (user) {
+        if (user.loggedInUser) {
             dispatch(logOut())
+            dispatch(resetSuccess())
         }else{
             if (roles){
-                dispatch(setLogin())
+                dispatch(setLoginCandidate())
             }else { 
                 router.push('/roles')
             }
@@ -51,11 +52,15 @@ const Header = ({ page }: Props) => {
                 <div className="h-6 w-px bg-gray-300"></div>
                 <Button
                     variant='contained'
-                    onClick = {handleButton} 
+                    onClick = {handleButton}
+                    disabled = {user.isLoading} 
                     className='text-nowrap'
                 >
                     {
-                        user?
+                        user.isLoading ?
+                        <CircularProgress size={24} className="text-white"/>
+                        :
+                        user.loggedInUser?
                         "Log Out"
                         :
                         "Sign in"
