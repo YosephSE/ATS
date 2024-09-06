@@ -28,6 +28,18 @@ export const singlejob = createAsyncThunk(
     }
 )
 
+export const editjob = createAsyncThunk(
+  "jobs/editjob",
+  async ({id, job}: {id:string, job:Jobs}, {rejectWithValue}) => {
+    try{
+      const response = await axios.put(`${api}/jobs/${id}`, job)
+      return response.data
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+)
+
 const initialState: JobsSlice = {
   allJobs: [],
   activeJobs: [],
@@ -81,7 +93,23 @@ const jobSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload as string;
-      });
+      })
+
+      //Edit Job
+      .addCase(editjob.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(editjob.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(editjob.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.payload as string;
+      })
   },
 });
 
