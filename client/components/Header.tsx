@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { setLogin } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
 import { RootState } from '@/redux/store'
-import { logOut, resetUser } from '@/redux/slices/UserSlice'
+import { logOut } from '@/redux/slices/UserSlice'
 
 interface Props {
     page: "home" | "roles"
