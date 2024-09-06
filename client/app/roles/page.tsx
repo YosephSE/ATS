@@ -4,7 +4,7 @@ import { Button } from '@mui/material'
 import Header from '@/components/Header'
 import { useAppDispatch } from '@/redux/Hooks'
 import Modal from "../../components/Modal"
-import { setLogin, setRegister, setContact } from '@/redux/slices/ModalSlice'
+import { setLoginCandidate, setLoginAdmin, setRegister, setContact } from '@/redux/slices/ModalSlice'
 
 const RolesPage = () => {
     const dispatch = useAppDispatch()
@@ -35,7 +35,7 @@ const RolesPage = () => {
                                 color: 'white', 
                             },
                         }}
-                        onClick = {() => dispatch(setLogin())} 
+                        onClick = {() => dispatch(setLoginAdmin())} 
                         >
                             Login
                         </Button>
@@ -61,7 +61,7 @@ const RolesPage = () => {
                                 color: 'white', 
                             },
                         }}
-                        onClick = {() => dispatch(setLogin())} 
+                        onClick = {() => dispatch(setLoginCandidate())} 
                         >
                             Login
                         </Button>
