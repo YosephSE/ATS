@@ -2,15 +2,18 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@mui/material'
-import { useAppDispatch } from '@/redux/Hooks'
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { setLogin } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
+import { RootState } from '@/redux/store'
+import { logOut } from '@/redux/slices/UserSlice'
 
 interface Props {
-    page: string
+    page: "home" | "roles"
 }
 
 const Header = ({ page }: Props) => {
+    const user = useAppSelector((state: RootState) => state.user.loggedInUser)
     const dispatch = useAppDispatch()
     const router = useRouter()
     const [roles, setRoles] = useState(false)
@@ -24,6 +27,18 @@ const Header = ({ page }: Props) => {
         }
     }, [])
 
+    const handleButton = () => {
+        if (user) {
+            dispatch(logOut())
+        }else{
+            if (roles){
+                dispatch(setLogin())
+            }else { 
+                router.push('/roles')
+            }
+        }
+    }
+
     return (
         <nav className={`flex items-center justify-between px-6 py-3 ${home && "border-b shadow-lg"} ${roles && "absolute w-full top-0"}`}>
             <Link href="/" className="flex items-center space-x-2 focus:outline-none">
@@ -36,9 +51,15 @@ const Header = ({ page }: Props) => {
                 <div className="h-6 w-px bg-gray-300"></div>
                 <Button
                     variant='contained'
-                    onClick = {() =>  roles? dispatch(setLogin()): router.push('/roles')} 
+                    onClick = {handleButton} 
+                    className='text-nowrap'
                 >
-                    Sign In
+                    {
+                        user?
+                        "Log Out"
+                        :
+                        "Sign in"
+                    }
                 </Button>
             </div>
         </nav>
