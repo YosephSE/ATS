@@ -57,6 +57,12 @@ const jobSlice = createSlice({
     resetError(state){
         state.isError = false
         state.error = null
+    },
+    resetCurrentJob(state) {
+      state.currentJob = null
+    },
+    resetSuccess(state) {
+      state.isSuccess = false
     }
   },
   extraReducers: (builder) => {
