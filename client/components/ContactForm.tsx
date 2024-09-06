@@ -11,7 +11,7 @@ import {
   Box
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
-import { setLogin } from '@/redux/slices/ModalSlice';
+import { setLoginAdmin } from '@/redux/slices/ModalSlice';
 import { countries, CountryData } from '../public/countrydata';
 import { contact } from '@/redux/slices/AdminSlice';
 import { RootState } from '@/redux/store';
@@ -71,7 +71,7 @@ const ContactForm = () => {
     if (currentState.isError){
         setError(currentState.error)
     }
-}, [currentState.isError])
+  }, [currentState.isError])
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -233,7 +233,7 @@ const ContactForm = () => {
           )}
         </Button>
       </form>
-      <p className='text-center mt-5'>Have an account? <span className='text-blue-500 hover:underline hover:text-blue-700 cursor-pointer' onClick={() => dispatch(setLogin())}>Sign In</span></p>
+      <p className='text-center mt-5'>Have an account? <span className='text-blue-500 hover:underline hover:text-blue-700 cursor-pointer' onClick={() => dispatch(setLoginAdmin())}>Sign In</span></p>
     </div>
   );
 };
