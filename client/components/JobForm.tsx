@@ -13,7 +13,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Jobs } from "../../types/job.types"
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
-import { postjob, resetError, singlejob } from '@/redux/slices/JobSlice';
+import { editjob, postjob, resetError, singlejob } from '@/redux/slices/JobSlice';
 import { RootState } from '@/redux/store';
 
 interface Props {
@@ -133,7 +133,9 @@ const JobForm = ({ page, id}: Props) => {
             if(page){
                 dispatch(postjob(data))
             }else{
-
+                if (id){
+                    dispatch(editjob({id: id, job: data}))
+                }
             }
         }
     }
