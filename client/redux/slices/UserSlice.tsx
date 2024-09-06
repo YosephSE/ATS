@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RegisterUserPayload } from "../../../types/users.types";
+import { LoginUserPayload, RegisterUserPayload } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
+import { fabClasses } from "@mui/material";
 
 interface User {
     _id: string;
@@ -38,6 +39,18 @@ export const register = createAsyncThunk(
     }
 );
 
+export const login = createAsyncThunk(
+    "user/login",
+    async ( user: LoginUserPayload, { rejectWithValue }) => {
+        try{
+            const response = await axios.post(`${api}/candidates/login`, user)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -49,9 +62,13 @@ const userSlice = createSlice({
             state.isSuccess = false;
             state.error = null;
         },
+        resetSuccess(state){
+            state.isSuccess = false
+        }
     },
     extraReducers: (builder) => {
         builder
+            //Register
             .addCase(register.pending, (state) => {
                 state.isLoading = true;
                 state.isError = false;
@@ -69,9 +86,29 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.payload as string || "Registration failed.";
-            });
+            })
+
+            //Login
+            .addCase(login.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(login.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.loggedInUser = action.payload
+            })
+            .addCase(login.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
     },
 });
 
-export const { resetUser } = userSlice.actions;
+export const { resetUser, resetSuccess } = userSlice.actions;
 export default userSlice.reducer;

@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { useAppDispatch } from '@/redux/Hooks';
 import { setClosed, setLogin} from '@/redux/slices/ModalSlice';
-import { register, resetUser } from '@/redux/slices/UserSlice';
+import { register, resetSuccess, resetUser } from '@/redux/slices/UserSlice';
 import { useAppSelector } from '@/redux/Hooks';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
@@ -53,10 +53,11 @@ const SignUpForm = () => {
         if (currentState.isSuccess){
             dispatch(setClosed())
             router.push('/jobs')
+            dispatch(resetSuccess())
         }else if (currentState.isError){
             setError(currentState.error)
         }
-    }, [currentState.isSuccess, currentState.isError])
+    }, [currentState.loggedInUser, currentState.isError])
 
     return (
         <div>
