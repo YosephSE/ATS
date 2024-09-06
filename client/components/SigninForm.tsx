@@ -10,6 +10,7 @@ import { setClosed, setRegister } from '@/redux/slices/ModalSlice';
 import { login, resetSuccess } from '@/redux/slices/UserSlice';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
+import useLoginHandler from '@/customHooks/loginHandler';
 
 
 const SignInForm = () => {
@@ -23,6 +24,8 @@ const SignInForm = () => {
   const currentState = useAppSelector((state: RootState) => state.user)
   const modalState = useAppSelector((state: RootState) => state.modal.user)
 
+  const loginHandler = useLoginHandler(candidate)
+
   useEffect(() => {
     if(modalState === "admin"){
         setCandidate(false)
@@ -32,12 +35,13 @@ const SignInForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(emailRef && emailRef.current && passwordRef && passwordRef.current){
-        dispatch(login({
+        const data = {
             email: emailRef.current.value,
             password: passwordRef.current.value
-        }))
+        }
+        loginHandler(data)
     }
-  };
+}
 
   useEffect(() => {
         if (currentState.isSuccess){
