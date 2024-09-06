@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
-import { setLogin } from '@/redux/slices/ModalSlice'
+import { setLoginCandidate } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
 import { RootState } from '@/redux/store'
 import { logOut } from '@/redux/slices/UserSlice'
@@ -32,7 +32,7 @@ const Header = ({ page }: Props) => {
             dispatch(logOut())
         }else{
             if (roles){
-                dispatch(setLogin())
+                dispatch(setLoginCandidate())
             }else { 
                 router.push('/roles')
             }
