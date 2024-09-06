@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
   TextField, 
   Button, 
@@ -7,21 +7,25 @@ import {
 } from '@mui/material';
 import { useAppDispatch } from '@/redux/Hooks';
 import { setClosed, setLogin} from '@/redux/slices/ModalSlice';
+import { register, resetUser } from '@/redux/slices/UserSlice';
+import { useAppSelector } from '@/redux/Hooks';
+import { RootState } from '@/redux/store';
+import { useRouter } from 'next/navigation';
 
 const SignUpForm = () => {
+    const currentState = useAppSelector((state: RootState) => state.user)
     const firstNameRef = useRef<HTMLInputElement>(null)
     const lastNameRef = useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null)
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null)
 
     const dispatch = useAppDispatch()
+    const router = useRouter()
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoading(true);
         if (
             firstNameRef && firstNameRef.current &&
             lastNameRef && lastNameRef.current && 
@@ -30,21 +34,29 @@ const SignUpForm = () => {
             confirmPasswordRef && confirmPasswordRef.current
         ){
             if(passwordRef.current.value === confirmPasswordRef.current.value){
-                setTimeout(() => {
-                    console.log(firstNameRef.current?.value)
-                    setLoading(false)
-                    dispatch(setClosed())
-                }, 2000);
+                    dispatch(
+                        register(
+                            {
+                                firstName: firstNameRef.current!.value,
+                                lastName: lastNameRef.current!.value,
+                                email: emailRef.current!.value,
+                                password: passwordRef.current!.value
+                            }
+                        ))
             } else{
                 setError("Password do not match")
-                setLoading(false)
             }
-        } else {
-            setError("Please fill all the required fields")
-            setLoading(false)
         }
-
     };
+
+    useEffect(() => {
+        if (currentState.isSuccess){
+            dispatch(setClosed())
+            router.push('/jobs')
+        }else if (currentState.isError){
+            setError(currentState.error)
+        }
+    }, [currentState.isSuccess, currentState.isError])
 
     return (
         <div>
@@ -176,7 +188,7 @@ const SignUpForm = () => {
             <Button
                 type="submit"
                 variant="contained"
-                disabled={loading}
+                disabled={currentState.isLoading}
                 sx={{
                     backgroundColor: '#1976d2',
                     '&:hover': {
@@ -188,7 +200,7 @@ const SignUpForm = () => {
                     },
                 }}
             >
-                {loading ? (
+                {currentState.isLoading ? (
                     <CircularProgress size={24} className="text-white"/>
                 ) : (
                     'Register'

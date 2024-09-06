@@ -1,7 +1,7 @@
 "use client"
 import { Modal } from '@mui/material';
 import SignInForm from './SigninForm';
-import { RootState } from '@/redux/Store';
+import { RootState } from '@/redux/store';
 import { setClosed } from '@/redux/slices/ModalSlice';
 import SignUpForm from './SignUpForm';
 import ContactForm from './ContactForm';
@@ -13,7 +13,7 @@ const SignInModal = () => {
 
     return (
         <Modal
-            className='bg-blue-800 outline-none w-full h-full bg-opacity-50 flex justify-center items-center'
+            className='bg-blue-800 py-4 outline-none w-full h-full bg-opacity-50 flex justify-center items-center'
             open={modalValue !== "closed"}
             onClose={() => dispatch(setClosed())}
             aria-labelledby="modal"
