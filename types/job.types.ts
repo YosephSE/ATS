@@ -14,6 +14,7 @@ export interface Jobs{
 export interface JobsSlice {
     allJobs: Jobs[] | null;
     activeJobs: Jobs[] | null;
+    currentJob: Jobs | null;
     isLoading: boolean;
     isError: boolean;
     isSuccess: boolean;

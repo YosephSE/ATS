@@ -16,9 +16,34 @@ export const postjob = createAsyncThunk(
   }
 );
 
+export const singlejob = createAsyncThunk(
+    "jobs/singlejob",
+    async (id: string, { rejectWithValue }) => {
+        try{
+            const response = await axios.get(`${api}/jobs/${id}`)
+            return response.data
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || error.message);
+        }
+    }
+)
+
+export const editjob = createAsyncThunk(
+  "jobs/editjob",
+  async ({id, job}: {id:string, job:Jobs}, {rejectWithValue}) => {
+    try{
+      const response = await axios.put(`${api}/jobs/${id}`, job)
+      return response.data
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+)
+
 const initialState: JobsSlice = {
   allJobs: [],
   activeJobs: [],
+  currentJob: null,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -32,10 +57,17 @@ const jobSlice = createSlice({
     resetError(state){
         state.isError = false
         state.error = null
+    },
+    resetCurrentJob(state) {
+      state.currentJob = null
+    },
+    resetSuccess(state) {
+      state.isSuccess = false
     }
   },
   extraReducers: (builder) => {
     builder
+        //Post Job
       .addCase(postjob.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
@@ -50,9 +82,42 @@ const jobSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload as string;
-      });
+      })
+
+      //SingleJob
+      .addCase(singlejob.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(singlejob.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.currentJob = action.payload
+      })
+      .addCase(singlejob.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.payload as string;
+      })
+
+      //Edit Job
+      .addCase(editjob.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(editjob.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(editjob.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.payload as string;
+      })
   },
 });
 
-export const { resetError } = jobSlice.actions
+export const { resetError, resetCurrentJob, resetSuccess } = jobSlice.actions
 export default jobSlice.reducer;
