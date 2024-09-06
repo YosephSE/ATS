@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import ModalReducer from "./slices/ModalSlice";
 import UserReducer from "./slices/UserSlice";
 import AdminReducer from "./slices/AdminSlice";
+import JobReducer from "./slices/JobSlice";
 
 
 export const makeStore = () => {
@@ -9,7 +10,8 @@ export const makeStore = () => {
         reducer: {
             modal: ModalReducer,
             user: UserReducer,
-            admin: AdminReducer
+            admin: AdminReducer,
+            jobs: JobReducer
         }
     })
 }

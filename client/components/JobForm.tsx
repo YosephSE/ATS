@@ -8,23 +8,17 @@ import {
   Switch, 
   SelectChangeEvent, 
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Jobs } from "../../types/job.types"
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
+import { postjob, resetError } from '@/redux/slices/JobSlice';
+import { RootState } from '@/redux/store';
 
 interface Props {
     page: boolean
-    initialData?: {
-        title: string
-        location: string
-        department: string
-        type: string
-        status: boolean
-        description: string
-        minSalary: number
-        maxSalary: number
-        requirments: string[]
-        responsibilities: string[]
-    }
+    initialData?: Jobs
 }
 
 const JobForm = ({ page, initialData}: Props) => {
@@ -40,6 +34,9 @@ const JobForm = ({ page, initialData}: Props) => {
     const maxSalaryRef = useRef<HTMLInputElement>(null);
     const jobDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
+    const dispatch = useAppDispatch()
+    const postStatus = useAppSelector((state: RootState) => state.jobs);
+
     useEffect(() => {
         if (
             initialData && 
@@ -54,6 +51,7 @@ const JobForm = ({ page, initialData}: Props) => {
             maxSalaryRef.current.value = String(initialData.maxSalary)
             jobDescriptionRef.current.value = initialData.description
         }
+        dispatch(resetError())
     },[])
 
     const handleJobTypeChange = (event: SelectChangeEvent<string>) => {
@@ -104,6 +102,32 @@ const JobForm = ({ page, initialData}: Props) => {
         }
     };
 
+    const handleSubmit = async () => {
+        if (
+            titleRef.current && departmentRef.current &&
+            locationRef.current && minSalaryRef.current &&
+            maxSalaryRef.current && jobDescriptionRef.current 
+        ){
+            const data: Jobs = {
+                title: titleRef.current.value,
+                department: departmentRef.current.value,
+                type: jobType,
+                location: locationRef.current.value,
+                minSalary: parseInt(minSalaryRef.current.value),
+                maxSalary: parseInt(maxSalaryRef.current.value),
+                description: jobDescriptionRef.current.value,
+                status: status,
+                requirments: requirements,
+                responsibilities: responsibilities
+            }
+
+            if(page){
+                dispatch(postjob(data))
+            }else{
+
+            }
+        }
+    }
     const selectSx = {
         '& .MuiOutlinedInput-notchedOutline': {
         borderColor: '#0F6CF6',
@@ -165,8 +189,8 @@ const JobForm = ({ page, initialData}: Props) => {
                             <MenuItem disabled value="">
                             <em>Job Type</em>
                             </MenuItem>
-                            <MenuItem value="Full-time">Full Time</MenuItem>
-                            <MenuItem value="Part-time">Part Time</MenuItem>
+                            <MenuItem value="Full-Time">Full Time</MenuItem>
+                            <MenuItem value="Part-Time">Part Time</MenuItem>
                             <MenuItem value="Contract">Contract</MenuItem>
                         </Select>
                     </div>
@@ -279,17 +303,26 @@ const JobForm = ({ page, initialData}: Props) => {
                     ))}
                     </div>
                     <div className="flex md:flex-row md:items-center md:justify-between gap-2 flex-col-reverse">
-                    <Button variant="contained" color="primary" className="px-8 py-2">
-                        {page ? "Post" : "Update"}
-                    </Button>
-                    <div className="flex items-center">
-                        <span className="mr-2">Active</span>
-                        <Switch 
-                            color="primary" 
-                            checked={status} 
-                            onChange={() => { setStatus(!status)}} 
-                        />
-                    </div>
+                        <div>
+                        {postStatus.isError && <p className='text-red-700 mb-2'>{postStatus.error}</p>}
+                        {postStatus.isSuccess && <p className='text-blue-600 mb-2'>Job Posted Succefully</p>}
+                            <Button variant="contained" disabled={postStatus.isLoading} onClick={handleSubmit} color="primary" className="px-8 py-2">
+                                {
+                                    postStatus.isLoading?
+                                    <CircularProgress size={24} className="text-white"/>
+                                    :
+                                    page ? "Post" : "Update"
+                                }
+                            </Button>
+                        </div>
+                        <div className="flex items-center">
+                            <span className="mr-2">Active</span>
+                            <Switch 
+                                color="primary" 
+                                checked={status} 
+                                onChange={() => { setStatus(!status)}} 
+                            />
+                        </div>
                     </div>
                 </form>
         );

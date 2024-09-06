@@ -5,7 +5,7 @@ const simulate ={
   title: "Software Engineer",
   location: "Addis Ababa",
   department: "Engineering",
-  type: "Full-time",
+  type: "Full-Time",
   status: true,
   description:  "Just place holder",
   minSalary: 100,
