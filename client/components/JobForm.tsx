@@ -13,7 +13,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Jobs } from "../../types/job.types"
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
-import { editjob, postjob, resetError, singlejob } from '@/redux/slices/JobSlice';
+import { editjob, postjob, resetSuccess, resetCurrentJob, resetError, singlejob } from '@/redux/slices/JobSlice';
 import { RootState } from '@/redux/store';
 
 interface Props {
@@ -26,9 +26,11 @@ const JobForm = ({ page, id}: Props) => {
     useEffect(() => {
         const fetchUser = async () => {
             if(id){
-            await dispatch(singlejob(id))
+                await dispatch(singlejob(id))
             }
         }
+        dispatch(resetSuccess())
+        dispatch(resetCurrentJob())
         fetchUser()
     }, [])
 

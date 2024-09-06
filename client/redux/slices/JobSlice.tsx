@@ -119,5 +119,5 @@ const jobSlice = createSlice({
   },
 });
 
-export const { resetError } = jobSlice.actions
+export const { resetError, resetCurrentJob, resetSuccess } = jobSlice.actions
 export default jobSlice.reducer;
