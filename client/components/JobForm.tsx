@@ -13,15 +13,27 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Jobs } from "../../types/job.types"
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
-import { postjob, resetError } from '@/redux/slices/JobSlice';
+import { postjob, resetError, singlejob } from '@/redux/slices/JobSlice';
 import { RootState } from '@/redux/store';
 
 interface Props {
     page: boolean
-    initialData?: Jobs
+    id?: string
 }
 
-const JobForm = ({ page, initialData}: Props) => {
+const JobForm = ({ page, id}: Props) => {
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        const fetchUser = async () => {
+            if(id){
+            await dispatch(singlejob(id))
+            }
+        }
+        fetchUser()
+    }, [])
+
+    const postStatus = useAppSelector((state: RootState) => state.jobs);
+    const initialData = postStatus.currentJob
     const [jobType, setJobType] = useState<string>(initialData?.type || "");
     const [status, setStatus] = useState<boolean>(initialData?.status || true)
     const [requirements, setRequirements] = useState<string[]>(initialData?.requirments || []);
@@ -33,9 +45,6 @@ const JobForm = ({ page, initialData}: Props) => {
     const minSalaryRef = useRef<HTMLInputElement>(null);
     const maxSalaryRef = useRef<HTMLInputElement>(null);
     const jobDescriptionRef = useRef<HTMLTextAreaElement>(null);
-
-    const dispatch = useAppDispatch()
-    const postStatus = useAppSelector((state: RootState) => state.jobs);
 
     useEffect(() => {
         if (
