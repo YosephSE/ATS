@@ -13,7 +13,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Jobs } from "../../types/job.types"
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
-import { postjob } from '@/redux/slices/JobSlice';
+import { postjob, resetError } from '@/redux/slices/JobSlice';
 import { RootState } from '@/redux/store';
 
 interface Props {
@@ -51,6 +51,7 @@ const JobForm = ({ page, initialData}: Props) => {
             maxSalaryRef.current.value = String(initialData.maxSalary)
             jobDescriptionRef.current.value = initialData.description
         }
+        dispatch(resetError())
     },[])
 
     const handleJobTypeChange = (event: SelectChangeEvent<string>) => {

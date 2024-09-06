@@ -28,7 +28,12 @@ const initialState: JobsSlice = {
 const jobSlice = createSlice({
   name: 'jobs',
   initialState,
-  reducers: {},
+  reducers: {
+    resetError(state){
+        state.isError = false
+        state.error = null
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(postjob.pending, (state) => {
@@ -49,4 +54,5 @@ const jobSlice = createSlice({
   },
 });
 
+export const { resetError } = jobSlice.actions
 export default jobSlice.reducer;
