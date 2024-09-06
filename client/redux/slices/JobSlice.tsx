@@ -16,9 +16,22 @@ export const postjob = createAsyncThunk(
   }
 );
 
+export const singlejob = createAsyncThunk(
+    "jobs/singlejob",
+    async (id: string, { rejectWithValue }) => {
+        try{
+            const response = await axios.get(`${api}/jobs/${id}`)
+            return response.data
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || error.message);
+        }
+    }
+)
+
 const initialState: JobsSlice = {
   allJobs: [],
   activeJobs: [],
+  currentJob: null,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -36,6 +49,7 @@ const jobSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+        //Post Job
       .addCase(postjob.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
@@ -47,6 +61,23 @@ const jobSlice = createSlice({
         state.allJobs?.push(action.payload);
       })
       .addCase(postjob.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.payload as string;
+      })
+
+      //SingleJob
+      .addCase(singlejob.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(singlejob.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.currentJob = action.payload
+      })
+      .addCase(singlejob.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload as string;
