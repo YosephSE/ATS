@@ -11,6 +11,7 @@ import { login, resetSuccess } from '@/redux/slices/UserSlice';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import useLoginHandler from '@/customHooks/loginHandler';
+import useLoginState from '@/customHooks/loginState';
 
 
 const SignInForm = () => {
@@ -18,10 +19,9 @@ const SignInForm = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null)
   const [ candidate, setCandidate] = useState(true)
-
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const currentState = useAppSelector((state: RootState) => state.user)
+  const {currentState, redirect} = useLoginState(candidate)
   const modalState = useAppSelector((state: RootState) => state.modal.user)
 
   const loginHandler = useLoginHandler(candidate)
@@ -30,7 +30,7 @@ const SignInForm = () => {
     if(modalState === "admin"){
         setCandidate(false)
     }
-  })
+  }, [])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,9 +45,9 @@ const SignInForm = () => {
 
   useEffect(() => {
         if (currentState.isSuccess){
-            dispatch(setClosed())
-            router.push('/jobs')
+            router.push(redirect)
             dispatch(resetSuccess())
+            dispatch(setClosed())
         }else if (currentState.isError){
             setError(currentState.error)
         }
