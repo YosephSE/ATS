@@ -11,6 +11,8 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Jobs } from "../../types/job.types"
+import { useAppDispatch } from '@/redux/Hooks';
+import { postJob } from '@/redux/slices/JobSlice';
 
 interface Props {
     page: boolean
@@ -29,6 +31,8 @@ const JobForm = ({ page, initialData}: Props) => {
     const minSalaryRef = useRef<HTMLInputElement>(null);
     const maxSalaryRef = useRef<HTMLInputElement>(null);
     const jobDescriptionRef = useRef<HTMLTextAreaElement>(null);
+
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (
@@ -94,6 +98,33 @@ const JobForm = ({ page, initialData}: Props) => {
         }
     };
 
+    const handleSubmit = () => {
+        if (
+            initialData && 
+            titleRef.current && departmentRef.current &&
+            locationRef.current && minSalaryRef.current &&
+            maxSalaryRef.current && jobDescriptionRef.current 
+        ){
+            const data: Jobs = {
+                title: titleRef.current.value,
+                department: departmentRef.current.value,
+                type: jobType,
+                location: locationRef.current.value,
+                minSalary: parseInt(minSalaryRef.current.value),
+                maxSalary: parseInt(maxSalaryRef.current.value),
+                description: jobDescriptionRef.current.value,
+                status: status,
+                requirments: requirements,
+                responsibilities: responsibilities
+            }
+
+            if(page){
+                dispatch(postJob(data))
+            }else{
+
+            }
+        }
+    }
     const selectSx = {
         '& .MuiOutlinedInput-notchedOutline': {
         borderColor: '#0F6CF6',
@@ -269,7 +300,7 @@ const JobForm = ({ page, initialData}: Props) => {
                     ))}
                     </div>
                     <div className="flex md:flex-row md:items-center md:justify-between gap-2 flex-col-reverse">
-                    <Button variant="contained" color="primary" className="px-8 py-2">
+                    <Button variant="contained" onClick={handleSubmit} color="primary" className="px-8 py-2">
                         {page ? "Post" : "Update"}
                     </Button>
                     <div className="flex items-center">
