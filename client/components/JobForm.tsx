@@ -8,11 +8,13 @@ import {
   Switch, 
   SelectChangeEvent, 
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Jobs } from "../../types/job.types"
-import { useAppDispatch } from '@/redux/Hooks';
-import { postJob } from '@/redux/slices/JobSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
+import { postjob } from '@/redux/slices/JobSlice';
+import { RootState } from '@/redux/store';
 
 interface Props {
     page: boolean
@@ -33,6 +35,7 @@ const JobForm = ({ page, initialData}: Props) => {
     const jobDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
     const dispatch = useAppDispatch()
+    const postStatus = useAppSelector((state: RootState) => state.jobs);
 
     useEffect(() => {
         if (
@@ -98,9 +101,8 @@ const JobForm = ({ page, initialData}: Props) => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (
-            initialData && 
             titleRef.current && departmentRef.current &&
             locationRef.current && minSalaryRef.current &&
             maxSalaryRef.current && jobDescriptionRef.current 
@@ -119,7 +121,7 @@ const JobForm = ({ page, initialData}: Props) => {
             }
 
             if(page){
-                dispatch(postJob(data))
+                dispatch(postjob(data))
             }else{
 
             }
@@ -300,17 +302,26 @@ const JobForm = ({ page, initialData}: Props) => {
                     ))}
                     </div>
                     <div className="flex md:flex-row md:items-center md:justify-between gap-2 flex-col-reverse">
-                    <Button variant="contained" onClick={handleSubmit} color="primary" className="px-8 py-2">
-                        {page ? "Post" : "Update"}
-                    </Button>
-                    <div className="flex items-center">
-                        <span className="mr-2">Active</span>
-                        <Switch 
-                            color="primary" 
-                            checked={status} 
-                            onChange={() => { setStatus(!status)}} 
-                        />
-                    </div>
+                        <div>
+                        {postStatus.isError && <p className='text-red-700 mb-2'>{postStatus.error}</p>}
+                        {postStatus.isSuccess && <p className='text-blue-600 mb-2'>Job Posted Succefully</p>}
+                            <Button variant="contained" disabled={postStatus.isLoading} onClick={handleSubmit} color="primary" className="px-8 py-2">
+                                {
+                                    postStatus.isLoading?
+                                    <CircularProgress size={24} className="text-white"/>
+                                    :
+                                    page ? "Post" : "Update"
+                                }
+                            </Button>
+                        </div>
+                        <div className="flex items-center">
+                            <span className="mr-2">Active</span>
+                            <Switch 
+                                color="primary" 
+                                checked={status} 
+                                onChange={() => { setStatus(!status)}} 
+                            />
+                        </div>
                     </div>
                 </form>
         );
