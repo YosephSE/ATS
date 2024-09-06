@@ -12,7 +12,7 @@ const initialState: UserSlice = {
 };
 
 export const contact = createAsyncThunk(
-    "user/contact",
+    "admin/contact",
     async (user: ContactPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/admins/contact`, user);
@@ -24,7 +24,7 @@ export const contact = createAsyncThunk(
 );
 
 export const login = createAsyncThunk(
-    "user/login",
+    "admin/login",
     async ( user: LoginUserPayload, { rejectWithValue }) => {
         try{
             const response = await axios.post(`${api}/admins/login`, user)
@@ -36,7 +36,7 @@ export const login = createAsyncThunk(
 )
 
 export const logOut = createAsyncThunk(
-    "user/logout",
+    "admin/logout",
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/logout`);

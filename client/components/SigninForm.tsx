@@ -18,20 +18,12 @@ const SignInForm = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null)
-  const [ candidate, setCandidate] = useState(true)
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const {currentState, redirect} = useLoginState(candidate)
   const modalState = useAppSelector((state: RootState) => state.modal.user)
+  const {currentState, redirect} = useLoginState(modalState === "candidate")
 
-  const loginHandler = useLoginHandler(candidate)
-
-  useEffect(() => {
-    if(modalState === "admin"){
-        setCandidate(false)
-    }
-  }, [])
-
+  const loginHandler = useLoginHandler(modalState)
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(emailRef && emailRef.current && passwordRef && passwordRef.current){
@@ -55,7 +47,7 @@ const SignInForm = () => {
 
   return (
     <div>
-      <h2 id="sign-in-modal" className="text-2xl font-semibold mb-4 text-center">{candidate ? "Sign in as a Candidate": "Sign in as an Employee"}</h2>
+      <h2 id="sign-in-modal" className="text-2xl font-semibold mb-4 text-center">{modalState === "candidate" ? "Sign in as a Candidate": "Sign in as an Employee"}</h2>
       <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
         <TextField
             sx={{
