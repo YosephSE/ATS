@@ -15,7 +15,13 @@ const app: Express = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Set-Cookie"],
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 connectDB();
 
