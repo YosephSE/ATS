@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "@/components/SideBar";
-import Stats from "@/components/Stats";
-import Chart from "@/components/PieChart";
+import Stats from "@/components/stats/Stats";
+import Chart from "@/components/stats/PieChart";
 
 const Statistics = () => {
   const jobs = [
@@ -23,11 +23,15 @@ const Statistics = () => {
           <Stats />
           <div className="flex flex-wrap py-7 md:py-11">
             <div className="w-full sm:w-1/2">
-              <h1 className="text-sky-600 font-bold text-3xl pl-12 py-6">Jobs</h1>
+              <h1 className="text-sky-600 font-bold text-3xl pl-12 py-6">
+                Jobs
+              </h1>
               <Chart data={jobs} />
             </div>
             <div className="w-full sm:w-1/2">
-              <h1 className="text-sky-600 font-bold text-3xl pl-12 py-6">Applications</h1>
+              <h1 className="text-sky-600 font-bold text-3xl pl-12 py-6">
+                Applications
+              </h1>
               <Chart data={applications} />
             </div>
           </div>

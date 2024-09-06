@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
 const env = process.env.ENV;
+console.log(jwtSecret);
+console.log(env === "production");
 
 const generateToken = (res: Response, user: any) => {
   const payload = {
