@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { useAppDispatch } from '@/redux/Hooks';
 import { setClosed, setLogin} from '@/redux/slices/ModalSlice';
-import { register, resetSuccess, resetUser } from '@/redux/slices/UserSlice';
+import { register, resetSuccess} from '@/redux/slices/UserSlice';
 import { useAppSelector } from '@/redux/Hooks';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';

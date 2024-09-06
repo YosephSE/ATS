@@ -15,3 +15,10 @@ export interface RegisterUserPayload {
     email:string;
     password:string;
 }
+
+export interface ContactPayload {
+    firstName:string;
+    lastName:string;
+    phoneNumber: string
+    email:string;
+}

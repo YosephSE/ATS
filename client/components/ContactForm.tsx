@@ -10,20 +10,22 @@ import {
   InputAdornment,
   Box
 } from '@mui/material';
-import { useAppDispatch } from '@/redux/Hooks';
-import { setClosed, setLogin } from '@/redux/slices/ModalSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
+import { setLogin } from '@/redux/slices/ModalSlice';
 import { countries, CountryData } from '../public/countrydata';
+import { contact } from '@/redux/slices/AdminSlice';
+import { RootState } from '@/redux/store';
 
 const ContactForm = () => {
   const firstRef = useRef<HTMLInputElement>(null);
   const lastRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<CountryData>(countries[0]);
   const [dialCode, setDialCode] = useState(selectedCountry.dialCode);
 
+  const currentState = useAppSelector((state: RootState) => state.admin)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -32,23 +34,20 @@ const ContactForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      if(
-        firstRef.current &&
-        lastRef.current &&
-        phoneRef.current &&
-        emailRef.current
-      ){
-        setLoading(false);
-        const fullPhoneNumber = `${dialCode}${phoneRef.current.value}`;
-        console.log('Full phone number:', fullPhoneNumber);
-        dispatch(setClosed())
-      } else {
-        setError("Required field is missing")
-        setLoading(false)
-      }
-    }, 2000);
+    if(
+      firstRef.current &&
+      lastRef.current &&
+      phoneRef.current &&
+      emailRef.current
+    ){
+      const fullPhoneNumber = `${dialCode}${phoneRef.current.value}`;
+      dispatch(contact({
+        firstName: firstRef.current.value,
+        lastName: lastRef.current.value,
+        phoneNumber: fullPhoneNumber,
+        email: emailRef.current.value
+      }))
+    } 
   };
 
   const handleCountryChange = (event: SelectChangeEvent<string>) => {
@@ -67,6 +66,12 @@ const ContactForm = () => {
       setSelectedCountry(country);
     }
   };
+
+  useEffect(() => {
+    if (currentState.isError){
+        setError(currentState.error)
+    }
+}, [currentState.isError])
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -205,10 +210,11 @@ const ContactForm = () => {
           }}
         />
         {error && <p className="text-red-500">{error}</p>}
+        {currentState.isSuccess && <p className='text-blue-800'>Your request has been submitted</p>}
         <Button
           type="submit"
           variant="contained"
-          disabled={loading}
+          disabled={currentState.isLoading}
           sx={{
             backgroundColor: '#1976d2',
             '&:hover': {
@@ -220,10 +226,10 @@ const ContactForm = () => {
             },
           }}
         >
-          {loading ? (
+          {currentState.isLoading ? (
             <CircularProgress size={24} sx={{ color: 'white' }}/>
           ) : (
-            'Login'
+            'Submit'
           )}
         </Button>
       </form>
