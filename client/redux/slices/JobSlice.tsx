@@ -46,3 +46,5 @@ const JobSlice = createSlice({
             })
     }
 })
+
+export default JobSlice.reducer
