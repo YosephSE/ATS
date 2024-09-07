@@ -1,7 +1,17 @@
+import { Jobs } from "./job.types"
+
+
+interface User {
+    _id: string
+    firstName: string
+    lastName: string
+    email: string
+}
 export interface Application{
-    jobId: string
-    candidateId: string
+    _id: string
+    jobId: Jobs
+    candidateId: User
     status: string
-    AIScore: string
+    AIScore: number
     createdAt: Date
 }
