@@ -27,6 +27,8 @@ const Jobs = () => {
     fetchJobs()
   }, [])
   const [open, setOpen] = useState(false)
+  const currentState = useAppSelector((state: RootState) => state.jobs)
+  const alljobs = currentState.activeJobs
   return (
     <div className="min-h-screen bg-gray-100">
       <Header page="home"/>
@@ -49,7 +51,11 @@ const Jobs = () => {
             {
               open && <FilterPanel />
             }
-            <JobCard />
+            {
+              alljobs?.map( (job) =>(
+                <JobCard job={job} />
+              ))
+            }
           </div>
           <div>
             <Card className="mb-4">
