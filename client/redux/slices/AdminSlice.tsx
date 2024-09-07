@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, ContactPayload, UserSlice } from "../../../types/users.types";
+import { LoginUserPayload, ContactPayload, adminUserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
 
-const initialState: UserSlice = {
+const initialState: adminUserSlice = {
     loggedInUser: null,
     profile: null,
     isLoading: false,
