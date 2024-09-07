@@ -8,6 +8,7 @@ import sendPasswordEmail from "../utils/mailSender";
 import Application from "../models/applications";
 import Job from "../models/jobs";
 import Candidate from "../models/candidates";
+import mongoose from "mongoose";
 
 interface CustomRequest extends Request {
   user?: any;
@@ -72,26 +73,20 @@ const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-
-
-const adminProfile = asyncHandler(
-  async (req: CustomRequest, res: Response) => {
-    const admin = await Admin.findById(req.user._id).select(
-      "-password"
-    );
-    if (!admin) {
-      const error = new Error();
-      (error as any).status = 404;
-      throw error;
-    }
-    res.status(200).json(admin);
+const adminProfile = asyncHandler(async (req: CustomRequest, res: Response) => {
+  const admin = await Admin.findById(req.user._id).select("-password");
+  if (!admin) {
+    const error = new Error();
+    (error as any).status = 404;
+    throw error;
   }
-);
+  res.status(200).json(admin);
+});
 
 const updateProfile = asyncHandler(
   async (req: CustomRequest, res: Response) => {
-    const id = req.user._id;
-
+    // const id = req.user._id;
+    const id = new mongoose.Types.ObjectId("66daeb6210c8a0a5a62474d6");
     if (!req.body || Object.keys(req.body).length === 0) {
       const error = new Error("Request body is missing");
       (error as any).status = 400;
