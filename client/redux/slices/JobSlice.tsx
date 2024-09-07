@@ -130,6 +130,23 @@ const jobSlice = createSlice({
         state.isError = true;
         state.error = action.payload as string;
       })
+
+      //Active Jobs
+      .addCase(editjob.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(editjob.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.activeJobs = action.payload
+      })
+      .addCase(editjob.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.payload as string;
+      })
   },
 });
 
