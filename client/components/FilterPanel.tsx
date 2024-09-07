@@ -16,7 +16,7 @@ interface Filter{
 }
 
 const FilterPanel = () => {
-  const [priceRange, setPriceRange] = useState<number[]>([0,10000000]);
+  const [priceRange, setPriceRange] = useState<number[]>([0,500000]);
 
   const [jobTypes, setJobTypes] = useState<JobType | null>(null);
 
@@ -111,7 +111,7 @@ const FilterPanel = () => {
           onChange={handlePriceChange}
           valueLabelDisplay="auto"
           min={0}
-          max={10000000}
+          max={500000}
           step={10}
         />
       </div>

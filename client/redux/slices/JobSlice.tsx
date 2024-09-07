@@ -9,7 +9,7 @@ export const acitvejobs = createAsyncThunk(
   "jobs/activejobs",
   async(query: string, { rejectWithValue }) => {
     try{
-      const response = await axios.get(`${api}/jobs?status=true`)
+      const response = await axios.get(`${api}/jobs?status=true${query}`)
       return response.data
     } catch(error:any){
       return rejectWithValue(error.response?.data?.error || error.response?.data?.message);
