@@ -9,6 +9,10 @@ import Application from "../models/applications";
 import Job from "../models/jobs";
 import Candidate from "../models/candidates";
 
+interface CustomRequest extends Request {
+  user?: any;
+}
+
 const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await Admin.findOne({ email });
@@ -68,6 +72,44 @@ const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
+
+
+const adminProfile = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const admin = await Admin.findById(req.user._id).select(
+      "-password"
+    );
+    if (!admin) {
+      const error = new Error();
+      (error as any).status = 404;
+      throw error;
+    }
+    res.status(200).json(admin);
+  }
+);
+
+const updateProfile = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const id = req.user._id;
+
+    if (!req.body || Object.keys(req.body).length === 0) {
+      const error = new Error("Request body is missing");
+      (error as any).status = 400;
+      throw error;
+    }
+    const updatedAdmin = await Admin.findByIdAndUpdate(id, req.body, {
+      new: true,
+    }).select("-password");
+
+    if (!updatedAdmin) {
+      const error = new Error();
+      (error as any).status = 404;
+      throw error;
+    }
+    res.status(200).json(updatedAdmin);
+  }
+);
+
 const stats: any = asyncHandler(async (req: Request, res: Response) => {
   const totalApplications = await Application.countDocuments();
   const totalJobs = await Job.countDocuments();
@@ -97,4 +139,4 @@ const stats: any = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(stat);
 });
 
-export { loginAdmin, registerAdmin, stats };
+export { loginAdmin, registerAdmin, stats, updateProfile, adminProfile };

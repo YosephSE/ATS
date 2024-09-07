@@ -12,30 +12,12 @@ const router = Router();
 
 router.get("/", allJobs);
 
-router.post(
-  "/",
-  verifyToken,
-  adminAuthorize(["super admin", "admin"]),
-  createJob
-);
+router.post("/", createJob);
 
-router.get(
-  "/:id",
-  singleJob
-);
+router.get("/:id", singleJob);
 
-router.put(
-  "/:id",
-  verifyToken,
-  adminAuthorize(["super admin", "admin"]),
-  updateJob
-);
+router.put("/:id", updateJob);
 
-router.delete(
-  "/:id",
-  verifyToken,
-  adminAuthorize(["super admin", "admin"]),
-  deleteJob
-);
+router.delete("/:id", deleteJob);
 
 export default router;

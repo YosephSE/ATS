@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import Job from "../models/jobs";
 import asyncHandler from "express-async-handler";
-import { CustomRequest } from "../middleware/verifyToken";
+import mongoose from "mongoose";
+
+interface CustomRequest extends Request {
+  user?: any;
+}
 const allJobs = asyncHandler(async (req: Request, res: Response) => {
   const {
     title,
@@ -29,10 +33,9 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
     filter.description = { $regex: description, $options: "i" };
   }
 
-
   if (minSalary || maxSalary) {
     filter["salary.min"] = { $lte: maxSalary || 9000000000000 };
-    filter["salary.max"] = { $gte: minSalary || 0 }; 
+    filter["salary.max"] = { $gte: minSalary || 0 };
   }
 
   const jobs = await Job.find(filter).populate(
@@ -45,7 +48,8 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
 
 const createJob = asyncHandler(async (req: CustomRequest, res: Response) => {
   const newJob = new Job(req.body);
-  const postedBy = req.user._id;
+  // const postedBy = req.user._id;
+  const postedBy = new mongoose.Types.ObjectId("66daeb6210c8a0a5a62474d6");
   newJob.postedBy = postedBy;
   await newJob.save();
   res.status(201).json({ message: "Job created successfully" });
