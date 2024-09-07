@@ -4,6 +4,20 @@ import { Jobs, JobsSlice } from '../../../types/job.types';
 
 const api = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
+
+export const acitvejobs = createAsyncThunk(
+  "jobs/activejobs",
+  async(_, { rejectWithValue }) => {
+    try{
+      const response = await axios.get(`${api}/jobs?status=active`)
+      return response.data
+    } catch(error:any){
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+)
+
+
 export const postjob = createAsyncThunk(
   "jobs/postjob",
   async (job: Jobs, { rejectWithValue }) => {
