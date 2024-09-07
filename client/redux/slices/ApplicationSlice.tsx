@@ -33,7 +33,7 @@ export const allapplications = createAsyncThunk(
     }
 )
 const applicationSlice = createSlice({
-    name: 'application',
+    name: 'applications',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
