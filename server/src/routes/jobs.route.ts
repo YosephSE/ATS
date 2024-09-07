@@ -10,7 +10,7 @@ import verifyToken from "../middleware/verifyToken";
 import adminAuthorize from "../middleware/adminAuthorize";
 const router = Router();
 
-router.get("/", verifyToken, allJobs);
+router.get("/", allJobs);
 
 router.post(
   "/",
@@ -21,8 +21,6 @@ router.post(
 
 router.get(
   "/:id",
-  verifyToken,
- adminAuthorize(["super admin", "admin"]),
   singleJob
 );
 
