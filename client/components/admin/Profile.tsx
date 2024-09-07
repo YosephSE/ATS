@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/store";
-import { profile } from "@/redux/slices/AdminSlice";
+import { profile, updateprofile } from "@/redux/slices/AdminSlice";
 
 interface ProfileData {
   firstName: string;
@@ -10,50 +10,54 @@ interface ProfileData {
   password: string;
   phoneNumber: string;
   email: string;
-  profilePicture: string
+  profilePicture: string;
 }
 
 const AdminProfile: React.FC = () => {
-  const currentProfile = useAppSelector((state: RootState) => state.admin) 
-  const dispatch = useAppDispatch()
+  const currentProfile = useAppSelector((state: RootState) => state.admin);
+  const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [profileData, setProfileData] = useState<ProfileData>({
-    firstName: "",
-    lastName: "",
-    password: "",
-    phoneNumber: "",
-    email: "",
-    profilePicture: ""
-  });
+  const [profileData, setProfileData] = useState<ProfileData>(
+    currentProfile.profile
+      ? { ...currentProfile.profile, password: "" }
+      : {
+          firstName: "",
+          lastName: "",
+          password: "",
+          phoneNumber: "",
+          email: "",
+          profilePicture: "",
+        }
+  );
+
   const [image, setImage] = useState<File | null>(null);
-  const [imgLink, setImgLink] = useState<string | null>(null);
+  const [imgLink, setImgLink] = useState<string | null>(profileData.profilePicture);
 
   useEffect(() => {
-    const fetchUser =  async() => {
-      await dispatch(profile())
-    }
-    fetchUser()
-    if (currentProfile.profile){
-      setProfileData({...currentProfile.profile, password: ""})
-    }
-  }, [])
-  
+    const fetchUser = async () => {
+      await dispatch(profile());
+    };
+    fetchUser();
+  }, [dispatch]);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setProfileData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0] as File);
+      const selectedImage = e.target.files[0];
+      setImage(selectedImage);
+      
+      const uploadedImgLink = await uploadImage(selectedImage);
+      uploadedImgLink && setImgLink(uploadedImgLink);
+      uploadedImgLink && setProfileData((prev) => ({ ...prev, profilePicture: uploadedImgLink }));
     }
   };
 
   const handleUpdateProfile = async () => {
-    if (image) {
-      const uploadedImgLink = await uploadImage(image) || null;
-      setImgLink(uploadedImgLink);
-    }
+    await dispatch(updateprofile(profileData));
     setIsEditing(false);
   };
 
