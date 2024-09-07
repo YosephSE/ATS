@@ -12,9 +12,9 @@ interface ProfileData {
 const AdminProfile: React.FC = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<ProfileData>({
-    firstName: "Yoseph Kedir",
-    lastName: "Wondimu",
-    password: "123456",
+    firstName: "Yoseph",
+    lastName: "Kedir",
+    password: "",
     phoneNumber: "0912345678",
     email: "yoseph.kedir10@gmail.com",
   });
@@ -107,6 +107,14 @@ const AdminProfile: React.FC = () => {
               onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded"
               placeholder="Email"
+            />
+            <input
+              type="password"
+              name="password"
+              value={profileData.password}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border rounded"
+              placeholder="Password"
             />
             <input
               type="file"
