@@ -35,7 +35,7 @@ const AdminProfile: React.FC = () => {
 
   const handleUpdateProfile = async () => {
     if (image) {
-      const uploadedImgLink = await uploadImage(image);
+      const uploadedImgLink = await uploadImage(image) || null;
       setImgLink(uploadedImgLink);
     }
     setIsEditing(false);
