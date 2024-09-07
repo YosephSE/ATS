@@ -16,7 +16,6 @@ const adminSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     phoneNumber: {
       type: String,
@@ -24,12 +23,15 @@ const adminSchema = new Schema(
     },
     profilePicture: {
       type: String,
-
     },
     // Super admins and admins
     role: {
       type: String,
-      required: true,
+      default: "admin",
+    },
+    approved: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
