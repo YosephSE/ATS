@@ -25,13 +25,13 @@ const SingleJob = () => {
                             {currentJob?.description}
                         </p>
                         <h2 className='text-xl font-bold'>Job Requirment</h2>
-                        <ul className="list-disc list-inside">
-                            {currentJob?.requirments?.map((requirement) => (
+                        <ul className="list-disc list-inside ml-2">
+                            {currentJob?.requirements?.map((requirement) => (
                                 <li>{requirement}</li>
                             ))}
                         </ul>
                         <h2 className='text-xl font-bold'>Job Responsibility</h2>
-                        <ul className="list-disc list-inside ">
+                        <ul className="list-disc list-inside ml-2">
                             {currentJob?.responsibilities.map((responsibility) => (
                                 <li>{responsibility}</li>
                             ))}

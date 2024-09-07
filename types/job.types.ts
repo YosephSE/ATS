@@ -8,7 +8,7 @@ export interface Jobs{
     description: string
     minSalary: number
     maxSalary: number
-    requirments: string[]
+    requirements: string[]
     responsibilities: string[]
 }
 

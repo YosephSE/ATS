@@ -37,7 +37,7 @@ const JobForm = ({ page, id}: Props) => {
     const initialData = postStatus.currentJob
     const [jobType, setJobType] = useState<string>(initialData?.type || "");
     const [status, setStatus] = useState<boolean>(initialData?.status || true)
-    const [requirements, setRequirements] = useState<string[]>(initialData?.requirments || []);
+    const [requirements, setRequirements] = useState<string[]>(initialData?.requirements || []);
     const [responsibilities, setResponsibilities] = useState<string[]>(initialData?.responsibilities || []);
 
     const titleRef = useRef<HTMLInputElement>(null);
