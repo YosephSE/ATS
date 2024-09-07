@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
     "firebase": "^10.13.1",
+    "lucide-react": "^0.439.0",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",
@@ -31,7 +32,7 @@
   "devDependencies": {
     "@types/material-ui": "^0.21.17",
     "@types/node": "^20",
-    "@types/react": "^18",
+    "@types/react": "^18.3.5",
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",
     "postcss": "^8",
