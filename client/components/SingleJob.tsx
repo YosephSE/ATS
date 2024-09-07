@@ -11,27 +11,27 @@ const SingleJob = () => {
             <Card className="mb-4">
                 <CardContent>
                 <div className="flex justify-between items-start">
-                    <div className="flex items-start flex-col">
+                    <div className="flex items-start gap-2 flex-col">
                         <h1 className="text-2xl font-bold">
                             {currentJob?.title}
                         </h1>
                         <p className="text-gray-500">
                             {currentJob?.location}
                         </p>
-                        <p className="text-gray-500">
-                            {currentJob?.department}
-                        </p>
+                        <h2 className='text-xl font-bold mt-4'>Department: <span className='text-base font-semibold'>{currentJob?.department}</span></h2>
+                        <h2 className='text-xl font-bold'>Job Type: <span className='text-base font-semibold'>{currentJob?.type}</span></h2>
                         <h2 className='text-xl font-bold'>Job Description</h2>
-                        <p className="mt-2">
+                        <p className="ml-2">
                             {currentJob?.description}
                         </p>
                         <h2 className='text-xl font-bold'>Job Requirment</h2>
-                        <ul className="list-disc list-inside mt-2">
+                        <ul className="list-disc list-inside">
                             {currentJob?.requirments?.map((requirement) => (
                                 <li>{requirement}</li>
                             ))}
                         </ul>
-                        <ul className="list-disc list-inside mt-2">
+                        <h2 className='text-xl font-bold'>Job Responsibility</h2>
+                        <ul className="list-disc list-inside ">
                             {currentJob?.responsibilities.map((responsibility) => (
                                 <li>{responsibility}</li>
                             ))}
