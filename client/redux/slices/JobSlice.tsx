@@ -3,8 +3,27 @@ import axios from 'axios';
 import { Jobs, JobsSlice } from '../../../types/job.types';
 
 const api = process.env.NEXT_PUBLIC_BACKEND_SERVER;
+const initialState: JobsSlice = {
+  allJobs: [],
+  activeJobs: [],
+  currentJob: null,
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+  error: null,
+};
 
-
+export const alljobs = createAsyncThunk(
+  "jobs/alljobs",
+  async(_, { rejectWithValue }) => {
+    try{
+      const response = await axios.get(`${api}/jobs`)
+      return response.data
+    } catch(error:any){
+      return rejectWithValue(error.response?.data?.error || error.response?.data?.message);
+    }
+  }
+)
 export const acitvejobs = createAsyncThunk(
   "jobs/activejobs",
   async(query: string, { rejectWithValue }) => {
@@ -54,15 +73,7 @@ export const editjob = createAsyncThunk(
   }
 )
 
-const initialState: JobsSlice = {
-  allJobs: [],
-  activeJobs: [],
-  currentJob: null,
-  isLoading: false,
-  isSuccess: false,
-  isError: false,
-  error: null,
-};
+
 
 const jobSlice = createSlice({
   name: 'jobs',
@@ -141,6 +152,23 @@ const jobSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.activeJobs = action.payload
+      })
+      .addCase(acitvejobs.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.payload as string;
+      })
+
+      //All Jobs
+      .addCase(acitvejobs.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(acitvejobs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.allJobs = action.payload
       })
       .addCase(acitvejobs.rejected, (state, action) => {
         state.isLoading = false;
