@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
 
-export interface CustomRequest extends Request {
+interface CustomRequest extends Request {
   user?: any;
 }
 const verifyToken = (req: CustomRequest, res: Response, next: NextFunction) => {

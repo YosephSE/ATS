@@ -12,21 +12,10 @@ import adminAuthorize from "../middleware/adminAuthorize";
 
 const router = Router();
 
-router.get(
-  "/",
-  verifyToken,
-  adminAuthorize(["admin", "super admin"]),
-  allApplications
-);
-router.get(
-  "/:id",
-  verifyToken,
-  adminAuthorize(["admin", "super admin"]),
-  singleApplication
-);
-router.post("/", verifyToken, createApplication);
-router.put("/:id", verifyToken, updateApplication);
-router.delete("/:id", verifyToken, deleteApplication);
-
+router.get("/", allApplications);
+router.get("/:id", singleApplication);
+router.post("/", createApplication);
+router.put("/:id", updateApplication);
+router.delete("/:id", deleteApplication);
 
 export default router;
