@@ -54,7 +54,7 @@ const Jobs = () => {
             }
             {
               alljobs?.map( (job) =>(
-                <JobCard job={job} />
+                <JobCard key={job._id} job={job} />
               ))
             }
           </div>
