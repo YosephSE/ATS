@@ -30,8 +30,17 @@ interface User {
     role: string;
 }
 
+interface adminProfile{
+    firstName: string
+    lastName: string
+    email: string
+    phoneNumber: string
+    profilePicture: string
+    role: string
+}
 export interface UserSlice {
     loggedInUser: User | null;
+    profile: adminProfile | null
     isLoading: boolean;
     isError: boolean;
     isSuccess: boolean;
