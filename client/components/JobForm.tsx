@@ -11,7 +11,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Jobs } from "../../types/job.types"
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { editjob, postjob, resetSuccess, resetCurrentJob, resetError, singlejob } from '@/redux/slices/JobSlice';
 import { RootState } from '@/redux/store';
@@ -29,8 +28,8 @@ const JobForm = ({ page, id}: Props) => {
                 await dispatch(singlejob(id))
             }
         }
-        dispatch(resetSuccess())
         dispatch(resetCurrentJob())
+        dispatch(resetSuccess())
         fetchUser()
     }, [])
 
@@ -38,7 +37,7 @@ const JobForm = ({ page, id}: Props) => {
     const initialData = postStatus.currentJob
     const [jobType, setJobType] = useState<string>(initialData?.type || "");
     const [status, setStatus] = useState<boolean>(initialData?.status || true)
-    const [requirements, setRequirements] = useState<string[]>(initialData?.requirments || []);
+    const [requirements, setRequirements] = useState<string[]>(initialData?.requirements || []);
     const [responsibilities, setResponsibilities] = useState<string[]>(initialData?.responsibilities || []);
 
     const titleRef = useRef<HTMLInputElement>(null);
@@ -119,7 +118,7 @@ const JobForm = ({ page, id}: Props) => {
             locationRef.current && minSalaryRef.current &&
             maxSalaryRef.current && jobDescriptionRef.current 
         ){
-            const data: Jobs = {
+            const data: any = {
                 title: titleRef.current.value,
                 department: departmentRef.current.value,
                 type: jobType,

@@ -1,108 +1,128 @@
 "use client";
-import React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { useState } from "react";
-import { Select, MenuItem } from "@mui/material";
+import { Switch, CircularProgress } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
+import { alljobs, editjob } from "@/redux/slices/JobSlice";
+import { RootState } from "@/redux/store";
+import { Jobs } from "../../../types/job.types";
 
-const JobStatusDropdown = ({
-  value,
-  onChange,
-}: {
-  value: any;
-  onChange: (newValue: any) => void;
-}) => {
-  return (
-    <Select value={value} onChange={(e) => onChange(e.target.value)} fullWidth>
-      <MenuItem value="Active">Active</MenuItem>
-      <MenuItem value="Closed">Closed</MenuItem>
-      <MenuItem value="Open">Open</MenuItem>
-    </Select>
-  );
-};
-
-const columns: GridColDef[] = [
-  {
-    field: "jobTitle",
-    headerName: "Job Title",
-    flex: 1.5,
-  },
-  {
-    field: "location",
-    headerName: "Location",
-    flex: 1,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    flex: 1,
-    editable: true,
-    renderCell: (params) => (
-      <JobStatusDropdown
-        value={params.value}
-        onChange={(newValue: any) =>
-          params.api.updateRows([{ ...params.row, status: newValue }])
-        }
-      />
-    ),
-  },
-  {
-    field: "department",
-    headerName: "Department",
-    flex: 1,
-  },
-  {
-    field: "type",
-    headerName: "Type",
-    flex: 1,
-  },
-  {
-    field: "applications",
-    headerName: "Applications",
-    flex: 1,
-  },
-  {
-    field: "postedBy",
-    headerName: "Posted By",
-    flex: 1,
-  },
-];
-
-const initialRows = [
-  {
-    id: 1,
-    jobTitle: "Software Engineer",
-    location: "Winterfell",
-    status: "Active",
-    department: "Engineering",
-    type: "Full-time",
-    applications: 10,
-  },
-  {
-    id: 2,
-    jobTitle: "Manager",
-    location: "King's Landing",
-    status: "Closed",
-    department: "Operations",
-    type: "Full-time",
-    applications: 5,
-  },
-];
-
-const paginationModel = { page: 0, pageSize: 5 };
+interface LoadingState {
+  [key: string]: boolean;
+}
 
 export default function DataTable() {
-  const [rows, setRows] = useState(initialRows);
+  const dispatch = useAppDispatch();
+  const allJobs = useAppSelector((state: RootState) => state.jobs.allJobs);
+  const [localJobs, setLocalJobs] = useState<Jobs[]>([]);
+  const [loadingStates, setLoadingStates] = useState<LoadingState>({});
+
+
+  useEffect(() => {
+    if(allJobs){
+      setLocalJobs(allJobs.map(job => ({ ...job, id: job._id })));
+    } else{
+      setLocalJobs([]);
+    }
+  }, [allJobs]);
+
+
+  const rows = localJobs;
+
+  const handleStatusChange = async (id: string, newStatus: boolean) => {
+    setLoadingStates(prev => ({ ...prev, [id]: true }));
+    setLocalJobs(prev => 
+      prev.map(job => job._id === id ? { ...job, status: newStatus } : job)
+    );
+
+    try {
+      await dispatch(editjob({ id, job: { status: newStatus } }));
+    } catch (error) {
+      console.error("Failed to update job status:", error);
+      setLocalJobs(prev => 
+        prev.map(job => job._id === id ? { ...job, status: !newStatus } : job)
+      );
+    } finally {
+      setLoadingStates(prev => ({ ...prev, [id]: false }));
+    }
+  };
+
+  const columns: GridColDef[] = [
+    {
+      field: "title",
+      headerName: "Job Title",
+      flex: 1.5,
+    },
+    {
+      field: "location",
+      headerName: "Location",
+      flex: 1,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+      renderCell: (params) => (
+        loadingStates[params.id.toString()] ? (
+          <CircularProgress size={20} />
+        ) : (
+          <Switch 
+            color="primary" 
+            checked={params.row.status}
+            onChange={(event) => {
+              event.stopPropagation();
+              handleStatusChange(params.id.toString(), event.target.checked);
+            }}
+            onClick={(event) => event.stopPropagation()}
+          />
+        )
+      ),
+    },
+    {
+      field: "department",
+      headerName: "Department",
+      flex: 1,
+    },
+    {
+      field: "type",
+      headerName: "Type",
+      flex: 1,
+    },
+    {
+      field: "applications",
+      headerName: "Applications",
+      flex: 1,
+    },
+    {
+      field: "postedBy",
+      headerName: "Posted By",
+      flex: 1,
+    },
+  ];
+  
+  const paginationModel = { page: 0, pageSize: 10 };
+
+  useEffect(() => {
+    const fetchJobs = async() => {
+      await dispatch(alljobs());
+    }
+    fetchJobs();
+  }, [dispatch]);
+
+
   return (
-    <Paper sx={{ height: "auto", width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[20, 50, 100, 1000]}
-        checkboxSelection
-        sx={{ border: 0 }}
-      />
-    </Paper>
-  );
+    <div className="h-auto w-full max-w-full overflow-x-auto">
+      <div className="min-w-[900px]">
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{ pagination: { paginationModel } }}
+          pageSizeOptions={[20, 50, 100, 1000]}
+          sx={{ border: 0 }}
+          autoHeight
+        />
+      </div>
+    </div>
+  )
 }

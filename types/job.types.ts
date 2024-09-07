@@ -1,4 +1,5 @@
 export interface Jobs{
+    _id: string
     title: string
     location: string
     department: string
@@ -7,7 +8,7 @@ export interface Jobs{
     description: string
     minSalary: number
     maxSalary: number
-    requirments: string[]
+    requirements: string[]
     responsibilities: string[]
 }
 
