@@ -9,10 +9,10 @@ export const acitvejobs = createAsyncThunk(
   "jobs/activejobs",
   async(query: string, { rejectWithValue }) => {
     try{
-      const response = await axios.get(`${api}/jobs?status=active?${query}`)
+      const response = await axios.get(`${api}/jobs?status=true`)
       return response.data
     } catch(error:any){
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(error.response?.data?.error || error.response?.data?.message);
     }
   }
 )
@@ -22,10 +22,10 @@ export const postjob = createAsyncThunk(
   "jobs/postjob",
   async (job: Jobs, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${api}/jobs/`, job);
+      const response = await axios.post(`${api}/jobs`, job);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(error.response?.data || error.response?.data?.message);
     }
   }
 );
@@ -37,7 +37,7 @@ export const singlejob = createAsyncThunk(
             const response = await axios.get(`${api}/jobs/${id}`)
             return response.data
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || error.message);
+            return rejectWithValue(error.response?.data?.error || error.response?.data?.message);
         }
     }
 )
@@ -49,7 +49,7 @@ export const editjob = createAsyncThunk(
       const response = await axios.put(`${api}/jobs/${id}`, job)
       return response.data
     } catch (error: any) {
-        return rejectWithValue(error.response?.data?.message || error.message);
+        return rejectWithValue(error.response?.data?.error || error.response?.data?.message);
     }
   }
 )

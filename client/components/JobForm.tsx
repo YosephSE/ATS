@@ -11,7 +11,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Jobs } from "../../types/job.types"
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { editjob, postjob, resetSuccess, resetCurrentJob, resetError, singlejob } from '@/redux/slices/JobSlice';
 import { RootState } from '@/redux/store';
@@ -29,8 +28,8 @@ const JobForm = ({ page, id}: Props) => {
                 await dispatch(singlejob(id))
             }
         }
-        dispatch(resetSuccess())
         dispatch(resetCurrentJob())
+        dispatch(resetSuccess())
         fetchUser()
     }, [])
 
