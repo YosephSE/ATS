@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { Edit2, X } from "lucide-react";
+import uploadImage from "@/utils/imageUploader";
 
 interface ProfileData {
   firstName: string;
@@ -18,7 +19,8 @@ const AdminProfile: React.FC = () => {
     phoneNumber: "0912345678",
     email: "yoseph.kedir10@gmail.com",
   });
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const [imgLink, setImgLink] = useState<string | null>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,12 +29,15 @@ const AdminProfile: React.FC = () => {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(URL.createObjectURL(e.target.files[0]));
+      setImage(e.target.files[0] as File);
     }
   };
 
-  const handleUpdateProfile = () => {
-    // Here you would typically send the updated data to your backend
+  const handleUpdateProfile = async () => {
+    if (image) {
+      const uploadedImgLink = await uploadImage(image);
+      setImgLink(uploadedImgLink);
+    }
     setIsEditing(false);
   };
 
@@ -40,9 +45,9 @@ const AdminProfile: React.FC = () => {
     <div className="max-w-md mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-6">
         <div className="flex items-center justify-center mb-4">
-          {image ? (
+          {imgLink ? (
             <img
-              src={image}
+              src={imgLink}
               alt={profileData.firstName}
               className="w-24 h-24 rounded-full object-cover"
             />
@@ -94,7 +99,7 @@ const AdminProfile: React.FC = () => {
             />
             <input
               type="text"
-              name="school"
+              name="phoneNumber"
               value={profileData.phoneNumber}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded"
