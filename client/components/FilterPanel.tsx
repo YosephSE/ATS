@@ -11,7 +11,7 @@ interface JobType {
 }
 interface Filter{
   priceRange: number[]
-  jobTypes:JobType
+  jobTypes:JobType | null
   searchTerm: string
 }
 
@@ -41,11 +41,11 @@ const FilterPanel = () => {
   const handleFilters = async({priceRange, jobTypes, searchTerm}: Filter) => {
     const priceString = priceRange? `minSalary=${priceRange[0]}&maxSalary=${priceRange[1]}`: ""
     let str;
-    if(jobTypes.fullTime){
+    if(jobTypes?.fullTime){
       str = "Full-Time"
-    } else if(jobTypes.partTime){
+    } else if(jobTypes?.partTime){
       str = "Part-Time"
-    } else if(jobTypes.contract){
+    } else if(jobTypes?.contract){
       str = "Contract"
     } else{
       str=""
@@ -116,7 +116,7 @@ const FilterPanel = () => {
         />
       </div>
       <div className = "mt-4">
-        <Button variant="contained" color="primary" fullWidth>
+        <Button onClick={() => handleFilters({priceRange, jobTypes, searchTerm} )}variant="contained" color="primary" fullWidth>
           Apply Filters
         </Button>
       </div>
