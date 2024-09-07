@@ -35,7 +35,8 @@ const AdminProfile: React.FC = () => {
 
   const handleUpdateProfile = async () => {
     if (image) {
-      const imgLink = await uploadImage(image);
+      const uploadedImgLink = await uploadImage(image);
+      setImgLink(uploadedImgLink);
     }
     setIsEditing(false);
   };
@@ -44,9 +45,9 @@ const AdminProfile: React.FC = () => {
     <div className="max-w-md mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-6">
         <div className="flex items-center justify-center mb-4">
-          {image ? (
+          {imgLink ? (
             <img
-              src={imgLink || image}
+              src={imgLink}
               alt={profileData.firstName}
               className="w-24 h-24 rounded-full object-cover"
             />
@@ -98,7 +99,7 @@ const AdminProfile: React.FC = () => {
             />
             <input
               type="text"
-              name="school"
+              name="phoneNumber"
               value={profileData.phoneNumber}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded"
