@@ -68,7 +68,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
+const initialRows = [
   {
     id: 1,
     jobTitle: "Software Engineer",
@@ -87,12 +87,12 @@ const rows = [
     type: "Full-time",
     applications: 5,
   },
-  //...other rows
 ];
 
 const paginationModel = { page: 0, pageSize: 5 };
 
 export default function DataTable() {
+  const [rows, setRows] = useState(initialRows);
   return (
     <Paper sx={{ height: "auto", width: "100%" }}>
       <DataGrid
