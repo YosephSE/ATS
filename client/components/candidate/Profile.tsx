@@ -4,7 +4,7 @@ import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/store";
 import { candidateProfile, Education, Experience } from "../../../types/users.types"
-import { profile } from "@/redux/slices/UserSlice";
+import { profile, updateprofile } from "@/redux/slices/UserSlice";
 
 const CandidateProfile: React.FC = () => {
   const currentUser = useAppSelector((state: RootState) => state.user);
@@ -71,17 +71,19 @@ const CandidateProfile: React.FC = () => {
     }));
   };
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async(e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0] as File);
+      const selectedImage = e.target.files[0];
+      setImage(selectedImage);
+      
+      const uploadedImgLink = await uploadImage(selectedImage);
+      uploadedImgLink && setImgLink(uploadedImgLink);
+      uploadedImgLink && setProfileData((prev) => ({ ...prev, profilePicture: uploadedImgLink }));
     }
   };
 
   const handleUpdateProfile = async () => {
-    if (image) {
-      const uploadedImgLink = await uploadImage(image) || null;
-      setImgLink(uploadedImgLink);
-    }
+    await dispatch(updateprofile(profileData));
     setIsEditing(false);
   };
 

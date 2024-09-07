@@ -60,6 +60,18 @@ export const profile = createAsyncThunk(
     }
 )
 
+export const updateprofile = createAsyncThunk(
+    "user/updateprofile",
+    async( user: any, { rejectWithValue }) => {
+        try{
+            const response = await axios.put(`${api}/candidates/profile`, user)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -144,6 +156,26 @@ const userSlice = createSlice({
                 state.profile = action.payload
             })
             .addCase(profile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
+            //Update Profile
+            .addCase(updateprofile.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(updateprofile.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.profile = action.payload
+            })
+            .addCase(updateprofile.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.payload as string || "Registration failed.";
