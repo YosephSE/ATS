@@ -1,6 +1,8 @@
-import React, { useState, ChangeEvent } from "react";
-import { Edit2, X } from "lucide-react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import uploadImage from "@/utils/imageUploader";
+import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
+import { RootState } from "@/redux/store";
+import { profile } from "@/redux/slices/AdminSlice";
 
 interface ProfileData {
   firstName: string;
@@ -8,20 +10,34 @@ interface ProfileData {
   password: string;
   phoneNumber: string;
   email: string;
+  profilePicture: string
 }
 
 const AdminProfile: React.FC = () => {
+  const currentProfile = useAppSelector((state: RootState) => state.admin) 
+  const dispatch = useAppDispatch()
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<ProfileData>({
-    firstName: "Yoseph",
-    lastName: "Kedir",
+    firstName: "",
+    lastName: "",
     password: "",
-    phoneNumber: "0912345678",
-    email: "yoseph.kedir10@gmail.com",
+    phoneNumber: "",
+    email: "",
+    profilePicture: ""
   });
   const [image, setImage] = useState<File | null>(null);
   const [imgLink, setImgLink] = useState<string | null>(null);
 
+  useEffect(() => {
+    const fetchUser =  async() => {
+      await dispatch(profile())
+    }
+    fetchUser()
+    if (currentProfile.profile){
+      setProfileData({...currentProfile.profile, password: ""})
+    }
+  }, [])
+  
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setProfileData((prev) => ({ ...prev, [name]: value }));
