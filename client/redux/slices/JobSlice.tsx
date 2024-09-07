@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Jobs, JobsSlice } from '../../../types/job.types';
+import api from '../api';
 
-const api = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 const initialState: JobsSlice = {
   allJobs: [],
   activeJobs: [],
