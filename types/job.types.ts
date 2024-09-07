@@ -1,4 +1,5 @@
 export interface Jobs{
+    _id: string
     title: string
     location: string
     department: string

@@ -119,7 +119,7 @@ const JobForm = ({ page, id}: Props) => {
             locationRef.current && minSalaryRef.current &&
             maxSalaryRef.current && jobDescriptionRef.current 
         ){
-            const data: Jobs = {
+            const data: any = {
                 title: titleRef.current.value,
                 department: departmentRef.current.value,
                 type: jobType,
