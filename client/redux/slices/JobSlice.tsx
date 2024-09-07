@@ -160,17 +160,17 @@ const jobSlice = createSlice({
       })
 
       //All Jobs
-      .addCase(acitvejobs.pending, (state) => {
+      .addCase(alljobs.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
         state.error = null;
       })
-      .addCase(acitvejobs.fulfilled, (state, action) => {
+      .addCase(alljobs.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.allJobs = action.payload
       })
-      .addCase(acitvejobs.rejected, (state, action) => {
+      .addCase(alljobs.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload as string;
