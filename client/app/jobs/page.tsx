@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {  
   Button, 
   Card, 
@@ -12,8 +12,20 @@ import { BookmarkBorder, Tune } from '@mui/icons-material';
 import Header from '@/components/Header';
 import FilterPanel from '@/components/FilterPanel';
 import JobCard from '@/components/JobCard';
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
+import { RootState } from '@/redux/store';
+import { acitvejobs } from '@/redux/slices/JobSlice';
 
 const Jobs = () => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      await dispatch(acitvejobs())
+    }
+
+    fetchJobs()
+  }, [])
   const [open, setOpen] = useState(false)
   return (
     <div className="min-h-screen bg-gray-100">
