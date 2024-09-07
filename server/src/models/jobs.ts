@@ -19,15 +19,13 @@ const jobSchema = new Schema(
       type: String,
       required: true,
     },
-    salary: {
-      min: {
-        type: Number,
-        required: true,
-      },
-      max: {
-        type: Number,
-        required: true,
-      },
+    minSalary: {
+      type: Number,
+      required: true,
+    },
+    maxSalary: {
+      type: Number,
+      required: true,
     },
     description: {
       type: String,
@@ -47,13 +45,13 @@ const jobSchema = new Schema(
     ],
 
     status: {
-      type: String,
+      type: Boolean,
       required: true,
     },
     postedBy: {
       type: Schema.Types.ObjectId,
       ref: "Admin",
-      required: true,
+      // required: true,
     },
   },
   { timestamps: true }
