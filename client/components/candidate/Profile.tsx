@@ -6,43 +6,9 @@ import { RootState } from "@/redux/store";
 import { candidateProfile, Education, Experience } from "../../../types/users.types"
 import { profile, updateprofile } from "@/redux/slices/UserSlice";
 
-<<<<<<< HEAD
-interface Education {
-  schoolName: string;
-  degree: string;
-  fieldOfStudy: string;
-  startYear: string;
-  endYear: string;
-}
-
-interface Experience {
-  title: string;
-  company: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-}
-
-interface ProfileData {
-  firstName: string;
-  lastName: string;
-  password: string;
-  phoneNumber: string;
-  email: string;
-  skills: string[];
-  education: Education[];
-  experience: Experience[];
-  linkedIn: string;
-  resume: string;
-}
-
-const CandidteProfile: React.FC = () => {
-=======
 const CandidateProfile: React.FC = () => {
   const currentUser = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
->>>>>>> c051fb6a4a28f80a2dc0a34a214426054492290a
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<candidateProfile>(
     currentUser.profile?
@@ -393,8 +359,4 @@ const CandidateProfile: React.FC = () => {
   );
 };
 
-<<<<<<< HEAD
-export default CandidteProfile;
-=======
 export default CandidateProfile;
->>>>>>> c051fb6a4a28f80a2dc0a34a214426054492290a
