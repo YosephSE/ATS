@@ -32,7 +32,7 @@ interface ProfileData {
   resume: string;
 }
 
-const AdminProfile: React.FC = () => {
+const CandidteProfile: React.FC = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<ProfileData>({
     firstName: "Y",
@@ -393,4 +393,4 @@ const AdminProfile: React.FC = () => {
   );
 };
 
-export default AdminProfile;
+export default CandidteProfile;

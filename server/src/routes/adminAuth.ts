@@ -13,12 +13,27 @@ const router = Router();
 
 router.post("/login", loginAdmin);
 
-router.get("/profile", adminProfile);
+router.get(
+  "/profile",
+  verifyToken,
+  adminAuthorize(["admin", "super admin"]),
+  adminProfile
+);
 
-router.put("/profile", updateProfile);
+router.put(
+  "/profile",
+  verifyToken,
+  adminAuthorize(["admin", "super admin"]),
+  updateProfile
+);
 
 router.post("/register", registerAdmin);
 
-router.get("/stats", stats);
+router.get(
+  "/stats",
+  verifyToken,
+  adminAuthorize(["admin", "super admin"]),
+  stats
+);
 
 export default router;
