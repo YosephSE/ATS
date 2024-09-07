@@ -63,7 +63,7 @@ export const singlejob = createAsyncThunk(
 
 export const editjob = createAsyncThunk(
   "jobs/editjob",
-  async ({id, job}: {id:string, job:Jobs}, {rejectWithValue}) => {
+  async ({id, job}: {id:string, job:any}, {rejectWithValue}) => {
     try{
       const response = await axios.put(`${api}/jobs/${id}`, job)
       return response.data

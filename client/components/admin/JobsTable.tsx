@@ -1,19 +1,51 @@
 "use client";
-import React, { useEffect } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { Switch } from "@mui/material";
+import { Switch, CircularProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
-import { alljobs } from "@/redux/slices/JobSlice";
+import { alljobs, editjob } from "@/redux/slices/JobSlice";
 import { RootState } from "@/redux/store";
+import { Jobs } from "../../../types/job.types";
 
-
-
+interface LoadingState {
+  [key: string]: boolean;
+}
 
 export default function DataTable() {
-  const dispatch = useAppDispatch()
-  const allJobs = useAppSelector((state: RootState) => state.jobs.allJobs)
-  const rows = allJobs ? allJobs.map(job => ({ ...job, id: job._id })) : []
+  const dispatch = useAppDispatch();
+  const allJobs = useAppSelector((state: RootState) => state.jobs.allJobs);
+  const [localJobs, setLocalJobs] = useState<Jobs[]>([]);
+  const [loadingStates, setLoadingStates] = useState<LoadingState>({});
+
+  useEffect(() => {
+    if(allJobs){
+      setLocalJobs(allJobs.map(job => ({ ...job, id: job._id })));
+    } else{
+      setLocalJobs([]);
+    }
+  }, [allJobs]);
+
+  const rows = localJobs;
+
+  const handleStatusChange = async (id: string, newStatus: boolean) => {
+    setLoadingStates(prev => ({ ...prev, [id]: true }));
+    setLocalJobs(prev => 
+      prev.map(job => job._id === id ? { ...job, status: newStatus } : job)
+    );
+
+    try {
+      await dispatch(editjob({ id, job: { status: newStatus } }));
+    } catch (error) {
+      console.error("Failed to update job status:", error);
+      setLocalJobs(prev => 
+        prev.map(job => job._id === id ? { ...job, status: !newStatus } : job)
+      );
+    } finally {
+      setLoadingStates(prev => ({ ...prev, [id]: false }));
+    }
+  };
+
   const columns: GridColDef[] = [
     {
       field: "title",
@@ -29,12 +61,20 @@ export default function DataTable() {
       field: "status",
       headerName: "Status",
       flex: 1,
-      editable: true,
       renderCell: (params) => (
-        <Switch 
-        color="primary" 
-        checked={params.value} 
-      />
+        loadingStates[params.id.toString()] ? (
+          <CircularProgress size={20} />
+        ) : (
+          <Switch 
+            color="primary" 
+            checked={params.row.status}
+            onChange={(event) => {
+              event.stopPropagation();
+              handleStatusChange(params.id.toString(), event.target.checked);
+            }}
+            onClick={(event) => event.stopPropagation()}
+          />
+        )
       ),
     },
     {
@@ -59,24 +99,27 @@ export default function DataTable() {
     },
   ];
   
-  
   const paginationModel = { page: 0, pageSize: 10 };
+
   useEffect(() => {
     const fetchJobs = async() => {
-      await dispatch(alljobs())
+      await dispatch(alljobs());
     }
-    fetchJobs()
-  }, [])
+    fetchJobs();
+  }, [dispatch]);
+
   return (
-    <Paper sx={{ height: "auto", width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[20, 50, 100, 1000]}
-        checkboxSelection
-        sx={{ border: 0 }}
-      />
-    </Paper>
-  );
+    <div className="h-auto w-full max-w-full overflow-x-auto">
+      <div className="min-w-[900px]">
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{ pagination: { paginationModel } }}
+          pageSizeOptions={[20, 50, 100, 1000]}
+          sx={{ border: 0 }}
+          autoHeight
+        />
+      </div>
+    </div>
+  )
 }
