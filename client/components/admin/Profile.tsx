@@ -38,7 +38,7 @@ const AdminProfile: React.FC = () => {
       await dispatch(profile());
     };
     fetchUser();
-  }, [dispatch]);
+  }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

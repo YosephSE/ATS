@@ -30,7 +30,7 @@ interface User {
     role: string;
 }
 
-interface Education {
+export interface Education {
     schoolName: string;
     degree: string;
     fieldOfStudy: string;
@@ -38,7 +38,7 @@ interface Education {
     endYear: string;
   }
   
-interface Experience {
+export interface Experience {
     title: string;
     company: string;
     location: string;
@@ -47,7 +47,7 @@ interface Experience {
     description: string;
 }
 
-interface candidateProfile {
+export interface candidateProfile {
     firstName: string;
     lastName: string;
     password: string;

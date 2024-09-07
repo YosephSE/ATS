@@ -1,78 +1,42 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { Plus } from "lucide-react";
 import uploadImage from "@/utils/imageUploader";
-
-interface Education {
-  schoolName: string;
-  degree: string;
-  fieldOfStudy: string;
-  startYear: string;
-  endYear: string;
-}
-
-interface Experience {
-  title: string;
-  company: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-}
-
-interface ProfileData {
-  firstName: string;
-  lastName: string;
-  password: string;
-  phoneNumber: string;
-  email: string;
-  skills: string[];
-  education: Education[];
-  experience: Experience[];
-  linkedIn: string;
-  resume: string;
-}
+import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
+import { RootState } from "@/redux/store";
+import { candidateProfile, Education, Experience } from "../../../types/users.types"
+import { profile } from "@/redux/slices/UserSlice";
 
 const CandidateProfile: React.FC = () => {
+  const currentUser = useAppSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [profileData, setProfileData] = useState<ProfileData>({
-    firstName: "Y",
-    lastName: "K",
+  const [profileData, setProfileData] = useState<candidateProfile>(
+    currentUser.profile?
+    currentUser.profile
+    :
+    {
+    firstName: "",
+    lastName: "",
     password: "",
-    phoneNumber: "0912345678",
-    email: "y.k@g.com",
-    skills: ["JavaScript", "Node.js", "MongoDB", "React", "Python"],
-    education: [
-      {
-        schoolName: "Harvard University",
-        degree: "Bachelor of Science",
-        fieldOfStudy: "Computer Science",
-        startYear: "2015",
-        endYear: "2019",
-      },
-    ],
-    experience: [
-      {
-        title: "Software Engineer",
-        company: "Tech Corp",
-        location: "New York, NY",
-        startDate: "2019-06-01",
-        endDate: "2021-08-31",
-        description: "Developed and maintained web applications using JavaScript, Node.js, and MongoDB.",
-      },
-      {
-        title: "Senior Software Engineer",
-        company: "Innovatech",
-        location: "San Francisco, CA",
-        startDate: "2021-09-01",
-        endDate: "2023-03-01",
-        description: "Led a team of developers in building scalable web solutions and microservices architecture.",
-      },
-    ],
-    linkedIn: "https://linkedin.com/in/johndoe",
-    resume: "https://example.com/resume/johndoe.pdf",
+    phoneNumber: "",
+    email: "",
+    skills: [],
+    education: [],
+    experience: [],
+    linkedIn: "",
+    resume: "",
   });
+
+
   const [image, setImage] = useState<File | null>(null);
   const [imgLink, setImgLink] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      await dispatch(profile());
+    };
+    fetchUser();
+  }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
