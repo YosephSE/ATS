@@ -3,6 +3,7 @@ import ModalReducer from "./slices/ModalSlice";
 import UserReducer from "./slices/UserSlice";
 import AdminReducer from "./slices/AdminSlice";
 import JobReducer from "./slices/JobSlice";
+import ApplicationReducer from "./slices/ApplicationSlice";
 
 
 export const makeStore = () => {
@@ -11,7 +12,8 @@ export const makeStore = () => {
             modal: ModalReducer,
             user: UserReducer,
             admin: AdminReducer,
-            jobs: JobReducer
+            jobs: JobReducer,
+            applications: ApplicationReducer
         }
     })
 }

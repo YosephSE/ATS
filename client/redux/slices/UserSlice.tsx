@@ -5,6 +5,7 @@ import api from "../api";
 
 const initialState: UserSlice = {
     loggedInUser: null,
+    profile: null,
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -46,6 +47,30 @@ export const logOut = createAsyncThunk(
         }
     }
 );
+
+export const profile = createAsyncThunk(
+    "user/profile",
+    async (_, { rejectWithValue }) => {
+        try{
+            const response = await axios.get(`${api}/candidates/profile`)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
+
+export const updateprofile = createAsyncThunk(
+    "user/updateprofile",
+    async( user: any, { rejectWithValue }) => {
+        try{
+            const response = await axios.put(`${api}/candidates/profile`, user)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
 
 const userSlice = createSlice({
     name: "user",
@@ -115,6 +140,47 @@ const userSlice = createSlice({
                 state.error = null
                 state.loggedInUser = null
             })
+
+            //Profile
+            .addCase(profile.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(profile.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.profile = action.payload
+            })
+            .addCase(profile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
+            //Update Profile
+            .addCase(updateprofile.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(updateprofile.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.profile = action.payload
+            })
+            .addCase(updateprofile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
     },
 });
 

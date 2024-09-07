@@ -1,7 +1,12 @@
-import React, { useState, ChangeEvent } from "react";
-import { Edit2, X, Plus } from "lucide-react";
+import React, { useState, ChangeEvent, useEffect } from "react";
+import { Plus } from "lucide-react";
 import uploadImage from "@/utils/imageUploader";
+import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
+import { RootState } from "@/redux/store";
+import { candidateProfile, Education, Experience } from "../../../types/users.types"
+import { profile, updateprofile } from "@/redux/slices/UserSlice";
 
+<<<<<<< HEAD
 interface Education {
   schoolName: string;
   degree: string;
@@ -33,46 +38,39 @@ interface ProfileData {
 }
 
 const CandidteProfile: React.FC = () => {
+=======
+const CandidateProfile: React.FC = () => {
+  const currentUser = useAppSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
+>>>>>>> c051fb6a4a28f80a2dc0a34a214426054492290a
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [profileData, setProfileData] = useState<ProfileData>({
-    firstName: "Y",
-    lastName: "K",
+  const [profileData, setProfileData] = useState<candidateProfile>(
+    currentUser.profile?
+    currentUser.profile
+    :
+    {
+    firstName: "",
+    lastName: "",
     password: "",
-    phoneNumber: "0912345678",
-    email: "y.k@g.com",
-    skills: ["JavaScript", "Node.js", "MongoDB", "React", "Python"],
-    education: [
-      {
-        schoolName: "Harvard University",
-        degree: "Bachelor of Science",
-        fieldOfStudy: "Computer Science",
-        startYear: "2015",
-        endYear: "2019",
-      },
-    ],
-    experience: [
-      {
-        title: "Software Engineer",
-        company: "Tech Corp",
-        location: "New York, NY",
-        startDate: "2019-06-01",
-        endDate: "2021-08-31",
-        description: "Developed and maintained web applications using JavaScript, Node.js, and MongoDB.",
-      },
-      {
-        title: "Senior Software Engineer",
-        company: "Innovatech",
-        location: "San Francisco, CA",
-        startDate: "2021-09-01",
-        endDate: "2023-03-01",
-        description: "Led a team of developers in building scalable web solutions and microservices architecture.",
-      },
-    ],
-    linkedIn: "https://linkedin.com/in/johndoe",
-    resume: "https://example.com/resume/johndoe.pdf",
+    phoneNumber: "",
+    email: "",
+    skills: [],
+    education: [],
+    experience: [],
+    linkedIn: "",
+    resume: "",
   });
+
+
   const [image, setImage] = useState<File | null>(null);
   const [imgLink, setImgLink] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      await dispatch(profile());
+    };
+    fetchUser();
+  }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -107,17 +105,19 @@ const CandidteProfile: React.FC = () => {
     }));
   };
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async(e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0] as File);
+      const selectedImage = e.target.files[0];
+      setImage(selectedImage);
+      
+      const uploadedImgLink = await uploadImage(selectedImage);
+      uploadedImgLink && setImgLink(uploadedImgLink);
+      uploadedImgLink && setProfileData((prev) => ({ ...prev, profilePicture: uploadedImgLink }));
     }
   };
 
   const handleUpdateProfile = async () => {
-    if (image) {
-      const uploadedImgLink = await uploadImage(image) || null;
-      setImgLink(uploadedImgLink);
-    }
+    await dispatch(updateprofile(profileData));
     setIsEditing(false);
   };
 
@@ -393,4 +393,8 @@ const CandidteProfile: React.FC = () => {
   );
 };
 
+<<<<<<< HEAD
 export default CandidteProfile;
+=======
+export default CandidateProfile;
+>>>>>>> c051fb6a4a28f80a2dc0a34a214426054492290a

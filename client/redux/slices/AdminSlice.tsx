@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, ContactPayload, UserSlice } from "../../../types/users.types";
+import { LoginUserPayload, ContactPayload, adminUserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
 
-const initialState: UserSlice = {
+const initialState: adminUserSlice = {
     loggedInUser: null,
+    profile: null,
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -47,6 +48,31 @@ export const logOut = createAsyncThunk(
         }
     }
 );
+
+export const profile = createAsyncThunk(
+    "admin/profile",
+    async(_, { rejectWithValue }) => {
+        try{
+            const response = await axios.get(`${api}/admins/profile`)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+
+)
+
+export const updateprofile = createAsyncThunk(
+    "admin/updateprofile",
+    async( user: any, { rejectWithValue }) => {
+        try{
+            const response = await axios.put(`${api}/admins/profile`, user)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
 
 const adminSlice = createSlice({
     name: "admin",
@@ -115,6 +141,46 @@ const adminSlice = createSlice({
                 state.isSuccess = true
                 state.error = null
                 state.loggedInUser = null
+            })
+
+            //Profile
+            .addCase(profile.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(profile.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.profile = action.payload
+            })
+            .addCase(profile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
+            //Update Profile
+            .addCase(updateprofile.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(updateprofile.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.profile = action.payload
+            })
+            .addCase(updateprofile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
             })
     },
 });
