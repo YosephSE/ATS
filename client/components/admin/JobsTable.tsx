@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
-import Paper from "@mui/material/Paper";
+import { DataGrid, GridColDef} from "@mui/x-data-grid";
 import { Switch, CircularProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { alljobs, editjob } from "@/redux/slices/JobSlice";
-import { RootState } from "@/redux/Store";
+import { RootState } from "@/redux/store";
 import { Jobs } from "../../../types/job.types";
 
 interface LoadingState {
