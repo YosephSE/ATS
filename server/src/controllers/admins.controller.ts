@@ -74,7 +74,9 @@ const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const adminProfile = asyncHandler(async (req: CustomRequest, res: Response) => {
-  const admin = await Admin.findById(req.user._id).select("-password");
+  // const id = req.user._id;
+  const id = new mongoose.Types.ObjectId("66daeb6210c8a0a5a62474d6");
+  const admin = await Admin.findById(id).select("-password");
   if (!admin) {
     const error = new Error();
     (error as any).status = 404;
