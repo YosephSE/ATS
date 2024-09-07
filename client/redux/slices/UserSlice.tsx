@@ -18,7 +18,7 @@ export const register = createAsyncThunk(
             const response = await axios.post(`${api}/candidates/register`, user);
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || error.message);
+            return rejectWithValue(error.response?.data?.error || error.error);
         }
     }
 );
@@ -30,7 +30,7 @@ export const login = createAsyncThunk(
             const response = await axios.post(`${api}/candidates/login`, user)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.message || error.message)
+            return rejectWithValue(error.response?.data?.error || error.error)
         }
     }
 )
@@ -42,7 +42,7 @@ export const logOut = createAsyncThunk(
             const response = await axios.post(`${api}/candidates/logout`);
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || error.message);
+            return rejectWithValue(error.response?.data?.error || error.error);
         }
     }
 );
