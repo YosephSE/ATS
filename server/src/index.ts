@@ -19,7 +19,6 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
-    allowedHeaders: ["Content-Type", "Set-Cookie"],
   })
 );
 app.use(express.urlencoded({ extended: true }));

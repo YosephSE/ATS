@@ -4,7 +4,11 @@ import Candidate from "../models/candidates";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken";
 import Application from "../models/applications";
+import dotenv from "dotenv";
+dotenv.config();
 
+const jwtSecret = process.env.SECRET_KEY;
+const env = process.env.ENV;
 interface CustomRequest extends Request {
   user?: any;
 }
@@ -82,7 +86,7 @@ const loginCandidate = asyncHandler(async (req: Request, res: Response) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
-      await generateToken(res, user);
+      generateToken(res, user);
       res.status(200).json({
         _id: user._id,
         name: user.firstName,
@@ -119,7 +123,7 @@ const registerCandidate = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (user) {
-    await generateToken(res, user);
+    generateToken(res, user);
     res.status(201).json({
       _id: user._id,
       name: user.firstName,
@@ -136,8 +140,8 @@ const logoutCandidate = asyncHandler(async (req: Request, res: Response) => {
   res.cookie("auth", "", {
     httpOnly: true,
     expires: new Date(0),
-    secure: false,
-    sameSite: "none",
+    secure: env === "production",
+    sameSite: env === "production"? "none": "strict",
   });
   res.status(200).json({ message: "User LoggedOut Successfully" });
 });

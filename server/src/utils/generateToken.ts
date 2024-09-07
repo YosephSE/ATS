@@ -4,8 +4,6 @@ import dotenv from "dotenv";
 dotenv.config();
 const jwtSecret = process.env.SECRET_KEY;
 const env = process.env.ENV;
-console.log(jwtSecret);
-console.log(env === "production");
 
 const generateToken = (res: Response, user: any) => {
   const payload = {
@@ -18,8 +16,8 @@ const generateToken = (res: Response, user: any) => {
   });
   res.cookie("auth", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "none",
+    secure: env === "production",
+    sameSite: env === "production"? "none": "strict",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 };
