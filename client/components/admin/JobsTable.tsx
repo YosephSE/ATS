@@ -18,6 +18,7 @@ export default function DataTable() {
   const [localJobs, setLocalJobs] = useState<Jobs[]>([]);
   const [loadingStates, setLoadingStates] = useState<LoadingState>({});
 
+
   useEffect(() => {
     if(allJobs){
       setLocalJobs(allJobs.map(job => ({ ...job, id: job._id })));
@@ -25,6 +26,7 @@ export default function DataTable() {
       setLocalJobs([]);
     }
   }, [allJobs]);
+
 
   const rows = localJobs;
 
@@ -107,6 +109,7 @@ export default function DataTable() {
     }
     fetchJobs();
   }, [dispatch]);
+
 
   return (
     <div className="h-auto w-full max-w-full overflow-x-auto">

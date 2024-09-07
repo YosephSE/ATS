@@ -136,7 +136,7 @@ const logoutCandidate = asyncHandler(async (req: Request, res: Response) => {
   res.cookie("auth", "", {
     httpOnly: true,
     expires: new Date(0),
-    secure: true,
+    secure: false,
     sameSite: "none",
   });
   res.status(200).json({ message: "User LoggedOut Successfully" });
@@ -146,7 +146,9 @@ const myApplications = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const candidateId = req.user._id;
     console.log(candidateId);
-    const applications = await Application.find({ candidateId}).populate({path: "jobId"});
+    const applications = await Application.find({ candidateId }).populate({
+      path: "jobId",
+    });
     res.status(200).json(applications);
   }
 );
