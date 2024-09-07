@@ -52,7 +52,7 @@ const FilterPanel = () => {
     }
     const jobString = str? `type=${str}`: ""
     const searchTermString = searchTerm? `title=${searchTerm}`: ""
-    const searchString = `${priceString}?${jobString}?${searchTermString}`
+    const searchString = `&&${priceString}&&${jobString}&&${searchTermString}`
 
     await dispatch(acitvejobs(searchString))
     
