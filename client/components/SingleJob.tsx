@@ -1,11 +1,17 @@
-import { useAppSelector } from '@/redux/Hooks'
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { RootState } from '@/redux/store'
 import { BookmarkBorder } from '@mui/icons-material'
-import { CardContent, Button, Card, IconButton } from '@mui/material'
+import { CardContent, Button, Card, IconButton, CircularProgress } from '@mui/material'
+import { apply } from '@/redux/slices/ApplicationSlice'
 import React from 'react'
 
 const SingleJob = () => {
+    const currentState = useAppSelector((state: RootState) => state.applications)
     const currentJob = useAppSelector((state: RootState) => state.jobs.currentJob)
+    const dispatch = useAppDispatch()
+    const handleApply = async () => {
+        await dispatch(apply(currentJob?._id))
+    }
     return (
         <div className='w-full'>
             <Card className="mb-4">
@@ -24,16 +30,16 @@ const SingleJob = () => {
                         <p className="ml-2">
                             {currentJob?.description}
                         </p>
-                        <h2 className='text-xl font-bold'>Job Requirment</h2>
+                        <h2 className='text-xl font-bold'>Job Requirement</h2>
                         <ul className="list-disc list-inside ml-2">
-                            {currentJob?.requirements?.map((requirement) => (
-                                <li>{requirement}</li>
+                            {currentJob?.requirements?.map((requirement, index) => (
+                                <li key={index}>{requirement}</li>
                             ))}
                         </ul>
                         <h2 className='text-xl font-bold'>Job Responsibility</h2>
                         <ul className="list-disc list-inside ml-2">
-                            {currentJob?.responsibilities.map((responsibility) => (
-                                <li>{responsibility}</li>
+                            {currentJob?.responsibilities.map((responsibility, index) => (
+                                <li key={index}>{responsibility}</li>
                             ))}
                         </ul>
                     </div>
@@ -41,8 +47,17 @@ const SingleJob = () => {
                     <IconButton>
                         <BookmarkBorder />
                     </IconButton>
-                    <Button variant="contained" color="primary" className="mt-2">
-                        Apply
+                    <Button onClick={handleApply} variant="contained" color="primary" className="mt-2">
+                    {
+                        currentState?.isLoading ? 
+                        (
+                            <CircularProgress size={24} className="text-white"/>
+                        ) 
+                        : 
+                        (
+                            'Apply'
+                        )
+                    }
                     </Button>
                     </div>
                 </div>

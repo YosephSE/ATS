@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/redux/Hooks";
-import { RootState } from "@/redux/Store";
+import { RootState } from "@/redux/store";
 import { UserSlice } from "../../types/users.types";
 import { useEffect, useState } from "react";
 
