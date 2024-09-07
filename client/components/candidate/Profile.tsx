@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
-import { Edit2, X, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import uploadImage from "@/utils/imageUploader";
 
 interface Education {
@@ -32,7 +32,7 @@ interface ProfileData {
   resume: string;
 }
 
-const AdminProfile: React.FC = () => {
+const CandidateProfile: React.FC = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<ProfileData>({
     firstName: "Y",
@@ -393,4 +393,4 @@ const AdminProfile: React.FC = () => {
   );
 };
 
-export default AdminProfile;
+export default CandidateProfile;
