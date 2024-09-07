@@ -19,9 +19,10 @@ const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
   const user = await Admin.findOne({ email });
 
   if (user) {
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password!);
+    const approved = user.approved;
 
-    if (isMatch) {
+    if (isMatch && approved) {
       await generateToken(res, user);
       res.status(200).json({
         _id: user._id,
@@ -40,37 +41,59 @@ const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
-  const { firstName, lastName, email, phoneNumber, role } = req.body;
-  const password = generatePassword();
+  const { firstName, lastName, email, phoneNumber } = req.body;
 
   const userExists = await Admin.findOne({ email });
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
   }
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+
   const user = await Admin.create({
     firstName,
     lastName,
     email,
-    password: hashedPassword,
     phoneNumber,
-    role,
+    password: "",
+    role: "admin",
+    approved: false,
   });
   if (user) {
-    await sendPasswordEmail(user.email, password);
     res.status(201).json({
       _id: user._id,
       name: user.firstName,
       email: user.email,
       role: user.role,
-      message: "Admin Created Successfully",
+      message: "Request sent to super admin for approval",
     });
   } else {
     res.status(400);
     throw new Error("Invalid user data");
   }
+});
+
+const adiminsToApprove = asyncHandler(async (req: Request, res: Response) => {
+  const admins = await Admin.find({ approved: false }).select("-password");
+  res.status(200).json(admins);
+})
+
+const approveAdmin = asyncHandler(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const admin = await Admin.findById(id);
+  if (!admin) {
+    const error = new Error();
+    (error as any).status = 404;
+    throw error;
+  }
+  const password = generatePassword();
+  sendPasswordEmail(admin?.email, password);
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  await Admin.findByIdAndUpdate(id, {
+    password: hashedPassword,
+    approved: true,
+  });
+  res.status(200).json({ message: "Admin approved successfully" });
 });
 
 const adminProfile = asyncHandler(async (req: CustomRequest, res: Response) => {
@@ -136,4 +159,4 @@ const stats: any = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(stat);
 });
 
-export { loginAdmin, registerAdmin, stats, updateProfile, adminProfile };
+export { loginAdmin, registerAdmin, stats, updateProfile, adminProfile, approveAdmin, adiminsToApprove };
