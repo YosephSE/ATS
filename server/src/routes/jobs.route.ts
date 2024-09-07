@@ -21,7 +21,6 @@ router.post(
 
 router.get(
   "/:id",
- adminAuthorize(["super admin", "admin"]),
   singleJob
 );
 
