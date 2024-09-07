@@ -35,7 +35,7 @@ export const allapplications = createAsyncThunk(
 
 export const apply = createAsyncThunk(
   "applications/apply",
-  async(id, { rejectWithValue}) => {
+  async(id: any, { rejectWithValue}) => {
     try {
       const response = await axios.post(`${api}/applications`, id)
       return response.data
@@ -69,16 +69,16 @@ const applicationSlice = createSlice({
         })
 
         //Apply
-        .addCase(allapplications.pending, (state) => {
+        .addCase(apply.pending, (state) => {
           state.isLoading = true;
           state.isError = false;
           state.error = null;
         })
-        .addCase(allapplications.fulfilled, (state, action) => {
+        .addCase(apply.fulfilled, (state, action) => {
           state.isLoading = false;
           state.isSuccess = true;
         })
-        .addCase(allapplications.rejected, (state, action) => {
+        .addCase(apply.rejected, (state, action) => {
           state.isLoading = false;
           state.isError = true;
           state.error = action.payload as string;
