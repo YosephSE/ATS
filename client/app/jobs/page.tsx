@@ -22,7 +22,7 @@ const Jobs = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      await dispatch(acitvejobs())
+      await dispatch(acitvejobs(""))
     }
 
     fetchJobs()

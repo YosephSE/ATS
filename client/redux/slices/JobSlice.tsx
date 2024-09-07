@@ -7,9 +7,9 @@ const api = process.env.NEXT_PUBLIC_BACKEND_SERVER;
 
 export const acitvejobs = createAsyncThunk(
   "jobs/activejobs",
-  async(_, { rejectWithValue }) => {
+  async(query: string, { rejectWithValue }) => {
     try{
-      const response = await axios.get(`${api}/jobs?status=active`)
+      const response = await axios.get(`${api}/jobs?status=active?${query}`)
       return response.data
     } catch(error:any){
       return rejectWithValue(error.response?.data?.message || error.message);
