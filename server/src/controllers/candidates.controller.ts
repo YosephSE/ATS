@@ -7,7 +7,6 @@ import Application from "../models/applications";
 import dotenv from "dotenv";
 dotenv.config();
 
-const jwtSecret = process.env.SECRET_KEY;
 const env = process.env.ENV;
 interface CustomRequest extends Request {
   user?: any;
