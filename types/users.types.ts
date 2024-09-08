@@ -5,8 +5,9 @@ export interface CustomRequest extends Request {
 }
 
 export interface LoginUserPayload {
-    email: string;
-    password: string;
+    email?: string;
+    password?: string;
+    token?: string
 }
 
 export interface RegisterUserPayload {

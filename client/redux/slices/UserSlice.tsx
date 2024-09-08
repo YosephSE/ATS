@@ -25,17 +25,22 @@ export const register = createAsyncThunk(
 );
 
 export const login = createAsyncThunk(
-    "user/login",
-    async ( user: LoginUserPayload, { rejectWithValue }) => {
-        try{
-            const response = await axios.post(`${api}/candidates/login`, user)
+    "admin/login",
+    async (user: LoginUserPayload, { rejectWithValue }) => {
+        try {
+            let response;
+            if (user.token) {
+                response = await axios.post(`${api}/candidates/login/token`, { token: user.token });
+            } else {
+                response = await axios.post(`${api}/candidates/login`, { email: user.email, password: user.password });
+            }
             localStorage.setItem('userToken', response.data.token);
-            return response.data
-        } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error);
         }
     }
-)
+);
 
 export const logOut = createAsyncThunk(
     "user/logout",

@@ -27,16 +27,21 @@ export const contact = createAsyncThunk(
 
 export const login = createAsyncThunk(
     "admin/login",
-    async ( user: LoginUserPayload, { rejectWithValue }) => {
-        try{
-            const response = await axios.post(`${api}/admins/login`, user)
-            localStorage.setItem('adminToken', response.data.token);
-            return response.data
-        } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+    async (user: LoginUserPayload, { rejectWithValue }) => {
+        try {
+            let response;
+            if (user.token) {
+                response = await axios.post(`${api}/candidates/login/token`, { token: user.token });
+            } else {
+                response = await axios.post(`${api}/candidates/login`, { email: user.email, password: user.password });
+            }
+            localStorage.setItem('userToken', response.data.token);
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error);
         }
     }
-)
+);
 
 export const logOut = createAsyncThunk(
     "admin/logout",
