@@ -27,11 +27,6 @@ const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
     const approved = user.approved;
 
     if (isMatch && approved) {
-      if(user.firstTime){
-        await Admin.findOneAndUpdate({ email }, {
-          firstTime: false
-        })
-      }
       const token: any = generateToken(res, user);
       res.status(200).json({
         _id: user._id,
@@ -214,6 +209,11 @@ const changePassword = asyncHandler(
       return;
     }
 
+    if(admin.firstTime){
+      await Admin.findByIdAndUpdate(id , {
+        firstTime: false
+      })
+    }
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     admin.password = hashedNewPassword;
