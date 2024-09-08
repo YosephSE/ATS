@@ -1,9 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import {  
-  Button, 
-  Card, 
-  CardContent, 
   IconButton,
   Tab,
   Tabs
@@ -13,7 +10,7 @@ import Header from '@/components/Header';
 import FilterPanel from '@/components/FilterPanel';
 import JobCard from '@/components/JobCard';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
-import { RootState } from '@/redux/Store';
+import { RootState } from '@/redux/store';
 import { acitvejobs } from '@/redux/slices/JobSlice';
 import SingleJob from '@/components/SingleJob';
 
@@ -52,11 +49,13 @@ const Jobs = () => {
             {
               open && <FilterPanel />
             }
-            {
-              alljobs?.map( (job) =>(
-                <JobCard key={job._id} job={job} />
-              ))
-            }
+            <div className='max-h-[500px] overflow-y-auto'>
+              {
+                alljobs?.map( (job) =>(
+                  <JobCard key={job._id} job={job} />
+                ))
+              }
+            </div>
           </div>
           <SingleJob />
         </div>
