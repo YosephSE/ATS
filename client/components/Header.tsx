@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { setLoginCandidate } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
 import { RootState } from '@/redux/store'
-import { logOut, resetSuccess } from '@/redux/slices/UserSlice'
+import { logout, resetSuccess } from '@/redux/slices/UserSlice'
 import { ExpandMore } from '@mui/icons-material'
 
 interface Props {
@@ -30,15 +30,10 @@ const Header = ({ page }: Props) => {
     }, [])
 
     const handleButton = () => {
-        if (user.loggedInUser) {
-            dispatch(logOut())
-            dispatch(resetSuccess())
+        if (roles) {
+            dispatch(setLoginCandidate())
         } else {
-            if (roles) {
-                dispatch(setLoginCandidate())
-            } else {
-                router.push('/roles')
-            }
+            router.push('/roles')
         }
     }
 
@@ -50,8 +45,8 @@ const Header = ({ page }: Props) => {
         setAnchorEl(null)
     }
 
-    const handleLogout = () => {
-        dispatch(logOut())
+    const handleLogout = async() => {
+        await dispatch(logout())
         dispatch(resetSuccess())
         handleMenuClose()
     }

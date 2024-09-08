@@ -48,7 +48,7 @@ export const login = createAsyncThunk(
     }
 );
 
-export const logOut = createAsyncThunk(
+export const logout = createAsyncThunk(
     "user/logout",
     async (_, { rejectWithValue }) => {
         try {
@@ -160,13 +160,13 @@ const userSlice = createSlice({
             })
             
             //Log out
-            .addCase(logOut.pending, (state) => {
+            .addCase(logout.pending, (state) => {
                 state.isLoading = true
                 state.isError = false
                 state.isSuccess = false
                 state.error = null
             })
-            .addCase(logOut.fulfilled, (state) => {
+            .addCase(logout.fulfilled, (state) => {
                 state.isLoading = false
                 state.isError = false
                 state.isSuccess = true

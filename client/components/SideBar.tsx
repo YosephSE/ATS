@@ -19,7 +19,7 @@ import {
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { RootState } from '@/redux/store';
-import { logOut, resetSuccess } from '@/redux/slices/AdminSlice';
+import { logout, resetSuccess } from '@/redux/slices/AdminSlice';
 import { useRouter } from 'next/navigation';
 
 interface NavItem {
@@ -55,7 +55,7 @@ const Sidebar = () => {
   }
 
   const handleLogout = async () => {
-    await dispatch(logOut())
+    await dispatch(logout())
     dispatch(resetSuccess())
     router.push("/")
     handleMenuClose()
