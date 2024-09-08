@@ -1,11 +1,12 @@
 import { Router } from "express";
 import {
-  adiminsToApprove,
+  adminsToApprove,
   adminProfile,
   approveAdmin,
   loginAdmin,
   registerAdmin,
   stats,
+  status,
   updateProfile,
 } from "../controllers/admins.controller";
 import verifyToken from "../middleware/verifyToken";
@@ -41,5 +42,7 @@ router.get(
 router.post("/approve/:id", approveAdmin);
 
 router.get("/adminsToApprove", adiminsToApprove);
+
+router.post("/status", status);
 
 export default router;
