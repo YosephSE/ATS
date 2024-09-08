@@ -81,8 +81,16 @@ export interface adminProfile{
     profilePicture: string
     role: string
 }
+
+interface adminUser {
+    _id: string;
+    name: string;
+    email: string;
+    role: "super admin" | "admin" | "user";
+    firstTime: boolean;
+}
 export interface adminUserSlice {
-    loggedInUser: User | null;
+    loggedInUser: adminUser | null;
     profile: adminProfile | null
     isLoading: boolean;
     isError: boolean;
