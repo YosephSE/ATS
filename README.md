@@ -6,7 +6,7 @@ ATS is an Application Tracking System designed to streamline the recruitment pro
 ## Features
 
 - Candidate management
-- Employee management
+
 - Job posting and application tracking
 - Resume parsing and screening
 - Reporting and analytics
