@@ -17,7 +17,7 @@ export const contact = createAsyncThunk(
     "admin/contact",
     async (user: ContactPayload, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${api}/admins/contact`, user);
+            const response = await axios.post(`${api}/admins/register`, user);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
