@@ -150,7 +150,7 @@ const status: any = asyncHandler(async (req: Request, res: Response) => {
     res.json({
       id: admin?._id,
       role: admin?.role,
-      firstName: admin?.firstName,
+      name: admin?.firstName,
       email: admin?.email,
     });
   } catch (error) {

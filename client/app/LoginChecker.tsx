@@ -1,9 +1,9 @@
 "use client"
 import React, { useEffect } from 'react'
 import { useAppDispatch } from '@/redux/Hooks'
-import { login as userLogin } from '@/redux/slices/UserSlice'
-import { login as adminLogin } from '@/redux/slices/AdminSlice'
-import StoreProvider from './StoreProvider'
+import { fetchuser as userLogin } from '@/redux/slices/UserSlice'
+import { fetchuser as adminLogin } from '@/redux/slices/AdminSlice'
+
 
 const LoginChecker = ({
     children,
@@ -12,8 +12,8 @@ const LoginChecker = ({
   }) => {
     const dispatch = useAppDispatch()
     useEffect(() => {
-      const userToken = localStorage.getItem('userToken');
-      const adminToken = localStorage.getItem('adminToken');
+      const userToken = sessionStorage.getItem('userToken');
+      const adminToken = sessionStorage.getItem('adminToken');
   
       if (userToken) {
           dispatch(userLogin({ token: userToken })); 

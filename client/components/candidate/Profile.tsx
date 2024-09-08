@@ -4,39 +4,43 @@ import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/store";
 import { candidateProfile, Education, Experience } from "../../../types/users.types"
-import { profile, updateprofile } from "@/redux/slices/UserSlice";
+import { fetchuser, profile, updateprofile } from "@/redux/slices/UserSlice";
 
 const CandidateProfile: React.FC = () => {
   const currentUser = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<candidateProfile>(
-    currentUser.profile?
-    currentUser.profile
-    :
     {
-    firstName: "",
-    lastName: "",
-    password: "",
-    phoneNumber: "",
-    email: "",
-    skills: [],
-    education: [],
-    experience: [],
-    linkedIn: "",
-    resume: "",
-  });
+      firstName: "",
+      lastName: "",
+      password: "",
+      phoneNumber: "",
+      email: "",
+      skills: [],
+      education: [],
+      experience: [],
+      linkedIn: "",
+      resume: "",
+      profilePicture: ""
+    });
 
 
   const [image, setImage] = useState<File | null>(null);
-  const [imgLink, setImgLink] = useState<string | null>(null);
+  const [imgLink, setImgLink] = useState<string | null>(profileData.profilePicture);
 
   useEffect(() => {
     const fetchUser = async () => {
       await dispatch(profile());
     };
     fetchUser();
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (currentUser.profile) {
+      setProfileData(currentUser.profile);
+    }
+  }, [currentUser.profile])
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -84,6 +88,10 @@ const CandidateProfile: React.FC = () => {
 
   const handleUpdateProfile = async () => {
     await dispatch(updateprofile(profileData));
+    const userToken = sessionStorage.getItem('userToken');
+    if(userToken){
+      await dispatch(fetchuser({ token: userToken}))
+    }
     setIsEditing(false);
   };
 

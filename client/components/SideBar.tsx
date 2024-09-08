@@ -6,6 +6,7 @@ import {
   Button,
   Menu,
   MenuItem,
+  CircularProgress,
 } from '@mui/material';
 import { 
   Work, 
@@ -19,7 +20,7 @@ import {
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { RootState } from '@/redux/store';
-import { logOut, resetSuccess } from '@/redux/slices/AdminSlice';
+import { logout, resetSuccess } from '@/redux/slices/AdminSlice';
 import { useRouter } from 'next/navigation';
 
 interface NavItem {
@@ -55,7 +56,7 @@ const Sidebar = () => {
   }
 
   const handleLogout = async () => {
-    await dispatch(logOut())
+    await dispatch(logout())
     dispatch(resetSuccess())
     router.push("/")
     handleMenuClose()
@@ -93,9 +94,14 @@ const Sidebar = () => {
                       </Button>
                       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
                           <MenuItem onClick={handleMenuClose}>
-                              <Link href="admin/profile">Profile</Link>
+                              <Link href="/profile">Profile</Link>
                           </MenuItem>
-                          <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                          {
+                              user.isLoading ?
+                              <CircularProgress size={24} className="text-white" />
+                              :
+                              <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                          }
                       </Menu>
                   </div>
 

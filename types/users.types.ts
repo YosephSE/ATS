@@ -5,11 +5,13 @@ export interface CustomRequest extends Request {
 }
 
 export interface LoginUserPayload {
-    email?: string;
-    password?: string;
-    token?: string
+    email: string;
+    password: string;
 }
 
+export interface TokenPayload{
+    token: string
+}
 export interface RegisterUserPayload {
     firstName:string;
     lastName:string;
@@ -59,6 +61,7 @@ export interface candidateProfile {
     experience: Experience[];
     linkedIn: string;
     resume: string;
+    profilePicture: string
 }
 
 export interface UserSlice {
@@ -70,7 +73,7 @@ export interface UserSlice {
     error: string | null;
 }
 
-interface adminProfile{
+export interface adminProfile{
     firstName: string
     lastName: string
     email: string

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, RegisterUserPayload, UserSlice } from "../../../types/users.types";
+import { adminProfile, candidateProfile, LoginUserPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -17,24 +17,32 @@ export const register = createAsyncThunk(
     async (user: RegisterUserPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/register`, user);
+            sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
         }
     }
 );
+
+export const fetchuser = createAsyncThunk(
+    "user/fetchuser",
+    async (token: TokenPayload, { rejectWithValue }) => {
+        try{
+            const response = await axios.post(`${api}/candidates/status`, token)
+            return response.data
+        } catch(error: any){
+            return rejectWithValue(error.response?.data?.error || error.error);
+        }
+    }
+)
 
 export const login = createAsyncThunk(
-    "admin/login",
+    "user/login",
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
-            let response;
-            if (user.token) {
-                response = await axios.post(`${api}/candidates/login/token`, { token: user.token });
-            } else {
-                response = await axios.post(`${api}/candidates/login`, { email: user.email, password: user.password });
-            }
-            localStorage.setItem('userToken', response.data.token);
+            const response = await axios.post(`${api}/candidates/login`, user);
+            sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -42,7 +50,7 @@ export const login = createAsyncThunk(
     }
 );
 
-export const logOut = createAsyncThunk(
+export const logout = createAsyncThunk(
     "user/logout",
     async (_, { rejectWithValue }) => {
         try {
@@ -69,7 +77,7 @@ export const profile = createAsyncThunk(
 
 export const updateprofile = createAsyncThunk(
     "user/updateprofile",
-    async( user: any, { rejectWithValue }) => {
+    async( user: candidateProfile, { rejectWithValue }) => {
         try{
             const response = await axios.put(`${api}/candidates/profile`, user)
             return response.data
@@ -133,14 +141,34 @@ const userSlice = createSlice({
                 state.error = action.payload as string || "Registration failed.";
             })
 
-            //Log out
-            .addCase(logOut.pending, (state) => {
+            //Fetch User
+            .addCase(fetchuser.pending, (state) => {
                 state.isLoading = true
                 state.isError = false
                 state.isSuccess = false
                 state.error = null
             })
-            .addCase(logOut.fulfilled, (state) => {
+            .addCase(fetchuser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.loggedInUser = action.payload
+            })
+            .addCase(fetchuser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+            
+            //Log out
+            .addCase(logout.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(logout.fulfilled, (state) => {
                 state.isLoading = false
                 state.isError = false
                 state.isSuccess = true
@@ -175,12 +203,11 @@ const userSlice = createSlice({
                 state.isSuccess = false
                 state.error = null
             })
-            .addCase(updateprofile.fulfilled, (state, action) => {
+            .addCase(updateprofile.fulfilled, (state) => {
                 state.isLoading = false
                 state.isError = false
                 state.isSuccess = true
                 state.error = null
-                state.profile = action.payload
             })
             .addCase(updateprofile.rejected, (state, action) => {
                 state.isLoading = false;

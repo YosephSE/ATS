@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, ContactPayload, adminUserSlice } from "../../../types/users.types";
+import { LoginUserPayload, ContactPayload, adminUserSlice, TokenPayload } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -17,7 +17,7 @@ export const contact = createAsyncThunk(
     "admin/contact",
     async (user: ContactPayload, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${api}/admins/contact`, user);
+            const response = await axios.post(`${api}/admins/register`, user);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -25,17 +25,23 @@ export const contact = createAsyncThunk(
     }
 );
 
+export const fetchuser = createAsyncThunk(
+    "admin/fetchuser",
+    async (token: TokenPayload, { rejectWithValue }) => {
+        try{
+            const response = await axios.post(`${api}/admins/status`, token )
+            return response.data
+        } catch(error: any){
+            return rejectWithValue(error.response?.data?.error || error.error);
+        }
+    }
+)
 export const login = createAsyncThunk(
     "admin/login",
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
-            let response;
-            if (user.token) {
-                response = await axios.post(`${api}/candidates/login/token`, { token: user.token });
-            } else {
-                response = await axios.post(`${api}/candidates/login`, { email: user.email, password: user.password });
-            }
-            localStorage.setItem('userToken', response.data.token);
+            const response = await axios.post(`${api}/admins/login`, user);
+            sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -43,7 +49,7 @@ export const login = createAsyncThunk(
     }
 );
 
-export const logOut = createAsyncThunk(
+export const logout = createAsyncThunk(
     "admin/logout",
     async (_, { rejectWithValue }) => {
         try {
@@ -135,14 +141,35 @@ const adminSlice = createSlice({
                 state.error = action.payload as string || "Registration failed.";
             })
 
-            //Log out
-            .addCase(logOut.pending, (state) => {
+            //Fetch User
+            .addCase(fetchuser.pending, (state) => {
                 state.isLoading = true
                 state.isError = false
                 state.isSuccess = false
                 state.error = null
             })
-            .addCase(logOut.fulfilled, (state) => {
+            .addCase(fetchuser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.loggedInUser = action.payload
+            })
+            .addCase(fetchuser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
+
+            //Log out
+            .addCase(logout.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(logout.fulfilled, (state) => {
                 state.isLoading = false
                 state.isError = false
                 state.isSuccess = true
@@ -177,12 +204,11 @@ const adminSlice = createSlice({
                 state.isSuccess = false
                 state.error = null
             })
-            .addCase(updateprofile.fulfilled, (state, action) => {
+            .addCase(updateprofile.fulfilled, (state) => {
                 state.isLoading = false
                 state.isError = false
                 state.isSuccess = true
                 state.error = null
-                state.profile = action.payload
             })
             .addCase(updateprofile.rejected, (state, action) => {
                 state.isLoading = false;
