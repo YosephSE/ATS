@@ -1,3 +1,4 @@
+"use client"
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { myapplications } from "@/redux/slices/UserSlice";
 import { RootState } from "@/redux/store";
@@ -108,7 +109,7 @@ const ApplicationList = () => {
               </tr>
             </thead>
             <tbody>
-              {applications.map((application) => (
+              {applications?.map((application) => (
                 <tr key={application._id}>
                   <td className="p-4 border-b border-slate-200">
                     <div className="flex items-center gap-3">
