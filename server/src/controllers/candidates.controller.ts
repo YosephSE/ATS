@@ -153,10 +153,7 @@ const logoutCandidate = asyncHandler(async (req: Request, res: Response) => {
 const myApplications = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const candidateId = req.user._id;
-    console.log(candidateId);
-    const applications = await Application.find({ candidateId }).populate({
-      path: "jobId",
-    });
+    const applications = await Application.find({ candidateId: candidateId }).populate({path: 'jobId'})
     res.status(200).json(applications);
   }
 );
