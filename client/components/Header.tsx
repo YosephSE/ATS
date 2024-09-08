@@ -81,7 +81,12 @@ const Header = ({ page }: Props) => {
 
                                 }
                             </MenuItem>
-                            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                            {
+                                user.isLoading ?
+                                <CircularProgress size={24} className="text-white" />
+                                :
+                                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                            }
                         </Menu>
                     </div>
                 ) : (
