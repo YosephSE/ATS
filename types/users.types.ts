@@ -61,6 +61,7 @@ export interface candidateProfile {
     experience: Experience[];
     linkedIn: string;
     resume: string;
+    profilePicture: string
 }
 
 export interface UserSlice {
@@ -72,7 +73,7 @@ export interface UserSlice {
     error: string | null;
 }
 
-interface adminProfile{
+export interface adminProfile{
     firstName: string
     lastName: string
     email: string

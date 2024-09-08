@@ -3,30 +3,21 @@ import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/store";
 import { profile, updateprofile } from "@/redux/slices/AdminSlice";
+import { adminProfile } from "../../../types/users.types";
 
-interface ProfileData {
-  firstName: string;
-  lastName: string;
-  password: string;
-  phoneNumber: string;
-  email: string;
-  profilePicture: string;
-}
 
 const AdminProfile: React.FC = () => {
   const currentProfile = useAppSelector((state: RootState) => state.admin);
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [profileData, setProfileData] = useState<ProfileData>(
-    currentProfile.profile
-      ? { ...currentProfile.profile, password: "" }
-      : {
+  const [profileData, setProfileData] = useState<adminProfile>(
+     {
           firstName: "",
           lastName: "",
-          password: "",
           phoneNumber: "",
           email: "",
           profilePicture: "",
+          role: ""
         }
   );
 
@@ -38,7 +29,13 @@ const AdminProfile: React.FC = () => {
       await dispatch(profile());
     };
     fetchUser();
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (currentProfile.profile) {
+      setProfileData(currentProfile.profile);
+    }
+  }, [currentProfile.profile])
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -132,14 +129,6 @@ const AdminProfile: React.FC = () => {
               onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded"
               placeholder="Email"
-            />
-            <input
-              type="password"
-              name="password"
-              value={profileData.password}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded"
-              placeholder="Password"
             />
             <input
               type="file"
