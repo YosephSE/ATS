@@ -42,9 +42,9 @@ const HomePage = () => {
       </main>
 
 
-      <footer className='w-full text-center'>
+      {/* <footer className='w-full text-center'>
         <h6>@All rights reserved 2024</h6>
-      </footer>
+      </footer> */}
 
       <Modal />
     </div>

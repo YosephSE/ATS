@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button, CircularProgress, Menu, MenuItem } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { setLoginCandidate } from '@/redux/slices/ModalSlice'
@@ -54,7 +55,13 @@ const Header = ({ page }: Props) => {
     return (
         <nav className={`flex items-center justify-between px-6 py-3 border-b shadow-lg ${roles && "absolute border-none shadow-none w-full top-0"}`}>
             <Link href="/" className="flex items-center space-x-2 focus:outline-none">
-                <span className="text-xl md:text-2xl font-medium text-blue-700 hover:text-blue-800">Company{roles && <br />} Name</span>
+                <Image 
+                    src="/logo.png" 
+                    alt="Company Logo" 
+                    width={50} 
+                    height={50} 
+                    className="object-contain"
+                />
             </Link>
             <div className="flex items-center space-x-6">
                 <Link href="/candidate/jobs" className="text-base text-gray-600 hover:text-gray-800">
