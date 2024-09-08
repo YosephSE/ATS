@@ -112,6 +112,9 @@ const CandidateProfile: React.FC = () => {
       ],
     }));
   };
+  const handleupdatePassword = async () => {
+    console.log("password updated");
+  }
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -228,6 +231,20 @@ const CandidateProfile: React.FC = () => {
               name="oldpassword"
               placeholder="Confirm Password"
             />
+            <div className="flex justify-center space-x-2 mt-5">
+                  <button
+                    onClick={handleupdatePassword}  
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+                  >
+                    Update Profile
+                  </button>
+                  <button
+                    onClick={() => setPasswordEditing(false)}
+                    className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                  >
+                    Cancel
+                  </button>
+                </div>
           </div>) : null}
             
           
