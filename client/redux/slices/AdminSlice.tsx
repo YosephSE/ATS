@@ -29,7 +29,7 @@ export const fetchuser = createAsyncThunk(
     "admin/fetchuser",
     async (_, { rejectWithValue }) => {
         try{
-            const response = await axios.get(`${api}/admins/stats`)
+            const response = await axios.get(`${api}/admins/status`)
             return response.data
         } catch(error: any){
             return rejectWithValue(error.response?.data?.error || error.error);
