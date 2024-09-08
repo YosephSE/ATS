@@ -57,8 +57,11 @@ const Header = ({ page }: Props) => {
                 <span className="text-xl md:text-2xl font-medium text-blue-700 hover:text-blue-800">Company{roles && <br />} Name</span>
             </Link>
             <div className="flex items-center space-x-6">
-                <Link href="/jobs" className="text-base text-gray-600 hover:text-gray-800">
+                <Link href="/candidate/jobs" className="text-base text-gray-600 hover:text-gray-800">
                     Jobs
+                </Link>
+                <Link href="/candidate/applications" className="text-base text-gray-600 hover:text-gray-800">
+                    Applications
                 </Link>
                 <div className="h-6 w-px bg-gray-300"></div>
                 {user.loggedInUser ? (
