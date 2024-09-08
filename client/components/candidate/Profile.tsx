@@ -4,7 +4,7 @@ import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/store";
 import { candidateProfile, Education, Experience } from "../../../types/users.types"
-import { profile, updateprofile } from "@/redux/slices/UserSlice";
+import { fetchuser, profile, updateprofile } from "@/redux/slices/UserSlice";
 
 const CandidateProfile: React.FC = () => {
   const currentUser = useAppSelector((state: RootState) => state.user);
@@ -88,6 +88,10 @@ const CandidateProfile: React.FC = () => {
 
   const handleUpdateProfile = async () => {
     await dispatch(updateprofile(profileData));
+    const userToken = sessionStorage.getItem('userToken');
+    if(userToken){
+      await dispatch(fetchuser({ token: userToken}))
+    }
     setIsEditing(false);
   };
 

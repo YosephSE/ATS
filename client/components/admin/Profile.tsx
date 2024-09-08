@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/store";
-import { profile, updateprofile } from "@/redux/slices/AdminSlice";
+import { fetchuser, profile, updateprofile } from "@/redux/slices/AdminSlice";
 import { adminProfile } from "../../../types/users.types";
 
 
@@ -55,6 +55,10 @@ const AdminProfile: React.FC = () => {
 
   const handleUpdateProfile = async () => {
     await dispatch(updateprofile(profileData));
+    const userToken = sessionStorage.getItem('userToken');
+    if(userToken){
+      await dispatch(fetchuser({ token: userToken}))
+    }
     setIsEditing(false);
   };
 

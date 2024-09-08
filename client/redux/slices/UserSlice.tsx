@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
+import { adminProfile, candidateProfile, LoginUserPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -77,7 +77,7 @@ export const profile = createAsyncThunk(
 
 export const updateprofile = createAsyncThunk(
     "user/updateprofile",
-    async( user: any, { rejectWithValue }) => {
+    async( user: candidateProfile, { rejectWithValue }) => {
         try{
             const response = await axios.put(`${api}/candidates/profile`, user)
             return response.data
@@ -203,12 +203,11 @@ const userSlice = createSlice({
                 state.isSuccess = false
                 state.error = null
             })
-            .addCase(updateprofile.fulfilled, (state, action) => {
+            .addCase(updateprofile.fulfilled, (state) => {
                 state.isLoading = false
                 state.isError = false
                 state.isSuccess = true
                 state.error = null
-                state.profile = action.payload
             })
             .addCase(updateprofile.rejected, (state, action) => {
                 state.isLoading = false;

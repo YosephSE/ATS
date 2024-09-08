@@ -204,12 +204,11 @@ const adminSlice = createSlice({
                 state.isSuccess = false
                 state.error = null
             })
-            .addCase(updateprofile.fulfilled, (state, action) => {
+            .addCase(updateprofile.fulfilled, (state) => {
                 state.isLoading = false
                 state.isError = false
                 state.isSuccess = true
                 state.error = null
-                state.profile = action.payload
             })
             .addCase(updateprofile.rejected, (state, action) => {
                 state.isLoading = false;
