@@ -209,7 +209,7 @@ const CandidateProfile: React.FC = () => {
             )}
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 mt-5">
+          {passwordEditing ? (<div className="bg-white rounded-lg shadow-md p-6 mt-5">
             <input
             className="w-full px-3 py-2 border rounded mt-2"
               type="password"
@@ -228,7 +228,9 @@ const CandidateProfile: React.FC = () => {
               name="oldpassword"
               placeholder="Confirm Password"
             />
-          </div>
+          </div>) : null}
+            
+          
         </div>
         <div className="w-full md:w-2/3 order-2 md:order-none">
           <h2 className="text-2xl font-bold mb-4">User Details</h2>
