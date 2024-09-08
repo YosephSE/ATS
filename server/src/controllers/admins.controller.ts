@@ -9,7 +9,6 @@ import Application from "../models/applications";
 import Job from "../models/jobs";
 import Candidate from "../models/candidates";
 
-
 interface CustomRequest extends Request {
   user?: any;
 }
@@ -23,12 +22,13 @@ const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
     const approved = user.approved;
 
     if (isMatch && approved) {
-      await generateToken(res, user);
+      const token: any = generateToken(res, user);
       res.status(200).json({
         _id: user._id,
         name: user.firstName,
         email: user.email,
         role: user.role,
+        token,
       });
     } else {
       res.status(401);
@@ -130,6 +130,19 @@ const updateProfile = asyncHandler(
   }
 );
 
+// const verifyToken = asyncHandler(async (req: Request, res: Response) => {
+//   const token = req.cookies.auth;
+//   if (!token) {
+//     return res.json({ loggedIn: false });
+//   }
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     const user = await User.findById(decoded.userId);
+//     res.json({ loggedIn: true, user: user.name, userId: user._id, role: user.role });
+//   } catch (error) {
+//     res.json({ loggedIn: false });
+//   }
+// });
 const stats: any = asyncHandler(async (req: Request, res: Response) => {
   const totalApplications = await Application.countDocuments();
   const totalJobs = await Job.countDocuments();
@@ -159,4 +172,12 @@ const stats: any = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(stat);
 });
 
-export { loginAdmin, registerAdmin, stats, updateProfile, adminProfile, approveAdmin, adiminsToApprove };
+export {
+  loginAdmin,
+  registerAdmin,
+  stats,
+  updateProfile,
+  adminProfile,
+  approveAdmin,
+  adiminsToApprove,
+};
