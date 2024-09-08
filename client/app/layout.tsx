@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
+import LoginChecker from "./LoginChecker";
 import axios from "axios"
 export const metadata: Metadata = {
   title: "Application Tracking System",
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="">
         <StoreProvider>
-          {children}
+          <LoginChecker>
+            {children}
+          </LoginChecker>
         </StoreProvider>
       </body>
     </html>
