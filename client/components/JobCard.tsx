@@ -9,7 +9,7 @@ const JobCard = ({job}: {job: Jobs}) => {
     await dispatch(singlejob(id))
   }
   return (
-    <div onClick={()=> handleClick(job._id)} className="border gap-4 hover:cursor-pointer hover:scale-105 focus:scale-105 rounded-lg shadow-lg p-4 flex justify-between items-start w-full max-w-md">
+    <div onClick={()=> handleClick(job._id)} className=" bg-gradient-to-tl from-white from-0% via-[rgba(165,220,247,0.36)] via-55% to-[rgba(116,200,242,0.63)] to-100%  p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow border gap-4 hover:cursor-pointer hover:scale-105 focus:scale-105 z-10 flex justify-between items-start w-[350px]">
       <div className='flex flex-col gap-1'>
         <h2 className="text-lg font-semibold">{job.title}</h2>
         <p className="text-gray-600">{job.location}</p>
