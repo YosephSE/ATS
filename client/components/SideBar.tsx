@@ -94,7 +94,7 @@ const Sidebar = () => {
                       </Button>
                       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
                           <MenuItem onClick={handleMenuClose}>
-                              <Link href="/profile">Profile</Link>
+                              <Link href="/admin/profile">Profile</Link>
                           </MenuItem>
                           {
                               user.isLoading ?
