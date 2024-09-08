@@ -28,7 +28,7 @@ interface User {
     _id: string;
     name: string;
     email: string;
-    role: string;
+    role: "super admin" | "admin" | "user";
 }
 
 export interface Education {

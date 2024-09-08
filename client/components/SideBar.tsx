@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import {
   Drawer,
-  Avatar,
   IconButton,
+  Button,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import { 
   Work, 
@@ -11,10 +13,13 @@ import {
   BarChart, 
   AddBox,
   Menu as MenuIcon,
-  ExpandMore as ExpandMoreIcon,
+  ExpandMore,
 } from '@mui/icons-material';
 
 import Link from 'next/link';
+import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
+import { RootState } from '@/redux/store';
+import { logOut, resetSuccess } from '@/redux/slices/AdminSlice';
 
 interface NavItem {
   text: string;
@@ -23,7 +28,10 @@ interface NavItem {
 }
 
 const Sidebar = () => {
+  const user = useAppSelector((state: RootState) => state.admin)
+  const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const navItems: NavItem[] = [
     { text: 'All Jobs', link: "/alljobs",  icon: <Work /> },
@@ -35,6 +43,21 @@ const Sidebar = () => {
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleMenuClose = () => {
+      setAnchorEl(null)
+  }
+
+  const handleLogout = () => {
+    dispatch(logOut())
+    dispatch(resetSuccess())
+    handleMenuClose()
+  }
+
 
   return (
       <Drawer
@@ -56,11 +79,23 @@ const Sidebar = () => {
             <div className={`flex items-center w-full px-4 ${isOpen? "justify-between": "center"}` }>
               {isOpen && (
                 <>
-                  <Avatar sx={{ width: 32, height: 32 }} />
-                  <h2 className='text-base font-normal ml-4'>User Name</h2>
-                  <IconButton size="small">
-                    <ExpandMoreIcon />
-                  </IconButton>
+                  <div>
+                      <Button onClick={handleMenuOpen} className='flex items-center space-x-2'>
+                          <svg className="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                              <circle cx="12" cy="7" r="4"></circle>
+                          </svg>
+                          <span>{user.loggedInUser?.name}</span>
+                          <ExpandMore />
+                      </Button>
+                      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                          <MenuItem onClick={handleMenuClose}>
+                              <Link href="admin/profile">Profile</Link>
+                          </MenuItem>
+                          <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                      </Menu>
+                  </div>
+
                 </>
               )}
               <IconButton onClick={toggleDrawer} sx={{ textAlign: 'center', ml: isOpen ? 'auto' : 0 }}>
