@@ -198,7 +198,7 @@ const changePassword = asyncHandler(
       if (isMatch) {
         const hashedNewPassword = await bcrypt.hash(newPassword, salt);
         await Candidate.findByIdAndUpdate(id, {
-          hashedNewPassword: hashedNewPassword,
+          password: hashedNewPassword,
         });
       }
     }
