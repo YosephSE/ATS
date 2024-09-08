@@ -9,6 +9,9 @@ export interface LoginUserPayload {
     password: string;
 }
 
+export interface TokenPayload{
+    token: string
+}
 export interface RegisterUserPayload {
     firstName:string;
     lastName:string;

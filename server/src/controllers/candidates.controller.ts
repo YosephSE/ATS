@@ -176,7 +176,7 @@ const status: any = asyncHandler(async (req: Request, res: Response) => {
     res.json({
       id: candidate?._id,
       role: "user",
-      firstName: candidate?.firstName,
+      name: candidate?.firstName,
       email: candidate?.email,
     });
   } catch (error) {

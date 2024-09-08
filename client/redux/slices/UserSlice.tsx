@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, RegisterUserPayload, UserSlice } from "../../../types/users.types";
+import { LoginUserPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -17,6 +17,7 @@ export const register = createAsyncThunk(
     async (user: RegisterUserPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/register`, user);
+            sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -26,9 +27,9 @@ export const register = createAsyncThunk(
 
 export const fetchuser = createAsyncThunk(
     "user/fetchuser",
-    async (_, { rejectWithValue }) => {
+    async (token: TokenPayload, { rejectWithValue }) => {
         try{
-            const response = await axios.get(`${api}/candidates/status`)
+            const response = await axios.post(`${api}/candidates/status`, token)
             return response.data
         } catch(error: any){
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -41,6 +42,7 @@ export const login = createAsyncThunk(
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/login`, user);
+            sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, ContactPayload, adminUserSlice } from "../../../types/users.types";
+import { LoginUserPayload, ContactPayload, adminUserSlice, TokenPayload } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -27,9 +27,9 @@ export const contact = createAsyncThunk(
 
 export const fetchuser = createAsyncThunk(
     "admin/fetchuser",
-    async (_, { rejectWithValue }) => {
+    async (token: TokenPayload, { rejectWithValue }) => {
         try{
-            const response = await axios.get(`${api}/admins/status`)
+            const response = await axios.post(`${api}/admins/status`, token )
             return response.data
         } catch(error: any){
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -41,7 +41,7 @@ export const login = createAsyncThunk(
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/admins/login`, user);
-            localStorage.setItem('userToken', response.data.token);
+            sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
