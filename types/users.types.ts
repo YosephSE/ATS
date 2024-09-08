@@ -80,7 +80,7 @@ export interface Applications {
 
 export interface UserSlice {
     loggedInUser: User | null;
-    applications: Applications[] | null
+    applications: Applications[]
     profile: candidateProfile | null
     isLoading: boolean;
     isError: boolean;
