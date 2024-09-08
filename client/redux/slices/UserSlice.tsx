@@ -24,8 +24,20 @@ export const register = createAsyncThunk(
     }
 );
 
+export const fetchuser = createAsyncThunk(
+    "user/fetchuser",
+    async (_, { rejectWithValue }) => {
+        try{
+            const response = await axios.get(`${api}/candidates/status`)
+            return response.data
+        } catch(error: any){
+            return rejectWithValue(error.response?.data?.error || error.error);
+        }
+    }
+)
+
 export const login = createAsyncThunk(
-    "admin/login",
+    "user/login",
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/login`, user);
@@ -127,6 +139,26 @@ const userSlice = createSlice({
                 state.error = action.payload as string || "Registration failed.";
             })
 
+            //Fetch User
+            .addCase(fetchuser.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(fetchuser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.loggedInUser = action.payload
+            })
+            .addCase(fetchuser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+            
             //Log out
             .addCase(logOut.pending, (state) => {
                 state.isLoading = true

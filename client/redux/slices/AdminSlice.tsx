@@ -40,7 +40,7 @@ export const login = createAsyncThunk(
     "admin/login",
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${api}/candidates/login`, user);
+            const response = await axios.post(`${api}/admins/login`, user);
             localStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
