@@ -193,4 +193,5 @@ export {
   loginCandidate,
   logoutCandidate,
   myApplications,
+  status,
 };
