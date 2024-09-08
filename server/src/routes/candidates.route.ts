@@ -22,16 +22,26 @@ router.post("/login", loginCandidate);
 
 router.post("/logout", logoutCandidate);
 
-router.get("/", allCandidates);
+router.get(
+  "/",
+  verifyToken,
+  adminAuthorize(["admin", "super admin"]),
+  allCandidates
+);
 
-router.get("/profile", candidateProfile);
+router.get("/profile", verifyToken, candidateProfile);
 
-router.get("/applications", myApplications);
+router.get("/applications", verifyToken, myApplications);
 
-router.get("/:id", singleCandidate);
+router.get(
+  "/:id",
+  verifyToken,
+  adminAuthorize(["admin", "super admin"]),
+  singleCandidate
+);
 
-router.put("/profile", updateProfile);
+router.put("/profile", verifyToken, updateProfile);
 
-router.delete("/profile", deleteProfile);
+router.delete("/profile", verifyToken, deleteProfile);
 
 export default router;

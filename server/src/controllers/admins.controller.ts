@@ -8,7 +8,7 @@ import sendPasswordEmail from "../utils/mailSender";
 import Application from "../models/applications";
 import Job from "../models/jobs";
 import Candidate from "../models/candidates";
-import mongoose from "mongoose";
+
 
 interface CustomRequest extends Request {
   user?: any;
@@ -97,8 +97,8 @@ const approveAdmin = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const adminProfile = asyncHandler(async (req: CustomRequest, res: Response) => {
-  // const id = req.user._id;
-  const id = new mongoose.Types.ObjectId("66daeb6210c8a0a5a62474d6");
+  const id = req.user._id;
+  // const id = new mongoose.Types.ObjectId("66daeb6210c8a0a5a62474d6");
   const admin = await Admin.findById(id).select("-password");
   if (!admin) {
     const error = new Error();
@@ -110,8 +110,8 @@ const adminProfile = asyncHandler(async (req: CustomRequest, res: Response) => {
 
 const updateProfile = asyncHandler(
   async (req: CustomRequest, res: Response) => {
-    // const id = req.user._id;
-    const id = new mongoose.Types.ObjectId("66daeb6210c8a0a5a62474d6");
+    const id = req.user._id;
+    // const id = new mongoose.Types.ObjectId("66daeb6210c8a0a5a62474d6");
     if (!req.body || Object.keys(req.body).length === 0) {
       const error = new Error("Request body is missing");
       (error as any).status = 400;
