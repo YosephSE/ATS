@@ -85,12 +85,13 @@ const loginCandidate = asyncHandler(async (req: Request, res: Response) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
-      generateToken(res, user);
+      const token = generateToken(res, user);
       res.status(200).json({
         _id: user._id,
         name: user.firstName,
         email: user.email,
         role: "user",
+        token,
       });
     } else {
       res.status(401);
@@ -122,12 +123,13 @@ const registerCandidate = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (user) {
-    generateToken(res, user);
+    const token: any = generateToken(res, user);
     res.status(201).json({
       _id: user._id,
       name: user.firstName,
       email: user.email,
       role: "user",
+      token,
     });
   } else {
     res.status(400);
@@ -140,7 +142,7 @@ const logoutCandidate = asyncHandler(async (req: Request, res: Response) => {
     httpOnly: true,
     expires: new Date(0),
     secure: env === "production",
-    sameSite: env === "production"? "none": "strict",
+    sameSite: env === "production" ? "none" : "strict",
   });
   res.status(200).json({ message: "User LoggedOut Successfully" });
 });

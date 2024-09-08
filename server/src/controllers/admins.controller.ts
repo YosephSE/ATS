@@ -22,7 +22,7 @@ const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
     const approved = user.approved;
 
     if (isMatch && approved) {
-      const token = generateToken(res, user);
+      const token: any = generateToken(res, user);
       res.status(200).json({
         _id: user._id,
         name: user.firstName,
