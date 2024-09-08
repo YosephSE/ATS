@@ -6,6 +6,7 @@ import api from "../api";
 
 const initialState: adminUserSlice = {
     loggedInUser: null,
+    admins: [],
     profile: null,
     isLoading: false,
     isError: false,
@@ -86,6 +87,19 @@ export const updateprofile = createAsyncThunk(
         }
     }
 )
+
+export const admins = createAsyncThunk(
+    "admin/admins",
+    async(_, { rejectWithValue }) => {
+        try{
+            const response = await axios.get(`${api}/admins/adminsToApprove`)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
+
 
 const adminSlice = createSlice({
     name: "admin",
@@ -215,6 +229,27 @@ const adminSlice = createSlice({
                 state.isError = true;
                 state.error = action.payload as string || "Registration failed.";
             })
+            
+            // Admins to Approve
+            .addCase(admins.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(admins.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.admins = action.payload
+            })
+            .addCase(admins.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
     },
 });
 

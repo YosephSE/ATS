@@ -88,6 +88,16 @@ export interface UserSlice {
     error: string | null;
 }
 
+export interface admin {
+    _id: string
+    firstName: string,
+    lastName: string,
+    email: string,
+    phoneNumber: "0987654321"
+    approved: boolean
+    firstTime: boolean
+}
+
 export interface adminProfile{
     firstName: string
     lastName: string
@@ -98,6 +108,7 @@ export interface adminProfile{
 }
 export interface adminUserSlice {
     loggedInUser: User | null;
+    admins: admin[]
     profile: adminProfile | null
     isLoading: boolean;
     isError: boolean;
