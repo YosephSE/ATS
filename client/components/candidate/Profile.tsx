@@ -114,7 +114,7 @@ const CandidateProfile: React.FC = () => {
   };
   const handleupdatePassword = async () => {
     console.log("password updated");
-  }
+  };
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -169,23 +169,35 @@ const CandidateProfile: React.FC = () => {
             </p>
 
             {!isEditing ? (
-              <div className="flex justify-center space-x-2">
+              <div className="flex flex-col items-center space-y-2">
+              {/* First Button - Full Width */}
+              <div className="w-full">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
                 >
                   Edit Profile
                 </button>
-                <button
-                  onClick={() => setPasswordEditing(true)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
-                >
-                  Update Password
-                </button>
-                <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
-                  Delete
-                </button>
               </div>
+              
+              {/* Second Row - Two Buttons Half Width */}
+              <div className="flex justify-center space-x-2 w-full">
+                <div className="w-1/2">
+                  <button
+                    onClick={() => setPasswordEditing(true)}
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  >
+                    Update Password
+                  </button>
+                </div>
+                <div className="w-1/2">
+                  <button className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+            
             ) : (
               <div className="space-y-4">
                 <input
@@ -212,42 +224,42 @@ const CandidateProfile: React.FC = () => {
             )}
           </div>
 
-          {passwordEditing ? (<div className="bg-white rounded-lg shadow-md p-6 mt-5">
-            <input
-            className="w-full px-3 py-2 border rounded mt-2"
-              type="password"
-              name="oldpassword"
-              placeholder="Old Password"
-            />
-            <input
-            className="w-full px-3 py-2 border rounded mt-4"
-              type="password"
-              name="oldpassword"
-              placeholder="New Password"
-            />
-            <input
-            className="w-full px-3 py-2 border rounded mt-4"
-              type="password"
-              name="oldpassword"
-              placeholder="Confirm Password"
-            />
-            <div className="flex justify-center space-x-2 mt-5">
-                  <button
-                    onClick={handleupdatePassword}  
-                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
-                  >
-                    Update Profile
-                  </button>
-                  <button
-                    onClick={() => setPasswordEditing(false)}
-                    className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
-                  >
-                    Cancel
-                  </button>
-                </div>
-          </div>) : null}
-            
-          
+          {passwordEditing ? (
+            <div className="bg-white rounded-lg shadow-md p-6 mt-5">
+              <input
+                className="w-full px-3 py-2 border rounded mt-2"
+                type="password"
+                name="oldpassword"
+                placeholder="Old Password"
+              />
+              <input
+                className="w-full px-3 py-2 border rounded mt-4"
+                type="password"
+                name="oldpassword"
+                placeholder="New Password"
+              />
+              <input
+                className="w-full px-3 py-2 border rounded mt-4"
+                type="password"
+                name="oldpassword"
+                placeholder="Confirm Password"
+              />
+              <div className="flex justify-center space-x-2 mt-5">
+                <button
+                  onClick={handleupdatePassword}
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+                >
+                  Update Profile
+                </button>
+                <button
+                  onClick={() => setPasswordEditing(false)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : null}
         </div>
         <div className="w-full md:w-2/3 order-2 md:order-none">
           <h2 className="text-2xl font-bold mb-4">User Details</h2>
