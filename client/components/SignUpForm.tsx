@@ -52,7 +52,7 @@ const SignUpForm = () => {
     useEffect(() => {
         if (currentState.isSuccess){
             dispatch(setClosed())
-            router.push('/jobs')
+            router.push('/candidate/jobs')
             dispatch(resetSuccess())
         }else if (currentState.isError){
             setError(currentState.error)
