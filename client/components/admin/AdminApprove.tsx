@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { admin } from "../../../types/users.types";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/store";
-import { admins } from "@/redux/slices/AdminSlice";
+import { admins, approve } from "@/redux/slices/AdminSlice";
 
 const AdminApprove = () => {
   const [applications, setApplications] = useState<admin[]>([]);
@@ -21,9 +21,9 @@ const AdminApprove = () => {
 
   useEffect(() => {
     setApplications(adminsState.admins)
-  })
-  
-  const handleToggle = (id: string) => {
+  }, [dispatch])
+
+  const handleToggle = async(id: string) => {
     setApplications((prevApplications) =>
       prevApplications.map((application) =>
         application._id === id
@@ -31,6 +31,7 @@ const AdminApprove = () => {
           : application
       )
     );
+    await dispatch(approve(id))
   };
 
   return (
