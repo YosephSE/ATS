@@ -5,6 +5,7 @@ import api from "../api";
 
 const initialState: UserSlice = {
     loggedInUser: null,
+    applications: null,
     profile: null,
     isLoading: false,
     isError: false,

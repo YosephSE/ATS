@@ -64,8 +64,26 @@ export interface candidateProfile {
     profilePicture: string
 }
 
+
+interface MyJob{
+    _id: string,
+    jobId: {
+      title: string,
+      type: string,
+      location: string,
+      department: string,
+      status: "pending"| "approved"| "rejected",
+    }
+}
+
+export interface Applications {
+    _id: string,
+    jobId: MyJob
+}
+
 export interface UserSlice {
     loggedInUser: User | null;
+    applications: Applications[] | null
     profile: candidateProfile | null
     isLoading: boolean;
     isError: boolean;
