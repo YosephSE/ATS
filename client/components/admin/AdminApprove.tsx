@@ -1,21 +1,28 @@
 "use client";
 import { Switch } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { admin } from "../../../types/users.types";
+import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
+import { RootState } from "@/redux/store";
+import { admins } from "@/redux/slices/AdminSlice";
 
 const AdminApprove = () => {
-  // Initial data for applications
-  const [applications, setApplications] = useState([
-    {
-      _id: "66d868f97144b4a6e5b9dd7f",
-      firstName: "Yoseph",
-      lastName: "Kedir",
-      email: "yoseph.1kedir10@gmail.com",
-      phoneNumber: "0987654321",
-      approved: false,
-    },
-  ]);
+  const [applications, setApplications] = useState<admin[]>([]);
+  const adminsState = useAppSelector((state: RootState) => state.admin)
+  const dispatch = useAppDispatch()
 
-  // Handler to toggle the approved status
+  useEffect(() => {
+    const fetchUsers = async() => [
+      await dispatch(admins())
+    ]
+
+    fetchUsers()
+  }, [])
+
+  useEffect(() => {
+    setApplications(adminsState.admins)
+  })
+  
   const handleToggle = (id: string) => {
     setApplications((prevApplications) =>
       prevApplications.map((application) =>
