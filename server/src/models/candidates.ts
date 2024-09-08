@@ -1,3 +1,4 @@
+import { profile } from "console";
 import { Schema, model } from "mongoose";
 
 const candidateSchema = new Schema({
@@ -21,6 +22,9 @@ const candidateSchema = new Schema({
     required: true,
   },
   phoneNumber: {
+    type: String,
+  },
+  profilePicture: {
     type: String,
   },
   resume: {
