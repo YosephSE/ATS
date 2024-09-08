@@ -34,10 +34,10 @@ const Sidebar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const navItems: NavItem[] = [
-    { text: 'All Jobs', link: "/alljobs",  icon: <Work /> },
-    { text: 'All Applications', link: "/allapplications", icon: <Description /> },
-    { text: 'Statistics', link:"/statistics", icon: <BarChart /> },
-    { text: 'Add Jobs', link: "/postjob", icon: <AddBox /> },
+    { text: 'All Jobs', link: "/admin/alljobs",  icon: <Work /> },
+    { text: 'All Applications', link: "/admin/allapplications", icon: <Description /> },
+    { text: 'Statistics', link:"/admin/statistics", icon: <BarChart /> },
+    { text: 'Add Jobs', link: "/admin/postjob", icon: <AddBox /> },
   ];
 
   const toggleDrawer = () => {
