@@ -58,7 +58,7 @@ const Header = ({ page }: Props) => {
                 <Image 
                     src="/logo.png" 
                     alt="Company Logo" 
-                    width={150} 
+                    width={50} 
                     height={50} 
                     className="object-contain"
                 />
