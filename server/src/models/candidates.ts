@@ -1,3 +1,4 @@
+import { profile } from "console";
 import { Schema, model } from "mongoose";
 
 const candidateSchema = new Schema({
@@ -27,6 +28,9 @@ const candidateSchema = new Schema({
     type: String,
   },
   linkedIn: {
+    type: String,
+  },
+  profilePicture: {
     type: String,
   },
   education: [
