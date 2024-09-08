@@ -137,7 +137,6 @@ const updateProfile = asyncHandler(
 
 const status: any = asyncHandler(async (req: Request, res: Response) => {
   const token = req.body.token;
-  // console.log(token);
 
   if (!token) {
     res.json({ loggedIn: false });
