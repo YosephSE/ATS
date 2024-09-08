@@ -1,4 +1,4 @@
-import { profile } from "console";
+
 import { Schema, model } from "mongoose";
 
 const candidateSchema = new Schema({
