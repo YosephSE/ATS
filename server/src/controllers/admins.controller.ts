@@ -190,20 +190,29 @@ const changePassword = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const id = req.user._id;
     const { oldPassword, newPassword } = req.body;
+
     const admin = await Admin.findById(id);
-    if (admin) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedOldPassword = await bcrypt.hash(oldPassword, salt);
-      const isMatch = admin.password
-        ? await bcrypt.compare(hashedOldPassword, admin.password)
-        : false;
-      if (isMatch) {
-        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
-        await Admin.findByIdAndUpdate(id, {
-          password: hashedNewPassword,
-        });
-      }
+
+    if (!admin) {
+      res.status(404).json({ message: "Admin not found" });
+      return;
     }
+
+    const isMatch = admin.password
+      ? await bcrypt.compare(oldPassword, admin.password)
+      : false;
+
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid old password" });
+      return;
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    admin.password = hashedNewPassword;
+    await admin.save();
+
+    res.status(200).json({ message: "Password changed successfully" });
   }
 );
 
