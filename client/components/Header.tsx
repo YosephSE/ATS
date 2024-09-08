@@ -75,9 +75,9 @@ const Header = ({ page }: Props) => {
                             <MenuItem onClick={handleMenuClose}>
                                 {
                                     user.loggedInUser.role === "user" ?
-                                        <Link href="candidate/profile">Profile</Link>
+                                        <Link href="../candidate/profile">Profile</Link>
                                     :
-                                        <Link href="admin/profile">Profile</Link>
+                                        <Link href="../admin/profile">Profile</Link>
 
                                 }
                             </MenuItem>
