@@ -100,6 +100,18 @@ export const admins = createAsyncThunk(
     }
 )
 
+export const approve = createAsyncThunk(
+    "admin/approve",
+    async(id: string, { rejectWithValue }) => {
+        try{
+            const response = await axios.post(`${api}/admins/approve/${id}`)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
+
 
 const adminSlice = createSlice({
     name: "admin",
@@ -245,6 +257,25 @@ const adminSlice = createSlice({
                 state.admins = action.payload
             })
             .addCase(admins.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
+            //Approve admin
+            .addCase(approve.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(approve.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+            })
+            .addCase(approve.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.payload as string || "Registration failed.";
