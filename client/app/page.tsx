@@ -22,14 +22,13 @@ const HomePage = () => {
           <div className="w-full mt-8 md:w-1/2 flex justify-center items-center">
             <div className="relative w-40 h-40 md:w-80 md:h-80 lg:w-96 lg:h-96">
               <div className="absolute inset-0 rounded-full"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-  <rect width="200" height="200" fill="#E6F3FF"/>
-  <circle cx="100" cy="100" r="80" fill="#FFFFFF" stroke="#4285F4" stroke-width="4"/>
-  <path d="M70 70 L130 130 M130 70 L70 130" stroke="#4285F4" stroke-width="8" stroke-linecap="round"/>
-  <rect x="85" y="50" width="30" height="40" fill="#4285F4" rx="5"/>
-  <circle cx="100" cy="30" r="15" fill="#4285F4"/>
-  <path d="M60 140 Q100 180 140 140" stroke="#4285F4" stroke-width="4" fill="none"/>
-</svg>
+              <Image
+                src="/HomePage.jpg"
+                alt="Camera equipment"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              />
               <svg className="absolute -top-4 -left-4 text-yellow-400" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
               </svg>
