@@ -20,6 +20,7 @@ import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { RootState } from '@/redux/store';
 import { logOut, resetSuccess } from '@/redux/slices/AdminSlice';
+import { useRouter } from 'next/navigation';
 
 interface NavItem {
   text: string;
@@ -30,6 +31,7 @@ interface NavItem {
 const Sidebar = () => {
   const user = useAppSelector((state: RootState) => state.admin)
   const dispatch = useAppDispatch()
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -52,9 +54,10 @@ const Sidebar = () => {
       setAnchorEl(null)
   }
 
-  const handleLogout = () => {
-    dispatch(logOut())
+  const handleLogout = async () => {
+    await dispatch(logOut())
     dispatch(resetSuccess())
+    router.push("/")
     handleMenuClose()
   }
 
