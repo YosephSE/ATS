@@ -16,5 +16,5 @@ export const countries: CountryData[] = [
     { code: "RU", dialCode: "+7", name: "Russia", flag: "🇷🇺" },
     { code: "AU", dialCode: "+61", name: "Australia", flag: "🇦🇺" },
     { code: "CN", dialCode: "+86", name: "China", flag: "🇨🇳" },
-    // Add more countries as needed
+    { code: "ET", dialCode: "+251", name: "Ethiopia", flag: "🇪🇹" },
   ];
