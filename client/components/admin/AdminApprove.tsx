@@ -1,4 +1,5 @@
 "use client";
+import { Switch } from "@mui/material";
 import React, { useState } from "react";
 
 const AdminApprove = () => {
@@ -66,27 +67,12 @@ const AdminApprove = () => {
                     {application.phoneNumber}
                   </td>
                   <td className="p-4 border-b border-slate-200">
-                    {/* Toggle Switch for Approved */}
                     <label className="flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
+                    <Switch 
+                        color="primary" 
                         checked={application.approved}
                         onChange={() => handleToggle(application._id)}
-                        className="sr-only"
                       />
-                      <div
-                        className={`w-10 h-6 rounded-full ${
-                          application.approved ? "bg-green-500" : "bg-gray-300"
-                        } flex items-center`}
-                      >
-                        <div
-                          className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
-                            application.approved
-                              ? "translate-x-4"
-                              : "translate-x-1"
-                          }`}
-                        ></div>
-                      </div>
                     </label>
                   </td>
                   <td className="p-4 border-b border-slate-200">
