@@ -158,6 +158,7 @@ const status: any = asyncHandler(async (req: Request, res: Response) => {
       role: admin?.role,
       name: admin?.firstName,
       email: admin?.email,
+      firstTime: admin?.firstTime
     });
   } catch (error) {
     res.json({ loggedIn: false, message: jwtsecret! });
