@@ -28,13 +28,7 @@ export const login = createAsyncThunk(
     "admin/login",
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
-            let response;
-            if (user.token) {
-                response = await axios.post(`${api}/candidates/login/token`, { token: user.token });
-            } else {
-                response = await axios.post(`${api}/candidates/login`, { email: user.email, password: user.password });
-            }
-            localStorage.setItem('userToken', response.data.token);
+            const response = await axios.post(`${api}/candidates/login`, user);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
