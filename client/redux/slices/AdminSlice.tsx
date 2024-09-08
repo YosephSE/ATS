@@ -41,7 +41,7 @@ export const login = createAsyncThunk(
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/admins/login`, user);
-            sessionStorage.setItem('userToken', response.data.token);
+            sessionStorage.setItem('adminToken', response.data.token);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -54,7 +54,7 @@ export const logout = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/logout`);
-            localStorage.removeItem('adminToken')
+            sessionStorage.removeItem('adminToken')
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
