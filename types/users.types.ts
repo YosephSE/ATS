@@ -66,19 +66,16 @@ export interface candidateProfile {
 
 
 interface MyJob{
-    _id: string,
-    jobId: {
-      title: string,
-      type: string,
-      location: string,
-      department: string,
-      status: "pending"| "approved"| "rejected",
-    }
+    title: string,
+    type: string,
+    location: string,
+    department: string,
 }
 
 export interface Applications {
     _id: string,
-    jobId: MyJob
+    jobId: MyJob,
+    status: "pending"| "approved"| "rejected",
 }
 
 export interface UserSlice {
