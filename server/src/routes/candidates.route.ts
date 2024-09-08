@@ -9,6 +9,7 @@ import {
   candidateProfile,
   myApplications,
   status,
+  changePassword,
 } from "../controllers/candidates.controller";
 
 import { Router } from "express";
@@ -46,5 +47,7 @@ router.put("/profile", verifyToken, updateProfile);
 router.delete("/profile", verifyToken, deleteProfile);
 
 router.post("/status", status);
+
+router.post("changepassword", verifyToken, changePassword);
 
 export default router;

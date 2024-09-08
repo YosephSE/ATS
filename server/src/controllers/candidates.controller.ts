@@ -153,7 +153,9 @@ const logoutCandidate = asyncHandler(async (req: Request, res: Response) => {
 const myApplications = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const candidateId = req.user._id;
-    const applications = await Application.find({ candidateId: candidateId }).populate({path: 'jobId'})
+    const applications = await Application.find({
+      candidateId: candidateId,
+    }).populate({ path: "jobId" });
     res.status(200).json(applications);
   }
 );
@@ -180,6 +182,28 @@ const status: any = asyncHandler(async (req: Request, res: Response) => {
     res.json({ loggedIn: false, message: jwtsecret! });
   }
 });
+
+const changePassword = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const id = req.user._id;
+    const { oldPassword, newPassword } = req.body;
+    const candidate = await Candidate.findById(id);
+    if (candidate) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedOldPassword = await bcrypt.hash(oldPassword, salt);
+      const isMatch = await bcrypt.compare(
+        hashedOldPassword,
+        candidate.password
+      );
+      if (isMatch) {
+        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+        await Candidate.findByIdAndUpdate(id, {
+          hashedNewPassword: hashedNewPassword,
+        });
+      }
+    }
+  }
+);
 export {
   allCandidates,
   singleCandidate,
@@ -191,4 +215,5 @@ export {
   logoutCandidate,
   myApplications,
   status,
+  changePassword,
 };
