@@ -10,7 +10,7 @@ import { logout, resetSuccess } from '@/redux/slices/UserSlice'
 import { ExpandMore } from '@mui/icons-material'
 
 interface Props {
-    page: "home" | "roles"
+    page?: "home" | "roles"
 }
 
 const Header = ({ page }: Props) => {
