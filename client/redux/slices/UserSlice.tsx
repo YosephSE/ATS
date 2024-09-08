@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { adminProfile, candidateProfile, LoginUserPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
+import { candidateProfile, LoginUserPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
 const initialState: UserSlice = {
     loggedInUser: null,
+    applications: [],
     profile: null,
     isLoading: false,
     isError: false,
@@ -55,7 +56,7 @@ export const logout = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/logout`);
-            localStorage.removeItem('userToken')
+            sessionStorage.removeItem('userToken')
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -83,6 +84,18 @@ export const updateprofile = createAsyncThunk(
             return response.data
         } catch(error: any) {
             return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
+
+export const myapplications =createAsyncThunk(
+    "user/myapplications",
+    async(_, { rejectWithValue }) => {
+        try{
+            const response = await axios.get(`${api}/candidates/applications`)
+            return response.data
+        } catch(error: any){
+            rejectWithValue(error.response?.data?.error || error.error)
         }
     }
 )
@@ -210,6 +223,26 @@ const userSlice = createSlice({
                 state.error = null
             })
             .addCase(updateprofile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
+            //My Applications
+            .addCase(myapplications.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(myapplications.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.applications = action.payload
+            })
+            .addCase(myapplications.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.payload as string || "Registration failed.";

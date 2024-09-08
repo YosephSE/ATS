@@ -1,21 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import { Switch } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { admin } from "../../../types/users.types";
+import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
+import { RootState } from "@/redux/store";
+import { admins, approve } from "@/redux/slices/AdminSlice";
 
 const AdminApprove = () => {
-  // Initial data for applications
-  const [applications, setApplications] = useState([
-    {
-      _id: "66d868f97144b4a6e5b9dd7f",
-      firstName: "Yoseph",
-      lastName: "Kedir",
-      email: "yoseph.1kedir10@gmail.com",
-      phoneNumber: "0987654321",
-      approved: false,
-    },
-  ]);
+  const [applications, setApplications] = useState<admin[]>([]);
+  const adminsState = useAppSelector((state: RootState) => state.admin)
+  const dispatch = useAppDispatch()
 
-  // Handler to toggle the approved status
-  const handleToggle = (id: string) => {
+  useEffect(() => {
+    const fetchUsers = async() => [
+      await dispatch(admins())
+    ]
+
+    fetchUsers()
+  }, [])
+
+  useEffect(() => {
+    setApplications(adminsState.admins)
+  }, [dispatch])
+
+  const handleToggle = async(id: string) => {
     setApplications((prevApplications) =>
       prevApplications.map((application) =>
         application._id === id
@@ -23,6 +31,7 @@ const AdminApprove = () => {
           : application
       )
     );
+    await dispatch(approve(id))
   };
 
   return (
@@ -66,27 +75,12 @@ const AdminApprove = () => {
                     {application.phoneNumber}
                   </td>
                   <td className="p-4 border-b border-slate-200">
-                    {/* Toggle Switch for Approved */}
                     <label className="flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
+                    <Switch 
+                        color="primary" 
                         checked={application.approved}
                         onChange={() => handleToggle(application._id)}
-                        className="sr-only"
                       />
-                      <div
-                        className={`w-10 h-6 rounded-full ${
-                          application.approved ? "bg-green-500" : "bg-gray-300"
-                        } flex items-center`}
-                      >
-                        <div
-                          className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
-                            application.approved
-                              ? "translate-x-4"
-                              : "translate-x-1"
-                          }`}
-                        ></div>
-                      </div>
                     </label>
                   </td>
                   <td className="p-4 border-b border-slate-200">

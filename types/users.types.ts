@@ -64,13 +64,38 @@ export interface candidateProfile {
     profilePicture: string
 }
 
+
+interface MyJob{
+    title: string,
+    type: string,
+    location: string,
+    department: string,
+}
+
+export interface Applications {
+    _id: string,
+    jobId: MyJob,
+    status: "pending"| "approved"| "rejected",
+}
+
 export interface UserSlice {
     loggedInUser: User | null;
+    applications: Applications[]
     profile: candidateProfile | null
     isLoading: boolean;
     isError: boolean;
     isSuccess: boolean;
     error: string | null;
+}
+
+export interface admin {
+    _id: string
+    firstName: string,
+    lastName: string,
+    email: string,
+    phoneNumber: "0987654321"
+    approved: boolean
+    firstTime: boolean
 }
 
 export interface adminProfile{
@@ -83,6 +108,7 @@ export interface adminProfile{
 }
 export interface adminUserSlice {
     loggedInUser: User | null;
+    admins: admin[]
     profile: adminProfile | null
     isLoading: boolean;
     isError: boolean;

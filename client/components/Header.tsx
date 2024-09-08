@@ -10,7 +10,7 @@ import { logout, resetSuccess } from '@/redux/slices/UserSlice'
 import { ExpandMore } from '@mui/icons-material'
 
 interface Props {
-    page: "home" | "roles"
+    page?: "home" | "roles"
 }
 
 const Header = ({ page }: Props) => {
@@ -52,7 +52,7 @@ const Header = ({ page }: Props) => {
     }
 
     return (
-        <nav className={`flex items-center justify-between px-6 py-3 ${home && "border-b shadow-lg"} ${roles && "absolute w-full top-0"}`}>
+        <nav className={`flex items-center justify-between px-6 py-3 border-b shadow-lg ${roles && "absolute border-none shadow-none w-full top-0"}`}>
             <Link href="/" className="flex items-center space-x-2 focus:outline-none">
                 <span className="text-xl md:text-2xl font-medium text-blue-700 hover:text-blue-800">Company{roles && <br />} Name</span>
             </Link>
