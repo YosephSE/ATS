@@ -48,6 +48,6 @@ router.delete("/profile", verifyToken, deleteProfile);
 
 router.post("/status", status);
 
-router.post("changepassword", verifyToken, changePassword);
+router.post("/changepassword", verifyToken, changePassword);
 
 export default router;
