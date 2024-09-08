@@ -15,7 +15,7 @@ const SingleJob = () => {
     return (
         <div className='w-full'>
             <Card className="mb-4">
-                <CardContent>
+                <CardContent className='rounded-lg shadow-lg'>
                 <div className="flex justify-between items-start">
                     <div className="flex items-start gap-2 flex-col">
                         <h1 className="text-2xl font-bold">
@@ -64,7 +64,7 @@ const SingleJob = () => {
                 </CardContent>
             </Card>
 
-            <Card>
+            <Card className='rounded-lg shadow-lg'>
                 <CardContent>
                 <h2 className="text-lg font-semibold">
                     Salary Range
