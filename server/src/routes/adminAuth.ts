@@ -8,6 +8,7 @@ import {
   stats,
   status,
   updateProfile,
+  changePassword,
 } from "../controllers/admins.controller";
 import verifyToken from "../middleware/verifyToken";
 import adminAuthorize from "../middleware/adminAuthorize";
@@ -44,5 +45,7 @@ router.post("/approve/:id", approveAdmin);
 router.get("/adminsToApprove", adminsToApprove);
 
 router.post("/status", status);
+
+router.post("/changepassword", verifyToken, changePassword);
 
 export default router;

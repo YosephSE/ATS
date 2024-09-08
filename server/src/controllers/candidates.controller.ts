@@ -153,7 +153,9 @@ const logoutCandidate = asyncHandler(async (req: Request, res: Response) => {
 const myApplications = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const candidateId = req.user._id;
-    const applications = await Application.find({ candidateId: candidateId }).populate({path: 'jobId'})
+    const applications = await Application.find({
+      candidateId: candidateId,
+    }).populate({ path: "jobId" });
     res.status(200).json(applications);
   }
 );
@@ -180,6 +182,38 @@ const status: any = asyncHandler(async (req: Request, res: Response) => {
     res.json({ loggedIn: false, message: jwtsecret! });
   }
 });
+
+const changePassword = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const id = req.user._id;
+    const { oldPassword, newPassword } = req.body;
+
+    
+    const candidate = await Candidate.findById(id);
+    if (!candidate) {
+      res.status(404).json({ message: "Candidate not found" });
+      return;
+    }
+
+    
+    const isMatch = await bcrypt.compare(oldPassword, candidate.password);
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid old password" });
+      return;
+    }
+
+    
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+  
+    candidate.password = hashedNewPassword;
+    await candidate.save();
+
+    res.status(200).json({ message: "Password changed successfully" });
+  }
+);
+
 export {
   allCandidates,
   singleCandidate,
@@ -191,4 +225,5 @@ export {
   logoutCandidate,
   myApplications,
   status,
+  changePassword,
 };

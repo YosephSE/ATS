@@ -21,6 +21,10 @@ const adminSchema = new Schema(
       type: String,
       required: true,
     },
+    firstTime: {
+      type: Boolean,
+      default: true,
+    },
     profilePicture: {
       type: String,
     },

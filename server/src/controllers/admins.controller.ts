@@ -186,6 +186,35 @@ const stats: any = asyncHandler(async (req: Request, res: Response) => {
   };
   res.status(200).json(stat);
 });
+const changePassword = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const id = req.user._id;
+    const { oldPassword, newPassword } = req.body;
+
+    const admin = await Admin.findById(id);
+
+    if (!admin) {
+      res.status(404).json({ message: "Admin not found" });
+      return;
+    }
+
+    const isMatch = admin.password
+      ? await bcrypt.compare(oldPassword, admin.password)
+      : false;
+
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid old password" });
+      return;
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    admin.password = hashedNewPassword;
+    await admin.save();
+
+    res.status(200).json({ message: "Password changed successfully" });
+  }
+);
 
 export {
   loginAdmin,
@@ -196,4 +225,5 @@ export {
   approveAdmin,
   adminsToApprove,
   status,
+  changePassword,
 };
