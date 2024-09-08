@@ -41,7 +41,7 @@ router.get(
 
 router.post("/approve/:id", approveAdmin);
 
-router.get("/adminsToApprove", adiminsToApprove);
+router.get("/adminsToApprove", adminsToApprove);
 
 router.post("/status", status);
 
