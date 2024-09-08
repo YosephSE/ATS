@@ -1,12 +1,13 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Button, CircularProgress } from '@mui/material'
+import { Button, CircularProgress, Menu, MenuItem } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { setLoginCandidate } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
 import { RootState } from '@/redux/store'
 import { logOut, resetSuccess } from '@/redux/slices/UserSlice'
+import { ExpandMore } from '@mui/icons-material'
 
 interface Props {
     page: "home" | "roles"
@@ -18,11 +19,12 @@ const Header = ({ page }: Props) => {
     const router = useRouter()
     const [roles, setRoles] = useState(false)
     const [home, setHome] = useState(false)
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
     useEffect(() => {
-        if(page === "home"){
+        if (page === "home") {
             setHome(true)
-        } else if(page === "roles") {
+        } else if (page === "roles") {
             setRoles(true)
         }
     }, [])
@@ -31,41 +33,76 @@ const Header = ({ page }: Props) => {
         if (user.loggedInUser) {
             dispatch(logOut())
             dispatch(resetSuccess())
-        }else{
-            if (roles){
+        } else {
+            if (roles) {
                 dispatch(setLoginCandidate())
-            }else { 
+            } else {
                 router.push('/roles')
             }
         }
     }
 
+    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget)
+    }
+
+    const handleMenuClose = () => {
+        setAnchorEl(null)
+    }
+
+    const handleLogout = () => {
+        dispatch(logOut())
+        dispatch(resetSuccess())
+        handleMenuClose()
+    }
+
     return (
         <nav className={`flex items-center justify-between px-6 py-3 ${home && "border-b shadow-lg"} ${roles && "absolute w-full top-0"}`}>
             <Link href="/" className="flex items-center space-x-2 focus:outline-none">
-            <span className="text-xl md:text-2xl font-medium text-blue-700 hover:text-blue-800">Company{roles && <br/>} Name</span>
+                <span className="text-xl md:text-2xl font-medium text-blue-700 hover:text-blue-800">Company{roles && <br />} Name</span>
             </Link>
             <div className="flex items-center space-x-6">
                 <Link href="/jobs" className="text-base text-gray-600 hover:text-gray-800">
                     Jobs
                 </Link>
                 <div className="h-6 w-px bg-gray-300"></div>
-                <Button
-                    variant='contained'
-                    onClick = {handleButton}
-                    disabled = {user.isLoading} 
-                    className='text-nowrap'
-                >
-                    {
-                        user.isLoading ?
-                        <CircularProgress size={24} className="text-white"/>
-                        :
-                        user.loggedInUser?
-                        "Log Out"
-                        :
-                        "Sign in"
-                    }
-                </Button>
+                {user.loggedInUser ? (
+                    <div>
+                        <Button onClick={handleMenuOpen} className='flex items-center space-x-2'>
+                            <svg className="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>{user.loggedInUser.name}</span>
+                            <ExpandMore />
+                        </Button>
+                        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                            <MenuItem onClick={handleMenuClose}>
+                                {
+                                    user.loggedInUser.role === "user" ?
+                                        <Link href="candidate/profile">Profile</Link>
+                                    :
+                                        <Link href="admin/profile">Profile</Link>
+
+                                }
+                            </MenuItem>
+                            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+                        </Menu>
+                    </div>
+                ) : (
+                    <Button
+                        variant='contained'
+                        onClick={handleButton}
+                        disabled={user.isLoading}
+                        className='text-nowrap'
+                    >
+                        {user.isLoading ? (
+                            <CircularProgress size={24} className="text-white" />
+                        ) : (
+                            "Sign in"
+                        )}
+                    </Button>
+                )}
             </div>
         </nav>
     )
