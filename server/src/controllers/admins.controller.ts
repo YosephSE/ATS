@@ -8,6 +8,11 @@ import sendPasswordEmail from "../utils/mailSender";
 import Application from "../models/applications";
 import Job from "../models/jobs";
 import Candidate from "../models/candidates";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
+
+const jwtsecret = process.env.SECRET_KEY;
 
 interface CustomRequest extends Request {
   user?: any;
@@ -72,10 +77,10 @@ const registerAdmin = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-const adiminsToApprove = asyncHandler(async (req: Request, res: Response) => {
+const adminsToApprove = asyncHandler(async (req: Request, res: Response) => {
   const admins = await Admin.find({ approved: false }).select("-password");
   res.status(200).json(admins);
-})
+});
 
 const approveAdmin = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -130,19 +135,29 @@ const updateProfile = asyncHandler(
   }
 );
 
-// const verifyToken = asyncHandler(async (req: Request, res: Response) => {
-//   const token = req.cookies.auth;
-//   if (!token) {
-//     return res.json({ loggedIn: false });
-//   }
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     const user = await User.findById(decoded.userId);
-//     res.json({ loggedIn: true, user: user.name, userId: user._id, role: user.role });
-//   } catch (error) {
-//     res.json({ loggedIn: false });
-//   }
-// });
+const status: any = asyncHandler(async (req: Request, res: Response) => {
+  const token = req.body.token;
+
+  if (!token) {
+    res.json({ loggedIn: false });
+    return;
+  }
+
+  try {
+    const decoded = jwt.verify(token, jwtsecret!) as jwt.JwtPayload;
+    const admin = await Admin.findById(decoded._id);
+
+    res.json({
+      id: admin?._id,
+      role: admin?.role,
+      firstName: admin?.firstName,
+      email: admin?.email,
+    });
+  } catch (error) {
+    res.json({ loggedIn: false, message: jwtsecret! });
+  }
+});
+
 const stats: any = asyncHandler(async (req: Request, res: Response) => {
   const totalApplications = await Application.countDocuments();
   const totalJobs = await Job.countDocuments();
@@ -179,5 +194,6 @@ export {
   updateProfile,
   adminProfile,
   approveAdmin,
-  adiminsToApprove,
+  adminsToApprove,
+  status,
 };

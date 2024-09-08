@@ -4,8 +4,11 @@ import Candidate from "../models/candidates";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken";
 import Application from "../models/applications";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
+
+const jwtsecret = process.env.SECRET_KEY;
 
 const env = process.env.ENV;
 interface CustomRequest extends Request {
@@ -157,6 +160,29 @@ const myApplications = asyncHandler(
     res.status(200).json(applications);
   }
 );
+
+const status: any = asyncHandler(async (req: Request, res: Response) => {
+  const token = req.body.token;
+
+  if (!token) {
+    res.json({ loggedIn: false });
+    return;
+  }
+
+  try {
+    const decoded = jwt.verify(token, jwtsecret!) as jwt.JwtPayload;
+    const candidate = await Candidate.findById(decoded._id);
+
+    res.json({
+      id: candidate?._id,
+      role: "user",
+      firstName: candidate?.firstName,
+      email: candidate?.email,
+    });
+  } catch (error) {
+    res.json({ loggedIn: false, message: jwtsecret! });
+  }
+});
 export {
   allCandidates,
   singleCandidate,
@@ -167,4 +193,5 @@ export {
   loginCandidate,
   logoutCandidate,
   myApplications,
+  status,
 };
