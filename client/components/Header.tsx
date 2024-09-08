@@ -60,6 +60,9 @@ const Header = ({ page }: Props) => {
                 <Link href="/candidate/jobs" className="text-base text-gray-600 hover:text-gray-800">
                     Jobs
                 </Link>
+                <Link href="/candidate/applications" className="text-base text-gray-600 hover:text-gray-800">
+                    Applications
+                </Link>
                 <div className="h-6 w-px bg-gray-300"></div>
                 {user.loggedInUser ? (
                     <div>
