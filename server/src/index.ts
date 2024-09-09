@@ -31,10 +31,10 @@ app.get("/", (req, res) => {
   res.status(200).send("Welcome to Job Portal and Application Tracking API!");
 });
 
+app.use("/api/applications", applicationRoute);
 app.use("/api/jobs", jobsRoute);
 app.use("/api/candidates", candidateRoute);
 app.use("/api/admins", adminAuth);
-app.use("/api/applications", applicationRoute);
 
 app.use((req, res, next) => {
   const err = new Error();

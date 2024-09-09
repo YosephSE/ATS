@@ -12,6 +12,7 @@ import adminAuthorize from "../middleware/adminAuthorize";
 
 const router = Router();
 
+router.post("/", verifyToken, createApplication);
 router.get(
   "/",
   verifyToken,
@@ -24,7 +25,6 @@ router.get(
   adminAuthorize(["admin", "super admin"]),
   singleApplication
 );
-router.post("/", verifyToken, createApplication);
 router.put("/:id", verifyToken, updateApplication);
 router.delete("/:id", verifyToken, deleteApplication);
 
