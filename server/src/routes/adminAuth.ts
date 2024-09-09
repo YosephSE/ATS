@@ -15,6 +15,7 @@ import adminAuthorize from "../middleware/adminAuthorize";
 
 const router = Router();
 
+
 router.post("/login", loginAdmin);
 
 router.get(

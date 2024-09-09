@@ -10,6 +10,7 @@ import Job from "../models/jobs";
 import Candidate from "../models/candidates";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import applicationScore from "../utils/applicationScore";
 dotenv.config();
 
 const jwtsecret = process.env.SECRET_KEY;
@@ -153,7 +154,7 @@ const status: any = asyncHandler(async (req: Request, res: Response) => {
       role: admin?.role,
       name: admin?.firstName,
       email: admin?.email,
-      firstTime: admin?.firstTime
+      firstTime: admin?.firstTime,
     });
   } catch (error) {
     res.json({ loggedIn: false, message: jwtsecret! });
@@ -209,10 +210,10 @@ const changePassword = asyncHandler(
       return;
     }
 
-    if(admin.firstTime){
-      await Admin.findByIdAndUpdate(id , {
-        firstTime: false
-      })
+    if (admin.firstTime) {
+      await Admin.findByIdAndUpdate(id, {
+        firstTime: false,
+      });
     }
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 

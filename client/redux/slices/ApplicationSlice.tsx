@@ -38,8 +38,8 @@ export const apply = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${api}/applications`, 
-        { jobId: id }
+        `${api}/candidates/applications`, 
+        { jobId: id },
       );
       return response.data;
     } catch (error: any) {

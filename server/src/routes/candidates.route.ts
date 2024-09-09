@@ -10,6 +10,7 @@ import {
   myApplications,
   status,
   changePassword,
+  createApplication,
 } from "../controllers/candidates.controller";
 
 import { Router } from "express";
@@ -34,6 +35,7 @@ router.get(
 router.get("/profile", verifyToken, candidateProfile);
 
 router.get("/applications", verifyToken, myApplications);
+router.post("/applications", verifyToken, createApplication);
 
 router.get(
   "/:id",
