@@ -48,6 +48,19 @@ export const apply = createAsyncThunk(
 );
 
 
+export const updateapplication = createAsyncThunk(
+  "applications/updateapplication",
+  async ({id, data: { status }}: {id: string, data: { status: string} }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`${api}/candidates/applications/${id}`, status);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.error || error.response?.data?.message);
+    }
+  }
+);
+
+
 const applicationSlice = createSlice({
     name: 'applications',
     initialState,
@@ -71,17 +84,17 @@ const applicationSlice = createSlice({
           state.error = action.payload as string;
         })
 
-        //Apply
-        .addCase(apply.pending, (state) => {
+        //Update Application
+        .addCase(updateapplication.pending, (state) => {
           state.isLoading = true;
           state.isError = false;
           state.error = null;
         })
-        .addCase(apply.fulfilled, (state, action) => {
+        .addCase(updateapplication.fulfilled, (state, action) => {
           state.isLoading = false;
           state.isSuccess = true;
         })
-        .addCase(apply.rejected, (state, action) => {
+        .addCase(updateapplication.rejected, (state, action) => {
           state.isLoading = false;
           state.isError = true;
           state.error = action.payload as string;
