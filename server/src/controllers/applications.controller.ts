@@ -36,13 +36,18 @@ const createApplication = asyncHandler(
     const candidateId = await req.user._id;
     const status = "pending";
 
-    const jobDetails = await Job.findById(jobId);
-    const candidateDetails = await Candidate.findById(candidateId);
+    const jobDetails = await Job.findById(jobId).select(
+      "title description department requirements responsibilities"
+    );
+    const candidateDetails = await Candidate.findById(candidateId).select(
+      "skills experience education"
+    );
 
     const toBeScored = {
       job: jobDetails,
       candidate: candidateDetails,
     };
+    console.log(toBeScored);
     const score = await applicationScore(toBeScored);
 
     const newApplication = {
