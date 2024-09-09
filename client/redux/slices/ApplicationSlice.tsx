@@ -37,7 +37,7 @@ export const apply = createAsyncThunk(
   "applications/apply",
   async(id: string, { rejectWithValue}) => {
     try {
-      const response = await axios.post(`${api}/applications`, id)
+      const response = await axios.post(`${api}/applications`, {jobId: id})
       return response.data
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.error || error.response?.data?.message);
