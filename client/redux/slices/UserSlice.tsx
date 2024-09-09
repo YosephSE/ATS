@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { candidateProfile, LoginUserPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
+import { candidateProfile, LoginUserPayload, passwordPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -100,6 +100,17 @@ export const myapplications =createAsyncThunk(
     }
 )
 
+export const changepassword = createAsyncThunk(
+    "user/changepassword",
+    async( {oldPassword, newPassword}: passwordPayload, { rejectWithValue }) => {
+        try{
+            const response = await axios.post(`${api}/candidates/changepassword`, {oldPassword, newPassword})
+            return response.data
+        } catch (error:any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -228,6 +239,25 @@ const userSlice = createSlice({
                 state.error = action.payload as string || "Registration failed.";
             })
 
+            //Change Password
+            .addCase(changepassword.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(changepassword.fulfilled, (state) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+            })
+            .addCase(changepassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+            })
+                        
             //My Applications
             .addCase(myapplications.pending, (state) => {
                 state.isLoading = true
