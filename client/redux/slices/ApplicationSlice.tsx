@@ -40,7 +40,6 @@ export const apply = createAsyncThunk(
       const response = await axios.post(
         `${api}/applications`, 
         { jobId: id },
-        { withCredentials: true }
       );
       return response.data;
     } catch (error: any) {
