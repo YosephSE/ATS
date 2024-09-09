@@ -8,7 +8,7 @@ import {
   Education,
   Experience,
 } from "../../../types/users.types";
-import { changepassword, fetchuser, profile, updateprofile } from "@/redux/slices/UserSlice";
+import { changepassword, fetchuser, profile, resetSuccess, updateprofile } from "@/redux/slices/UserSlice";
 
 const CandidateProfile: React.FC = () => {
   const currentUser = useAppSelector((state: RootState) => state.user);
@@ -41,6 +41,7 @@ const CandidateProfile: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       await dispatch(profile());
+      dispatch(resetSuccess())
     };
     fetchUser();
   }, [dispatch]);
