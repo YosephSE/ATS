@@ -9,11 +9,15 @@ import {
   status,
   updateProfile,
   changePassword,
+  createApplication,
 } from "../controllers/admins.controller";
 import verifyToken from "../middleware/verifyToken";
 import adminAuthorize from "../middleware/adminAuthorize";
 
 const router = Router();
+
+
+router.post("/applications", verifyToken, createApplication);
 
 router.post("/login", loginAdmin);
 

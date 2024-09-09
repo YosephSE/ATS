@@ -10,6 +10,7 @@ import Job from "../models/jobs";
 import Candidate from "../models/candidates";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import applicationScore from "../utils/applicationScore";
 dotenv.config();
 
 const jwtsecret = process.env.SECRET_KEY;
@@ -223,6 +224,43 @@ const changePassword = asyncHandler(
   }
 );
 
+
+const createApplication = asyncHandler(
+  async (req: CustomRequest, res: Response) => {
+    const { jobId } = await req.body;
+    const candidateId = await req.user._id;
+    const status = "pending";
+
+    const jobDetails = await Job.findById(jobId);
+    const candidateDetails = await Candidate.findById(candidateId);
+
+    const toBeScored = {
+      job: jobDetails,
+      candidate: candidateDetails,
+    };
+    const score = await applicationScore(toBeScored);
+
+    const newApplication = {
+      jobId,
+      candidateId,
+      status,
+      AIScore: score,
+    };
+    const applicationExists = await Application.findOne({
+      jobId,
+      candidateId: req.user._id,
+    });
+    if (applicationExists) {
+      const error = new Error("Application already exists");
+      (error as any).status = 400;
+      throw error;
+    }
+    const application = new Application(newApplication);
+    await application.save();
+    res.status(201).json({ message: "Application created successfully" });
+  }
+);
+
 export {
   loginAdmin,
   registerAdmin,
@@ -233,4 +271,5 @@ export {
   adminsToApprove,
   status,
   changePassword,
+  createApplication
 };
