@@ -152,6 +152,7 @@ const jobSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.activeJobs = action.payload
+        state.currentJob = action.payload[0]
       })
       .addCase(acitvejobs.rejected, (state, action) => {
         state.isLoading = false;
