@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, CircularProgress } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { setClosed, setRegister } from '@/redux/slices/ModalSlice';
-import { login, resetSuccess } from '@/redux/slices/UserSlice';
+import { resetSuccess } from '@/redux/slices/UserSlice';
 import { RootState } from '@/redux/Store';
 import { useRouter } from 'next/navigation';
 import useLoginHandler from '@/customHooks/loginHandler';
@@ -24,14 +24,12 @@ const SignInForm = () => {
     e.preventDefault();
     
     if (currentState.loggedInUser?.firstTime) {
-      // Handle first-time login password change
       const data = {
         oldPassword,
         newPassword
       };
       loginHandler(data, true);
     } else {
-      // Regular login
       const data = {
         email,
         password
@@ -44,6 +42,7 @@ const SignInForm = () => {
     if (currentState.isSuccess) {
       if (!(modalState === "admin") && !currentState.loggedInUser?.firstTime) {
         router.push(redirect);
+        dispatch(setClosed())
       }
       dispatch(resetSuccess());
     } else if (currentState.isError) {
@@ -52,7 +51,6 @@ const SignInForm = () => {
   }, [currentState, dispatch, modalState, redirect, router]);
 
   useEffect(() => {
-    // Clear input values when modal state changes
     if (currentState.loggedInUser?.firstTime) {
       setEmail('');
       setPassword('');
