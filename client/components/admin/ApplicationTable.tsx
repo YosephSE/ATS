@@ -29,11 +29,12 @@ export default function DataTable() {
       jobstatus: app.jobId.status ? "Active" : "Inactive",
       status: app.status,
       AIScore: app.AIScore,
-      createdAt: app.createdAt.toLocaleDateString(),
+      createdAt: new Date(app.createdAt).toLocaleDateString(),
     }));
     setRows(formattedRows || []);
   }, [allApplications]);
 
+  console.log()
   const columns: GridColDef[] = [
     {
       field: "name",
