@@ -33,8 +33,8 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
   }
 
   if (minSalary || maxSalary) {
-    filter["salary.min"] = { $lte: maxSalary || 9000000000000 };
-    filter["salary.max"] = { $gte: minSalary || 0 };
+    filter["minSalary"] = { $lte: maxSalary || 9000000000000 };
+    filter["maxSalary"] = { $gte: minSalary || 0 };
   }
 
   const jobs = await Job.find(filter).populate(
