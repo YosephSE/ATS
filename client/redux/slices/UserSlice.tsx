@@ -107,7 +107,7 @@ export const changepassword = createAsyncThunk(
             const response = await axios.post(`${api}/candidates/changepassword`, {oldPassword, newPassword})
             return response.data
         } catch (error:any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
