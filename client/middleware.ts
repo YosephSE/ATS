@@ -1,18 +1,20 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const authCookie = request.cookies.get('auth');
   const token = authCookie ? authCookie.value : '';
-  console.log(token)
-
+  
   let userRole = '';
 
   try {
     if (token) {
-      const decoded: any = jwt.verify(token, process.env.JWT_SECRET as string);
-      userRole = decoded.role || ''; 
+      const { payload }: any = await jwtVerify(
+        token,
+        new TextEncoder().encode(process.env.JWT_SECRET)
+      );
+      userRole = payload.role || '';
     } else {
       return NextResponse.redirect(new URL('/403', request.url));
     }
@@ -20,6 +22,7 @@ export function middleware(request: NextRequest) {
     console.error('Invalid token:', error);
     return NextResponse.redirect(new URL('/403', request.url)); 
   }
+
 
   if (pathname.startsWith('/superadmin') && userRole !== 'super admin') {
     return NextResponse.redirect(new URL('/403', request.url));
