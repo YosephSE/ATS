@@ -7,31 +7,21 @@ import { RootState } from "@/redux/Store";
 import { admins, approve } from "@/redux/slices/AdminSlice";
 
 const AdminApprove = () => {
-  const [applications, setApplications] = useState<admin[]>([]);
-  const adminsState = useAppSelector((state: RootState) => state.admin)
-  const dispatch = useAppDispatch()
+  const adminsState = useAppSelector((state: RootState) => state.admin);
+  const dispatch = useAppDispatch();
+  const [approving, setApproving] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
-    const fetchUsers = async() => [
-      await dispatch(admins())
-    ]
+    const fetchUsers = async () => {
+      await dispatch(admins());
+    };
 
-    fetchUsers()
-  }, [])
+    fetchUsers();
+  }, [dispatch]);
 
-  useEffect(() => {
-    setApplications(adminsState.admins)
-  }, [dispatch])
-
-  const handleToggle = async(id: string) => {
-    setApplications((prevApplications) =>
-      prevApplications.map((application) =>
-        application._id === id
-          ? { ...application, approved: !application.approved }
-          : application
-      )
-    );
-    await dispatch(approve(id))
+  const handleToggle = async (id: string, currentStatus: boolean) => {
+    setApproving((prev) => ({ ...prev, [id]: !currentStatus }));
+    await dispatch(approve(id));
   };
 
   return (
@@ -41,26 +31,16 @@ const AdminApprove = () => {
           <table className="w-full text-left table-auto min-w-max">
             <thead>
               <tr>
-                <th className="p-4 border-y border-slate-200 bg-slate-50">
-                  First Name
-                </th>
-                <th className="p-4 border-y border-slate-200 bg-slate-50">
-                  Last Name
-                </th>
-                <th className="p-4 border-y border-slate-200 bg-slate-50">
-                  Email
-                </th>
-                <th className="p-4 border-y border-slate-200 bg-slate-50">
-                  Phone Number
-                </th>
-                <th className="p-4 border-y border-slate-200 bg-slate-50">
-                  Approved
-                </th>
+                <th className="p-4 border-y border-slate-200 bg-slate-50">First Name</th>
+                <th className="p-4 border-y border-slate-200 bg-slate-50">Last Name</th>
+                <th className="p-4 border-y border-slate-200 bg-slate-50">Email</th>
+                <th className="p-4 border-y border-slate-200 bg-slate-50">Phone Number</th>
+                <th className="p-4 border-y border-slate-200 bg-slate-50">Approved</th>
                 <th className="p-4 border-y border-slate-200 bg-slate-50"></th>
               </tr>
             </thead>
             <tbody>
-              {applications.map((application) => (
+              {adminsState.admins.map((application) => (
                 <tr key={application._id}>
                   <td className="p-4 border-b border-slate-200">
                     {application.firstName}
@@ -76,10 +56,10 @@ const AdminApprove = () => {
                   </td>
                   <td className="p-4 border-b border-slate-200">
                     <label className="flex items-center cursor-pointer">
-                    <Switch 
-                        color="primary" 
-                        checked={application.approved}
-                        onChange={() => handleToggle(application._id)}
+                      <Switch
+                        color="primary"
+                        checked={approving[application._id] ?? application.approved}
+                        onChange={() => handleToggle(application._id, application.approved)}
                       />
                     </label>
                   </td>
