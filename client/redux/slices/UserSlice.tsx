@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { candidateProfile, LoginUserPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
+import { candidateProfile, LoginUserPayload, passwordPayload, RegisterUserPayload, TokenPayload, UserSlice } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -21,7 +21,7 @@ export const register = createAsyncThunk(
             sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 );
@@ -33,7 +33,7 @@ export const fetchuser = createAsyncThunk(
             const response = await axios.post(`${api}/candidates/status`, token)
             return response.data
         } catch(error: any){
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 )
@@ -46,7 +46,7 @@ export const login = createAsyncThunk(
             sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 );
@@ -59,7 +59,7 @@ export const logout = createAsyncThunk(
             sessionStorage.removeItem('userToken')
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 );
@@ -71,7 +71,7 @@ export const profile = createAsyncThunk(
             const response = await axios.get(`${api}/candidates/profile`)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
@@ -83,7 +83,7 @@ export const updateprofile = createAsyncThunk(
             const response = await axios.put(`${api}/candidates/profile`, user)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
@@ -95,11 +95,22 @@ export const myapplications =createAsyncThunk(
             const response = await axios.get(`${api}/candidates/applications`)
             return response.data
         } catch(error: any){
-            rejectWithValue(error.response?.data?.error || error.error)
+            rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
 
+export const changepassword = createAsyncThunk(
+    "user/changepassword",
+    async( {oldPassword, newPassword}: passwordPayload, { rejectWithValue }) => {
+        try{
+            const response = await axios.post(`${api}/candidates/changepassword`, {oldPassword, newPassword})
+            return response.data
+        } catch (error:any) {
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
+        }
+    }
+)
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -228,6 +239,25 @@ const userSlice = createSlice({
                 state.error = action.payload as string || "Registration failed.";
             })
 
+            //Change Password
+            .addCase(changepassword.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(changepassword.fulfilled, (state) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+            })
+            .addCase(changepassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+            })
+                        
             //My Applications
             .addCase(myapplications.pending, (state) => {
                 state.isLoading = true

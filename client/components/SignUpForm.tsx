@@ -53,6 +53,7 @@ const SignUpForm = () => {
         if (currentState.isSuccess){
             dispatch(setClosed())
             router.push('/candidate/jobs')
+            setError(null)
             dispatch(resetSuccess())
         }else if (currentState.isError){
             setError(currentState.error)
