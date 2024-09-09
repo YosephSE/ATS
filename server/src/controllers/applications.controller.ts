@@ -102,13 +102,7 @@ const updateApplication = asyncHandler(
       const error = new Error();
       (error as any).status = 404;
       throw error;
-    } else if (updatedApplication.candidateId !== req.user._id) {
-      const error = new Error(
-        "You do not have permission to update this application"
-      );
-      (error as any).status = 403;
-      throw error;
-    }
+    } 
     res.status(200).json(updatedApplication);
   }
 );

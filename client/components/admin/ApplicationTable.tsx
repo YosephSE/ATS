@@ -1,37 +1,37 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { Select, MenuItem } from "@mui/material";
-import { useState } from "react";
+import { Button, Menu, MenuItem } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/Store";
 import { allapplications } from "@/redux/slices/ApplicationSlice";
-
+import ButtonMenu from "./ButtonMenu";
 
 export default function DataTable() {
   const allApplications = useAppSelector((state: RootState) => state.applications.allApplications);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+
+  const [rows, setRows] = useState<any>([]);
 
   useEffect(() => {
-    const fetchApplication = async() => {
-      await dispatch(allapplications())
-    }
+    const fetchApplication = async () => {
+      await dispatch(allapplications());
+    };
+    fetchApplication();
+  }, [dispatch]);
 
-    fetchApplication()
-
-  }, [])
-
-  const [rows, setRows] = useState(allApplications ? allApplications.map((app) => (
-    {
-      id: app._id, 
-      name: `${app.candidateId.firstName} ${app.candidateId.lastName}`, 
+  useEffect(() => {
+    const formattedRows = allApplications?.map((app, index) => ({
+      id: app._id,
+      name: `${app.candidateId.firstName} ${app.candidateId.lastName}`,
       title: app.jobId.title,
-      jobstatus: app.jobId.status? "Active": "Inactive",
+      jobstatus: app.jobId.status ? "Active" : "Inactive",
       status: app.status,
-      createdAt: app.createdAt
-     }
-  )) : []);
+      createdAt: app.createdAt,
+    }));
+    setRows(formattedRows || []);
+  }, [allApplications]);
 
   const columns: GridColDef[] = [
     {
@@ -53,16 +53,8 @@ export default function DataTable() {
       field: "status",
       headerName: "Application Status",
       flex: 1,
-      editable: true,
       renderCell: (params) => (
-        <ApplicationStatusDropdown
-          value={params.value}
-          onChange={(newValue: any) =>
-            params.api.updateRows([
-              { ...params.row, applicationStatus: newValue },
-            ])
-          }
-        />
+        <ButtonMenu value = {params.row.status} id={params.row.id}/>
       ),
     },
     {
@@ -71,21 +63,6 @@ export default function DataTable() {
       flex: 1,
     },
   ];
-  
-  const ApplicationStatusDropdown = ({
-    value,
-    onChange,
-  }: {
-    value: any;
-    onChange: (newValue: any) => void;
-  }) => (
-    <Select value={value} onChange={(e) => onChange(e.target.value)} fullWidth>
-      <MenuItem value="In Review">In Review</MenuItem>
-      <MenuItem value="Rejected">Rejected</MenuItem>
-      <MenuItem value="Shortlisted">Shortlisted</MenuItem>
-    </Select>
-  );
-  
   return (
     <Paper sx={{ height: "auto", width: "100%" }}>
       <DataGrid
