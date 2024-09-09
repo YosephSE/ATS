@@ -10,6 +10,7 @@ export interface Jobs{
     maxSalary: number
     requirements: string[]
     responsibilities: string[]
+    applications: number
     postedBy: {
         firstName: string
         lastName: string
