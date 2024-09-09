@@ -10,6 +10,11 @@ export interface Jobs{
     maxSalary: number
     requirements: string[]
     responsibilities: string[]
+    postedBy: {
+        firstName: string
+        lastName: string
+        email: string
+    }
 }
 
 export interface JobsSlice {
