@@ -24,6 +24,8 @@ const LoginChecker = ({
             dispatch(resetAdmin())
         }
       }
+
+      fetchUser()
     }, [dispatch])
     return (
         <div>
