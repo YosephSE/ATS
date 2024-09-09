@@ -1,8 +1,8 @@
-import { Request } from 'express';
+// import { Request } from 'express';
 
-export interface CustomRequest extends Request {
-    user?: any;
-}
+// export interface CustomRequest extends Request {
+//     user?: any;
+// }
 
 export interface LoginUserPayload {
     email: string;
