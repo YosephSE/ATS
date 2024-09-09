@@ -35,15 +35,20 @@ export const allapplications = createAsyncThunk(
 
 export const apply = createAsyncThunk(
   "applications/apply",
-  async(id: string, { rejectWithValue}) => {
+  async (id: string, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${api}/applications`, {jobId: id})
-      return response.data
+      const response = await axios.post(
+        `${api}/applications`, 
+        { jobId: id },
+        { withCredentials: true }
+      );
+      return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.error || error.response?.data?.message);
     }
   }
-)
+);
+
 
 const applicationSlice = createSlice({
     name: 'applications',
