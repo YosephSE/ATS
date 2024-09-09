@@ -19,6 +19,7 @@ app.use(
   cors({
     origin: true,
     credentials: true,
+    allowedHeaders: ["Content-Type", "Set-Cookie"],
   })
 );
 app.use(express.urlencoded({ extended: true }));
