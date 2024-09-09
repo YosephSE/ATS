@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Application } from '../../../types/applications.types'
 import axios from 'axios';
-
-const api = process.env.NEXT_PUBLIC_BACKEND_SERVER;
+import api from "../api"
 
 export interface ApplicationSlice {
     allApplications: Application[] | null;
