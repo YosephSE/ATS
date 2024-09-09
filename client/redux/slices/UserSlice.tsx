@@ -21,7 +21,7 @@ export const register = createAsyncThunk(
             sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 );
@@ -33,7 +33,7 @@ export const fetchuser = createAsyncThunk(
             const response = await axios.post(`${api}/candidates/status`, token)
             return response.data
         } catch(error: any){
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 )
@@ -46,7 +46,7 @@ export const login = createAsyncThunk(
             sessionStorage.setItem('userToken', response.data.token);
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 );
@@ -59,7 +59,7 @@ export const logout = createAsyncThunk(
             sessionStorage.removeItem('userToken')
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 );
@@ -71,7 +71,7 @@ export const profile = createAsyncThunk(
             const response = await axios.get(`${api}/candidates/profile`)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
@@ -83,7 +83,7 @@ export const updateprofile = createAsyncThunk(
             const response = await axios.put(`${api}/candidates/profile`, user)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
@@ -95,7 +95,7 @@ export const myapplications =createAsyncThunk(
             const response = await axios.get(`${api}/candidates/applications`)
             return response.data
         } catch(error: any){
-            rejectWithValue(error.response?.data?.error || error.error)
+            rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
