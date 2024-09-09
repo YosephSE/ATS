@@ -1,19 +1,27 @@
-const applicationScore = async (application: any): Promise<{ score: number }> => {
+const applicationScore = async (application: any): Promise<number> => {
   const { GoogleGenerativeAI } = require("@google/generative-ai");
   require("dotenv").config();
 
   const genAI = new GoogleGenerativeAI(process.env.API_KEY!);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  const prompt = `Please score ${JSON.stringify(
-    application.candidate
-  )} out of 100 using the standard of the companies. I know it is impossible but make the keys on ${JSON.stringify(
-    application.job
-  )} as standard and score it out of hundred. And give me your response as json format with only the score key along with its value. Have your own criteria, though. I don't need any explanation.`;
+  console.log(application);
+
+  const prompt = `Please score the candidate's application out of 100 using your own criteria.
+  
+  Candidate Information:
+candidate: ${application.candidate}
+  Job Criteria:
+job: ${application.job}
+  Score the application based on the information provided above. Respond with only a number indicating the score. the format should be xx. For example, if you think the application deserves a score of 80, respond with 80.`;
 
   const result = await model.generateContent(prompt);
-  const scoreResponse = JSON.parse(result.response.text());
-  return { score: scoreResponse.score };
+  const scoreText = result.response.text(); 
+
+  const score = parseInt(scoreText, 10); 
+
+
+  return Number.isNaN(score) ? 0 : score;
 };
 
 export default applicationScore;
