@@ -24,8 +24,8 @@ router.get(
   adminAuthorize(["admin", "super admin"]),
   singleApplication
 );
-router.post("/", createApplication);
-router.put("/:id",verifyToken, updateApplication);
-router.delete("/:id",verifyToken, deleteApplication);
+router.post("/", verifyToken, createApplication);
+router.put("/:id", verifyToken, updateApplication);
+router.delete("/:id", verifyToken, deleteApplication);
 
 export default router;
