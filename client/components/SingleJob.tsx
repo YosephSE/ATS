@@ -10,7 +10,9 @@ const SingleJob = () => {
     const currentJob = useAppSelector((state: RootState) => state.jobs.currentJob)
     const dispatch = useAppDispatch()
     const handleApply = async () => {
-        await dispatch(apply(currentJob?._id))
+        if (currentJob?._id){
+            await dispatch(apply(currentJob?._id))
+        }
     }
     return (
         <div className='w-full'>
