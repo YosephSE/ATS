@@ -1,3 +1,3 @@
-const api = process.env.NEXT_PUBLIC_BACKEND_SERVER;
+const api = "/api"
 
 export default api;
