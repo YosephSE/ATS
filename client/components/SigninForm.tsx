@@ -48,7 +48,7 @@ const SignInForm = () => {
     } else if (currentState.isError) {
       setError(currentState.error);
     }
-  }, [currentState, dispatch, modalState, redirect, router]);
+  }, [currentState, dispatch, redirect, router]);
 
   useEffect(() => {
     if (currentState.loggedInUser?.firstTime) {
@@ -63,7 +63,7 @@ const SignInForm = () => {
   return (
     <div>
       <h2 id="sign-in-modal" className="text-2xl font-semibold mb-4 text-center">
-        {modalState === "candidate" ? "Sign in as a Candidate" : currentState.loggedInUser?.firstTime ? "Sign in as an Employee": "Change Password"}
+        {modalState === "candidate" ? "Sign in as a Candidate" : currentState.loggedInUser?.firstTime ? "Change Password": "Sign in as an Employee"}
       </h2>
       <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
         {!currentState.loggedInUser?.firstTime ? (
