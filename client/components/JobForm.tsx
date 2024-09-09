@@ -13,7 +13,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { editjob, postjob, resetSuccess, resetCurrentJob, resetError, singlejob } from '@/redux/slices/JobSlice';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/redux/Store';
 
 interface Props {
     page: boolean

@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import FilterPanel from "@/components/FilterPanel";
 import JobCard from "@/components/JobCard";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
-import { RootState } from "@/redux/store";
+import { RootState } from "@/redux/Store";
 import { acitvejobs } from "@/redux/slices/JobSlice";
 import SingleJob from "@/components/SingleJob";
 

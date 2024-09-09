@@ -3,9 +3,9 @@ import { LoginUserPayload, ContactPayload, adminUserSlice, TokenPayload, passwor
 import axios from "axios";
 import api from "../api";
 
-
 const initialState: adminUserSlice = {
     loggedInUser: null,
+    admins: [],
     profile: null,
     isLoading: false,
     isError: false,
@@ -41,7 +41,7 @@ export const login = createAsyncThunk(
     async (user: LoginUserPayload, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/admins/login`, user);
-            sessionStorage.setItem('userToken', response.data.token);
+            sessionStorage.setItem('adminToken', response.data.token);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -54,7 +54,7 @@ export const logout = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${api}/candidates/logout`);
-            localStorage.removeItem('adminToken')
+            sessionStorage.removeItem('adminToken')
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || error.error);
@@ -92,6 +92,31 @@ export const changepassword = createAsyncThunk(
     async( {oldPassword, newPassword}: passwordPayload, { rejectWithValue }) => {
         try{
             const response = await axios.post(`${api}/admins/changepassword`, {oldPassword, newPassword})
+            return response.data
+        } catch (error:any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
+
+export const admins = createAsyncThunk(
+    "admin/admins",
+    async(_, { rejectWithValue }) => {
+        try{
+            const response = await axios.get(`${api}/admins/adminsToApprove`)
+            return response.data
+        } catch(error: any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
+
+export const approve = createAsyncThunk(
+    "admin/approve",
+    async(id: string, { rejectWithValue }) => {
+        try{
+            const response = await axios.post(`${api}/admins/approve/${id}`)
+            console.log(response.data)
             return response.data
         } catch(error: any) {
             return rejectWithValue(error.response?.data?.error || error.error)
@@ -250,6 +275,46 @@ const adminSlice = createSlice({
                 state.isError = true;
                 state.error = action.payload as string;
             })
+            
+            // Admins to Approve
+            .addCase(admins.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(admins.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                state.admins = action.payload
+            })
+            .addCase(admins.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
+            //Approve admin
+            .addCase(approve.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(approve.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+            })
+            .addCase(approve.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string || "Registration failed.";
+            })
+
     },
 });
 

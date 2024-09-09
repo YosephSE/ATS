@@ -26,6 +26,10 @@ connectDB();
 
 requestLogger(app);
 
+app.get("/", (req, res) => {
+  res.status(200).send("Welcome to Job Portal and Application Tracking API!");
+});
+
 app.use("/api/jobs", jobsRoute);
 app.use("/api/candidates", candidateRoute);
 app.use("/api/admins", adminAuth);

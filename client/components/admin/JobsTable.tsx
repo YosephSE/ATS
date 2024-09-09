@@ -4,7 +4,7 @@ import { DataGrid, GridColDef} from "@mui/x-data-grid";
 import { Switch, CircularProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { alljobs, editjob } from "@/redux/slices/JobSlice";
-import { RootState } from "@/redux/store";
+import { RootState } from "@/redux/Store";
 import { Jobs } from "../../../types/job.types";
 
 interface LoadingState {

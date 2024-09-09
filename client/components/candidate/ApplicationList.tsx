@@ -1,38 +1,20 @@
-import React from "react";
+"use client"
+import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
+import { myapplications } from "@/redux/slices/UserSlice";
+import { RootState } from "@/redux/Store";
+import React, { useEffect } from "react";
 
 const ApplicationList = () => {
-  const applications = [
-    {
-      _id: "66ddd2e5c0d88a451e999c46",
-      jobId: {
-        title: "Software Engineer",
-        type: "Full-Time",
-        location: "San Francisco, CA",
-        department: "Engineering",
-        status: "pending",
-      },
-    },
-    {
-      _id: "66ddd2e5c0d88a451e999c47",
-      jobId: {
-        title: "Product Manager",
-        type: "Full-Time",
-        location: "New York, NY",
-        department: "Product",
-        status: "approved",
-      },
-    },
-    {
-      _id: "66ddd2e5c0d88a451e999c48",
-      jobId: {
-        title: "UX Designer",
-        type: "Contract",
-        location: "Remote",
-        department: "Design",
-        status: "rejected",
-      },
-    },
-  ];
+  const applications = useAppSelector((state: RootState) => state.user.applications)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      await dispatch(myapplications())
+    }
+
+    fetchApplications()
+  }, [dispatch])
 
   return (
     <div className="max-w-[1000px] mx-auto">
@@ -127,7 +109,7 @@ const ApplicationList = () => {
               </tr>
             </thead>
             <tbody>
-              {applications.map((application) => (
+              {applications?.map((application) => (
                 <tr key={application._id}>
                   <td className="p-4 border-b border-slate-200">
                     <div className="flex items-center gap-3">
@@ -151,13 +133,13 @@ const ApplicationList = () => {
                   <td className="p-4 border-b border-slate-200">
                     <div className="w-max">
                       <div className={`relative grid items-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-md select-none whitespace-nowrap ${
-                        application.jobId.status === 'pending'
+                        application.status === 'pending'
                           ? 'text-yellow-900 bg-yellow-500/20'
-                          : application.jobId.status === 'approved'
+                          : application.status === 'approved'
                           ? 'text-green-900 bg-green-500/20'
                           : 'text-red-900 bg-red-500/20'
                       }`}>
-                        <span className="">{application.jobId.status}</span>
+                        <span className="">{application.status}</span>
                       </div>
                     </div>
                   </td>

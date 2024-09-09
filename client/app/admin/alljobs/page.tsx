@@ -1,11 +1,8 @@
 import React from "react";
 import Sidebar from "@/components/SideBar";
-import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "@/components/admin/JobsTable";
 
 const allJobs = () => {
-
-
   return (
     <div className="flex bg-[#F8FDFF]">
       <Sidebar />

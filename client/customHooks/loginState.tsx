@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/redux/Hooks";
-import { RootState } from "@/redux/store";
+import { RootState } from "@/redux/Store";
 import { adminUserSlice, UserSlice } from "../../types/users.types";
 import { useEffect, useState } from "react";
 
@@ -13,13 +13,13 @@ function useLoginState(status: boolean): ReturnValue {
     const adminState = useAppSelector((state: RootState) => state.admin);
     const [currentStatus, setCurrentStatus] = useState<ReturnValue>({
         currentState: candidateState,
-        redirect: status ? '/candidate/jobs' : '/candidate/alljobs'
+        redirect: status ? '/candidate/jobs' : '/admin/alljobs'
     });
 
     useEffect(() => {
         setCurrentStatus({
             currentState: status ? candidateState : adminState,
-            redirect: status ? '/candidate/jobs' : 'candidate/alljobs'
+            redirect: status ? '/candidate/jobs' : 'admin/alljobs'
         });
     }, [candidateState, adminState]);
 

@@ -1,7 +1,7 @@
 "use client"
 import { Modal } from '@mui/material';
 import SignInForm from './SigninForm';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/redux/Store';
 import { setClosed } from '@/redux/slices/ModalSlice';
 import SignUpForm from './SignUpForm';
 import ContactForm from './ContactForm';

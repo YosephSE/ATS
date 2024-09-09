@@ -23,7 +23,7 @@ const HomePage = () => {
             <div className="relative w-40 h-40 md:w-80 md:h-80 lg:w-96 lg:h-96">
               <div className="absolute inset-0 rounded-full"></div>
               <Image
-                src="/HomePage.jpg"
+                src="/hero.png"
                 alt="Camera equipment"
                 layout="fill"
                 objectFit="cover"
@@ -42,9 +42,9 @@ const HomePage = () => {
       </main>
 
 
-      <footer className='w-full text-center'>
+      {/* <footer className='w-full text-center'>
         <h6>@All rights reserved 2024</h6>
-      </footer>
+      </footer> */}
 
       <Modal />
     </div>

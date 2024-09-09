@@ -2,32 +2,37 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import { Plus } from "lucide-react";
 import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
-import { RootState } from "@/redux/store";
-import { candidateProfile, Education, Experience } from "../../../types/users.types"
+import { RootState } from "@/redux/Store";
+import {
+  candidateProfile,
+  Education,
+  Experience,
+} from "../../../types/users.types";
 import { fetchuser, profile, updateprofile } from "@/redux/slices/UserSlice";
 
 const CandidateProfile: React.FC = () => {
   const currentUser = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [profileData, setProfileData] = useState<candidateProfile>(
-    {
-      firstName: "",
-      lastName: "",
-      password: "",
-      phoneNumber: "",
-      email: "",
-      skills: [],
-      education: [],
-      experience: [],
-      linkedIn: "",
-      resume: "",
-      profilePicture: ""
-    });
-
+  const [passwordEditing, setPasswordEditing] = useState<boolean>(false);
+  const [profileData, setProfileData] = useState<candidateProfile>({
+    firstName: "",
+    lastName: "",
+    password: "",
+    phoneNumber: "",
+    email: "",
+    skills: [],
+    education: [],
+    experience: [],
+    linkedIn: "",
+    resume: "",
+    profilePicture: "",
+  });
 
   const [image, setImage] = useState<File | null>(null);
-  const [imgLink, setImgLink] = useState<string | null>(profileData.profilePicture);
+  const [imgLink, setImgLink] = useState<string | null>(
+    profileData.profilePicture
+  );
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -40,57 +45,97 @@ const CandidateProfile: React.FC = () => {
     if (currentUser.profile) {
       setProfileData(currentUser.profile);
     }
-  }, [currentUser.profile])
+  }, [currentUser.profile]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setProfileData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEducationChange = (index: number, field: keyof Education, value: string) => {
+  const handleEducationChange = (
+    index: number,
+    field: keyof Education,
+    value: string
+  ) => {
     setProfileData((prev) => ({
       ...prev,
-      education: prev.education.map((edu, i) => (i === index ? { ...edu, [field]: value } : edu)),
+      education: prev.education.map((edu, i) =>
+        i === index ? { ...edu, [field]: value } : edu
+      ),
     }));
   };
 
-  const handleExperienceChange = (index: number, field: keyof Experience, value: string) => {
+  const handleExperienceChange = (
+    index: number,
+    field: keyof Experience,
+    value: string
+  ) => {
     setProfileData((prev) => ({
       ...prev,
-      experience: prev.experience.map((exp, i) => (i === index ? { ...exp, [field]: value } : exp)),
+      experience: prev.experience.map((exp, i) =>
+        i === index ? { ...exp, [field]: value } : exp
+      ),
     }));
   };
 
   const addEducation = () => {
     setProfileData((prev) => ({
       ...prev,
-      education: [...prev.education, { schoolName: "", degree: "", fieldOfStudy: "", startYear: "", endYear: "" }],
+      education: [
+        ...prev.education,
+        {
+          schoolName: "",
+          degree: "",
+          fieldOfStudy: "",
+          startYear: "",
+          endYear: "",
+        },
+      ],
     }));
   };
 
   const addExperience = () => {
     setProfileData((prev) => ({
       ...prev,
-      experience: [...prev.experience, { title: "", company: "", location: "", startDate: "", endDate: "", description: "" }],
+      experience: [
+        ...prev.experience,
+        {
+          title: "",
+          company: "",
+          location: "",
+          startDate: "",
+          endDate: "",
+          description: "",
+        },
+      ],
     }));
   };
+  const handleupdatePassword = async () => {
+    console.log("password updated");
+  };
 
-  const handleImageChange = async(e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedImage = e.target.files[0];
       setImage(selectedImage);
-      
+
       const uploadedImgLink = await uploadImage(selectedImage);
       uploadedImgLink && setImgLink(uploadedImgLink);
-      uploadedImgLink && setProfileData((prev) => ({ ...prev, profilePicture: uploadedImgLink }));
+      uploadedImgLink &&
+        setProfileData((prev) => ({
+          ...prev,
+          profilePicture: uploadedImgLink,
+        }));
     }
   };
 
   const handleUpdateProfile = async () => {
     await dispatch(updateprofile(profileData));
-    const userToken = sessionStorage.getItem('userToken');
-    if(userToken){
-      await dispatch(fetchuser({ token: userToken}))
+    const userToken = sessionStorage.getItem("userToken");
+    if (userToken) {
+      await dispatch(fetchuser({ token: userToken }));
     }
     setIsEditing(false);
   };
@@ -124,27 +169,37 @@ const CandidateProfile: React.FC = () => {
             </p>
 
             {!isEditing ? (
-              <div className="flex justify-center space-x-2">
+              <div className="flex flex-col items-center space-y-2">
+              {/* First Button - Full Width */}
+              <div className="w-full">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
                 >
                   Edit Profile
                 </button>
-                <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
-                  Delete
-                </button>
               </div>
+              
+              {/* Second Row - Two Buttons Half Width */}
+              <div className="flex justify-center space-x-2 w-full">
+                <div className="w-1/2">
+                  <button
+                    onClick={() => setPasswordEditing(true)}
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  >
+                    Update Password
+                  </button>
+                </div>
+                <div className="w-1/2">
+                  <button className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+            
             ) : (
               <div className="space-y-4">
-                <input
-                  type="password"
-                  name="password"
-                  value={profileData.password}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded"
-                  placeholder="New Password"
-                />
                 <input
                   type="file"
                   onChange={handleImageChange}
@@ -168,6 +223,43 @@ const CandidateProfile: React.FC = () => {
               </div>
             )}
           </div>
+
+          {passwordEditing ? (
+            <div className="bg-white rounded-lg shadow-md p-6 mt-5">
+              <input
+                className="w-full px-3 py-2 border rounded mt-2"
+                type="password"
+                name="oldpassword"
+                placeholder="Old Password"
+              />
+              <input
+                className="w-full px-3 py-2 border rounded mt-4"
+                type="password"
+                name="oldpassword"
+                placeholder="New Password"
+              />
+              <input
+                className="w-full px-3 py-2 border rounded mt-4"
+                type="password"
+                name="oldpassword"
+                placeholder="Confirm Password"
+              />
+              <div className="flex justify-center space-x-2 mt-5">
+                <button
+                  onClick={handleupdatePassword}
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+                >
+                  Update Profile
+                </button>
+                <button
+                  onClick={() => setPasswordEditing(false)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : null}
         </div>
         <div className="w-full md:w-2/3 order-2 md:order-none">
           <h2 className="text-2xl font-bold mb-4">User Details</h2>
@@ -234,7 +326,12 @@ const CandidateProfile: React.FC = () => {
                 type="text"
                 name="skills"
                 value={profileData.skills.join(", ")}
-                onChange={(e) => setProfileData((prev) => ({ ...prev, skills: e.target.value.split(", ") }))}
+                onChange={(e) =>
+                  setProfileData((prev) => ({
+                    ...prev,
+                    skills: e.target.value.split(", "),
+                  }))
+                }
                 className="w-full px-3 py-2 border rounded"
                 placeholder="Skills (comma-separated)"
                 disabled={!isEditing}
@@ -247,7 +344,9 @@ const CandidateProfile: React.FC = () => {
                   <input
                     type="text"
                     value={edu.schoolName}
-                    onChange={(e) => handleEducationChange(index, "schoolName", e.target.value)}
+                    onChange={(e) =>
+                      handleEducationChange(index, "schoolName", e.target.value)
+                    }
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="School Name"
                     disabled={!isEditing}
@@ -255,7 +354,9 @@ const CandidateProfile: React.FC = () => {
                   <input
                     type="text"
                     value={edu.degree}
-                    onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
+                    onChange={(e) =>
+                      handleEducationChange(index, "degree", e.target.value)
+                    }
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Degree"
                     disabled={!isEditing}
@@ -263,7 +364,13 @@ const CandidateProfile: React.FC = () => {
                   <input
                     type="text"
                     value={edu.fieldOfStudy}
-                    onChange={(e) => handleEducationChange(index, "fieldOfStudy", e.target.value)}
+                    onChange={(e) =>
+                      handleEducationChange(
+                        index,
+                        "fieldOfStudy",
+                        e.target.value
+                      )
+                    }
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Field of Study"
                     disabled={!isEditing}
@@ -272,7 +379,13 @@ const CandidateProfile: React.FC = () => {
                     <input
                       type="text"
                       value={edu.startYear}
-                      onChange={(e) => handleEducationChange(index, "startYear", e.target.value)}
+                      onChange={(e) =>
+                        handleEducationChange(
+                          index,
+                          "startYear",
+                          e.target.value
+                        )
+                      }
                       className="w-1/2 px-3 py-2 border rounded"
                       placeholder="Start Year"
                       disabled={!isEditing}
@@ -280,7 +393,9 @@ const CandidateProfile: React.FC = () => {
                     <input
                       type="text"
                       value={edu.endYear}
-                      onChange={(e) => handleEducationChange(index, "endYear", e.target.value)}
+                      onChange={(e) =>
+                        handleEducationChange(index, "endYear", e.target.value)
+                      }
                       className="w-1/2 px-3 py-2 border rounded"
                       placeholder="End Year"
                       disabled={!isEditing}
@@ -304,7 +419,9 @@ const CandidateProfile: React.FC = () => {
                   <input
                     type="text"
                     value={exp.title}
-                    onChange={(e) => handleExperienceChange(index, "title", e.target.value)}
+                    onChange={(e) =>
+                      handleExperienceChange(index, "title", e.target.value)
+                    }
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Job Title"
                     disabled={!isEditing}
@@ -312,7 +429,9 @@ const CandidateProfile: React.FC = () => {
                   <input
                     type="text"
                     value={exp.company}
-                    onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
+                    onChange={(e) =>
+                      handleExperienceChange(index, "company", e.target.value)
+                    }
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Company"
                     disabled={!isEditing}
@@ -320,7 +439,9 @@ const CandidateProfile: React.FC = () => {
                   <input
                     type="text"
                     value={exp.location}
-                    onChange={(e) => handleExperienceChange(index, "location", e.target.value)}
+                    onChange={(e) =>
+                      handleExperienceChange(index, "location", e.target.value)
+                    }
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Location"
                     disabled={!isEditing}
@@ -329,21 +450,35 @@ const CandidateProfile: React.FC = () => {
                     <input
                       type="date"
                       value={exp.startDate}
-                      onChange={(e) => handleExperienceChange(index, "startDate", e.target.value)}
+                      onChange={(e) =>
+                        handleExperienceChange(
+                          index,
+                          "startDate",
+                          e.target.value
+                        )
+                      }
                       className="w-1/2 px-3 py-2 border rounded"
                       disabled={!isEditing}
                     />
                     <input
                       type="date"
                       value={exp.endDate}
-                      onChange={(e) => handleExperienceChange(index, "endDate", e.target.value)}
+                      onChange={(e) =>
+                        handleExperienceChange(index, "endDate", e.target.value)
+                      }
                       className="w-1/2 px-3 py-2 border rounded"
                       disabled={!isEditing}
                     />
                   </div>
                   <textarea
                     value={exp.description}
-                    onChange={(e) => handleExperienceChange(index, "description", e.target.value)}
+                    onChange={(e) =>
+                      handleExperienceChange(
+                        index,
+                        "description",
+                        e.target.value
+                      )
+                    }
                     className="w-full px-3 py-2 border rounded"
                     placeholder="Job Description"
                     disabled={!isEditing}
