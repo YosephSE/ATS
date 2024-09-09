@@ -34,6 +34,7 @@ const createApplication = asyncHandler(
   async (req: CustomRequest, res: Response) => {
     const { jobId } = req.body;
     const candidateId = req.user._id;
+    console.log(candidateId);
     const status = "pending";
 
     const jobDetails = await Job.findById(jobId);
