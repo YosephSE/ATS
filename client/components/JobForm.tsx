@@ -127,7 +127,7 @@ const JobForm = ({ page, id}: Props) => {
                 maxSalary: parseInt(maxSalaryRef.current.value),
                 description: jobDescriptionRef.current.value,
                 status: status,
-                requirments: requirements,
+                requirements: requirements,
                 responsibilities: responsibilities
             }
 
