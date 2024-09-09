@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, ContactPayload, adminUserSlice, TokenPayload } from "../../../types/users.types";
+import { LoginUserPayload, ContactPayload, adminUserSlice, TokenPayload, passwordPayload } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -87,6 +87,18 @@ export const updateprofile = createAsyncThunk(
     }
 )
 
+export const changepassword = createAsyncThunk(
+    "admin/changepassword",
+    async( {oldPassword, newPassword}: passwordPayload, { rejectWithValue }) => {
+        try{
+            const response = await axios.post(`${api}/admins/changepassword`, {oldPassword, newPassword})
+            return response.data
+        } catch (error:any) {
+            return rejectWithValue(error.response?.data?.error || error.error)
+        }
+    }
+)
+
 export const admins = createAsyncThunk(
     "admin/admins",
     async(_, { rejectWithValue }) => {
@@ -144,7 +156,7 @@ const adminSlice = createSlice({
             .addCase(contact.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                state.error = action.payload as string || "Registration failed.";
+                state.error = action.payload as string;
             })
 
             //Login
@@ -164,7 +176,7 @@ const adminSlice = createSlice({
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                state.error = action.payload as string || "Registration failed.";
+                state.error = action.payload as string;
             })
 
             //Fetch User
@@ -184,7 +196,7 @@ const adminSlice = createSlice({
             .addCase(fetchuser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                state.error = action.payload as string || "Registration failed.";
+                state.error = action.payload as string;
             })
 
 
@@ -220,7 +232,7 @@ const adminSlice = createSlice({
             .addCase(profile.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                state.error = action.payload as string || "Registration failed.";
+                state.error = action.payload as string;
             })
 
             //Update Profile
@@ -239,7 +251,29 @@ const adminSlice = createSlice({
             .addCase(updateprofile.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                state.error = action.payload as string || "Registration failed.";
+                state.error = action.payload as string;
+            })
+
+            //Change Password
+            .addCase(changepassword.pending, (state) => {
+                state.isLoading = true
+                state.isError = false
+                state.isSuccess = false
+                state.error = null
+            })
+            .addCase(changepassword.fulfilled, (state) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.error = null
+                if (state.loggedInUser) {
+                    state.loggedInUser.firstTime = false;
+                }
+            })
+            .addCase(changepassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
             })
             
             // Admins to Approve

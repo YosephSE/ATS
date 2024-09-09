@@ -31,6 +31,7 @@ interface User {
     name: string;
     email: string;
     role: "super admin" | "admin" | "user";
+    firstTime?: boolean;
 }
 
 export interface Education {
@@ -105,6 +106,18 @@ export interface adminProfile{
     phoneNumber: string
     profilePicture: string
     role: string
+}
+
+export interface passwordPayload{
+    oldPassword: string
+    newPassword: string
+}
+export interface adminUser {
+    _id: string;
+    name: string;
+    email: string;
+    role: "super admin" | "admin" | "user";
+    firstTime: boolean;
 }
 export interface adminUserSlice {
     loggedInUser: User | null;

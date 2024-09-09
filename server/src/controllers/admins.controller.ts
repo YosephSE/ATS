@@ -33,6 +33,7 @@ const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
         name: user.firstName,
         email: user.email,
         role: user.role,
+        firstTime: user.firstTime,
         token,
       });
     } else {
@@ -152,6 +153,7 @@ const status: any = asyncHandler(async (req: Request, res: Response) => {
       role: admin?.role,
       name: admin?.firstName,
       email: admin?.email,
+      firstTime: admin?.firstTime
     });
   } catch (error) {
     res.json({ loggedIn: false, message: jwtsecret! });
@@ -207,6 +209,11 @@ const changePassword = asyncHandler(
       return;
     }
 
+    if(admin.firstTime){
+      await Admin.findByIdAndUpdate(id , {
+        firstTime: false
+      })
+    }
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     admin.password = hashedNewPassword;
