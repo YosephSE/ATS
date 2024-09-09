@@ -32,9 +32,10 @@ const singleApplication = asyncHandler(async (req: Request, res: Response) => {
 
 const createApplication = asyncHandler(
   async (req: CustomRequest, res: Response) => {
-    const { jobId } = req.body;
-    const candidateId = req.user._id;
-    console.log(candidateId);
+    const { jobId } = await req.body;
+    const candidateId = await req.user._id;
+    console.log("candidateId: ", candidateId);
+    console.log("jobId: ", jobId);
     const status = "pending";
 
     const jobDetails = await Job.findById(jobId);
@@ -44,7 +45,7 @@ const createApplication = asyncHandler(
       job: jobDetails,
       candidate: candidateDetails,
     };
-    const score = applicationScore(toBeScored);
+    const score = await applicationScore(toBeScored);
 
     const newApplication = {
       jobId,
