@@ -36,8 +36,24 @@ const createApplication = asyncHandler(
     const candidateId = await req.user._id;
     const status = "pending";
 
-    const jobDetails = await Job.findById(jobId)
-    const candidateDetails = await Candidate.findById(candidateId)
+    const jobDetails = await Job.findById(jobId);
+    const candidateDetails = await Candidate.findById(candidateId);
+    if (!candidateDetails?.skills) {
+      res
+        .status(400)
+        .json({ message: "Please add your skills to your profile!" });
+      return;
+    } else if (!candidateDetails?.education) {
+      res
+        .status(400)
+        .json({ message: "Please add your education to your profile!" });
+      return;
+    } else if (!candidateDetails?.experience) {
+      res
+        .status(400)
+        .json({ message: "Please add your experience to your profile!" });
+      return;
+    }
 
     const toBeScored = {
       job: jobDetails,
