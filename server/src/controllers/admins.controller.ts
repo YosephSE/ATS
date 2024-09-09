@@ -224,6 +224,28 @@ const changePassword = asyncHandler(
   }
 );
 
+const adminJobs = asyncHandler(async (req: Request, res: Response) => {
+  const jobs = await Job.find().populate(
+    "postedBy",
+    "firstName lastName email"
+  );
+
+  const jobsWithApplicationCount = await Promise.all(
+    jobs.map(async (job) => {
+      const applicationCount = await Application.countDocuments({
+        jobId: job._id,
+      });
+
+      return {
+        ...job.toObject(),
+        applications: applicationCount,
+      };
+    })
+  );
+
+  res.status(200).json({ jobs: jobsWithApplicationCount });
+});
+
 export {
   loginAdmin,
   registerAdmin,
@@ -234,4 +256,5 @@ export {
   adminsToApprove,
   status,
   changePassword,
+  adminJobs
 };

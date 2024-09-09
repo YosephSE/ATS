@@ -19,7 +19,7 @@ router.post(
   createJob
 );
 
-router.get("/:id", verifyToken, singleJob);
+router.get("/:id", singleJob);
 
 router.put(
   "/:id",
