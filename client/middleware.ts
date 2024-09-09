@@ -5,6 +5,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const authCookie = request.cookies.get('auth');
   const token = authCookie ? authCookie.value : '';
+  console.log(token)
 
   let userRole = '';
 
@@ -17,7 +18,7 @@ export function middleware(request: NextRequest) {
     }
   } catch (error) {
     console.error('Invalid token:', error);
-    return NextResponse.redirect(new URL('/403', request.url)); // Redirect on error
+    return NextResponse.redirect(new URL('/403', request.url)); 
   }
 
   if (pathname.startsWith('/superadmin') && userRole !== 'super admin') {

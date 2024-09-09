@@ -28,6 +28,7 @@ export default function DataTable() {
       title: app.jobId.title,
       jobstatus: app.jobId.status ? "Active" : "Inactive",
       status: app.status,
+      AIScore: app.AIScore,
       createdAt: app.createdAt,
     }));
     setRows(formattedRows || []);
@@ -47,6 +48,11 @@ export default function DataTable() {
     {
       field: "jobstatus",
       headerName: "Job Status",
+      flex: 1,
+    },
+    {
+      field: "AIScore",
+      headerName: "AI Score",
       flex: 1,
     },
     {
