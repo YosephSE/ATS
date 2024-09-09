@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://ats-bay.vercel.app/",
+    origin: true,
     credentials: true,
   })
 );
