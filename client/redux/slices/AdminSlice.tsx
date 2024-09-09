@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginUserPayload, ContactPayload, adminUserSlice, TokenPayload } from "../../../types/users.types";
+import { LoginUserPayload, ContactPayload, adminUserSlice, TokenPayload, passwordPayload } from "../../../types/users.types";
 import axios from "axios";
 import api from "../api";
 
@@ -89,9 +89,9 @@ export const updateprofile = createAsyncThunk(
 
 export const changepassword = createAsyncThunk(
     "admin/changepassword",
-    async( user: any, { rejectWithValue }) => {
+    async( {oldPassword, newPassword}: passwordPayload, { rejectWithValue }) => {
         try{
-            const response = await axios.post(`${api}/admins/changepassword`, user)
+            const response = await axios.post(`${api}/admins/changepassword`, {oldPassword, newPassword})
             return response.data
         } catch(error: any) {
             return rejectWithValue(error.response?.data?.error || error.error)
@@ -241,6 +241,9 @@ const adminSlice = createSlice({
                 state.isError = false
                 state.isSuccess = true
                 state.error = null
+                if (state.loggedInUser) {
+                    state.loggedInUser.firstTime = false;
+                }
             })
             .addCase(changepassword.rejected, (state, action) => {
                 state.isLoading = false;
