@@ -6,7 +6,7 @@ import { Button, CircularProgress, Menu, MenuItem } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
 import { setLoginCandidate } from '@/redux/slices/ModalSlice'
 import { useRouter } from 'next/navigation'
-import { RootState } from '@/redux/store'
+import { RootState } from '@/redux/Store'
 import { logout, resetSuccess } from '@/redux/slices/UserSlice'
 import { ExpandMore } from '@mui/icons-material'
 

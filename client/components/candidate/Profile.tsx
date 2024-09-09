@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import { Plus } from "lucide-react";
 import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
-import { RootState } from "@/redux/store";
+import { RootState } from "@/redux/Store";
 import {
   candidateProfile,
   Education,

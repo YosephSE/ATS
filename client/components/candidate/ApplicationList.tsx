@@ -1,7 +1,7 @@
 "use client"
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { myapplications } from "@/redux/slices/UserSlice";
-import { RootState } from "@/redux/store";
+import { RootState } from "@/redux/Store";
 import React, { useEffect } from "react";
 
 const ApplicationList = () => {

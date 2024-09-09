@@ -3,7 +3,7 @@ import { Switch } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { admin } from "../../../types/users.types";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
-import { RootState } from "@/redux/store";
+import { RootState } from "@/redux/Store";
 import { admins, approve } from "@/redux/slices/AdminSlice";
 
 const AdminApprove = () => {

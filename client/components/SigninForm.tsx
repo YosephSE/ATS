@@ -8,7 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { setClosed, setRegister } from '@/redux/slices/ModalSlice';
 import { login, resetSuccess } from '@/redux/slices/UserSlice';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/redux/Store';
 import { useRouter } from 'next/navigation';
 import useLoginHandler from '@/customHooks/loginHandler';
 import useLoginState from '@/customHooks/loginState';

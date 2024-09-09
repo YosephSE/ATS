@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
-import { RootState } from "@/redux/store";
+import { RootState } from "@/redux/Store";
 import { fetchuser, profile, updateprofile } from "@/redux/slices/AdminSlice";
 import { adminProfile } from "../../../types/users.types";
 

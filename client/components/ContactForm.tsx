@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
 import { setLoginAdmin } from '@/redux/slices/ModalSlice';
 import { countries, CountryData } from '../public/countrydata';
 import { contact } from '@/redux/slices/AdminSlice';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/redux/Store';
 
 const ContactForm = () => {
   const firstRef = useRef<HTMLInputElement>(null);

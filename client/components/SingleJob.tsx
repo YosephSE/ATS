@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks'
-import { RootState } from '@/redux/store'
+import { RootState } from '@/redux/Store'
 import { BookmarkBorder } from '@mui/icons-material'
 import { CardContent, Button, Card, IconButton, CircularProgress } from '@mui/material'
 import { apply } from '@/redux/slices/ApplicationSlice'

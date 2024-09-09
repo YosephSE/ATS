@@ -19,7 +19,7 @@ import {
 
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/redux/Hooks';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/redux/Store';
 import { logout, resetSuccess } from '@/redux/slices/AdminSlice';
 import { useRouter } from 'next/navigation';
 

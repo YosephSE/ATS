@@ -9,7 +9,7 @@ import { useAppDispatch } from '@/redux/Hooks';
 import { setClosed, setLoginCandidate} from '@/redux/slices/ModalSlice';
 import { register, resetSuccess} from '@/redux/slices/UserSlice';
 import { useAppSelector } from '@/redux/Hooks';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/redux/Store';
 import { useRouter } from 'next/navigation';
 
 const SignUpForm = () => {
