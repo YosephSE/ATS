@@ -32,7 +32,7 @@ export const fetchuser = createAsyncThunk(
             const response = await axios.post(`${api}/admins/status`, token )
             return response.data
         } catch(error: any){
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 )
@@ -44,7 +44,7 @@ export const login = createAsyncThunk(
             sessionStorage.setItem('adminToken', response.data.token);
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 );
@@ -57,7 +57,7 @@ export const logout = createAsyncThunk(
             sessionStorage.removeItem('adminToken')
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error);
+            return rejectWithValue(error.response?.data?.error || error.response.data.message);
         }
     }
 );
@@ -69,7 +69,7 @@ export const profile = createAsyncThunk(
             const response = await axios.get(`${api}/admins/profile`)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 
@@ -82,7 +82,7 @@ export const updateprofile = createAsyncThunk(
             const response = await axios.put(`${api}/admins/profile`, user)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
@@ -94,7 +94,7 @@ export const changepassword = createAsyncThunk(
             const response = await axios.post(`${api}/admins/changepassword`, {oldPassword, newPassword})
             return response.data
         } catch (error:any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
@@ -106,7 +106,7 @@ export const admins = createAsyncThunk(
             const response = await axios.get(`${api}/admins/adminsToApprove`)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
@@ -119,7 +119,7 @@ export const approve = createAsyncThunk(
             console.log(response.data)
             return response.data
         } catch(error: any) {
-            return rejectWithValue(error.response?.data?.error || error.error)
+            return rejectWithValue(error.response?.data?.error || error.response.data.message)
         }
     }
 )
