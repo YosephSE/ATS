@@ -1,37 +1,34 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import { Select, MenuItem } from "@mui/material";
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/Store";
 import { allapplications } from "@/redux/slices/ApplicationSlice";
 
 
+
 export default function DataTable() {
   const allApplications = useAppSelector((state: RootState) => state.applications.allApplications);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchApplication = async() => {
-      await dispatch(allapplications())
-    }
+    const fetchApplication = async () => {
+      await dispatch(allapplications());
+    };
 
-    fetchApplication()
+    fetchApplication();
+  }, [dispatch]);
 
-  }, [])
-
-  const [rows, setRows] = useState(allApplications ? allApplications.map((app) => (
-    {
-      id: app._id, 
-      name: `${app.candidateId.firstName} ${app.candidateId.lastName}`, 
-      title: app.jobId.title,
-      jobstatus: app.jobId.status? "Active": "Inactive",
-      status: app.status,
-      createdAt: app.createdAt
-     }
-  )) : []);
+  const [rows, setRows] = useState<any>(allApplications ? allApplications.map((app) => ({
+    id: app._id, 
+    name: `${app.candidateId.firstName} ${app.candidateId.lastName}`, 
+    title: app.jobId.title,
+    jobstatus: app.jobId.status ? "Active" : "Inactive",
+    status: app.status,
+    createdAt: app.createdAt
+  })) : []);
 
   const columns: GridColDef[] = [
     {
@@ -57,11 +54,7 @@ export default function DataTable() {
       renderCell: (params) => (
         <ApplicationStatusDropdown
           value={params.value}
-          onChange={(newValue: any) =>
-            params.api.updateRows([
-              { ...params.row, applicationStatus: newValue },
-            ])
-          }
+          onChange={(newValue: string) => handleStatusChange(params, newValue)}
         />
       ),
     },
@@ -71,21 +64,22 @@ export default function DataTable() {
       flex: 1,
     },
   ];
-  
-  const ApplicationStatusDropdown = ({
-    value,
-    onChange,
-  }: {
-    value: any;
-    onChange: (newValue: any) => void;
-  }) => (
+
+  const handleStatusChange = (params: any, newValue: string) => {
+    params.api.updateRows([{ ...params.row, status: newValue }]);
+  };
+
+  const ApplicationStatusDropdown: React.FC<{
+    value: string;
+    onChange: (newValue: string) => void;
+  }> = ({ value, onChange }) => (
     <Select value={value} onChange={(e) => onChange(e.target.value)} fullWidth>
-      <MenuItem value="In Review">In Review</MenuItem>
-      <MenuItem value="Rejected">Rejected</MenuItem>
-      <MenuItem value="Shortlisted">Shortlisted</MenuItem>
+      <MenuItem value="In Review" sx={{ backgroundColor: '#e0f7fa', margin: '4px', borderRadius: '4px' }}>In Review</MenuItem>
+      <MenuItem value="Rejected" sx={{ backgroundColor: '#ffccbc', margin: '4px', borderRadius: '4px' }}>Rejected</MenuItem>
+      <MenuItem value="Shortlisted" sx={{ backgroundColor: '#c8e6c9', margin: '4px', borderRadius: '4px' }}>Shortlisted</MenuItem>
     </Select>
   );
-  
+
   return (
     <Paper sx={{ height: "auto", width: "100%" }}>
       <DataGrid
