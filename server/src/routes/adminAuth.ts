@@ -9,6 +9,7 @@ import {
   status,
   updateProfile,
   changePassword,
+  adminJobs,
 } from "../controllers/admins.controller";
 import verifyToken from "../middleware/verifyToken";
 import adminAuthorize from "../middleware/adminAuthorize";
@@ -41,6 +42,7 @@ router.get(
   stats
 );
 
+router.get("/jobs", verifyToken, adminAuthorize(["admin", "super admin"]), adminJobs);
 router.post("/approve/:id", approveAdmin);
 
 router.get("/adminsToApprove", adminsToApprove);

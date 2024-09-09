@@ -48,7 +48,6 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
 const createJob = asyncHandler(async (req: CustomRequest, res: Response) => {
   const newJob = new Job(req.body);
   const postedBy = req.user._id;
-  // const postedBy = new mongoose.Types.ObjectId("66daeb6210c8a0a5a62474d6");
   newJob.postedBy = postedBy;
   await newJob.save();
   res.status(201).json({ message: "Job created successfully" });
