@@ -49,6 +49,7 @@ const CandidateProfile: React.FC = () => {
   useEffect(() => {
     if (currentUser.profile) {
       setProfileData(currentUser.profile);
+      setImgLink(currentUser.profile.profilePicture)
     }
   }, [currentUser.profile]);
 
