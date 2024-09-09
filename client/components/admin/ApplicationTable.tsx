@@ -29,7 +29,7 @@ export default function DataTable() {
       jobstatus: app.jobId.status ? "Active" : "Inactive",
       status: app.status,
       AIScore: app.AIScore,
-      createdAt: app.createdAt,
+      createdAt: app.createdAt.toLocaleDateString(),
     }));
     setRows(formattedRows || []);
   }, [allApplications]);
