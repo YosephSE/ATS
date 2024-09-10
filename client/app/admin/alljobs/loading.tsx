@@ -26,12 +26,11 @@ const JobListingSkeleton = () => {
             <div className="h-4 bg-gray-200 rounded"></div>
             <div className="h-4 w-4 bg-gray-200 rounded"></div>
             <div className="h-4 bg-gray-200 rounded"></div>
-            <div className="h-4 w-4 bg-gray-200 rounded"></div>
           </div>
         ))}
       </div>
       <div className="mt-4 flex justify-between items-center text-sm text-gray-500">
-        <span>1-10 of 26</span>
+        <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
         <div className="space-x-2">
           <button className="px-2 py-1 border rounded">&lt;</button>
           <button className="px-2 py-1 border rounded">&gt;</button>
