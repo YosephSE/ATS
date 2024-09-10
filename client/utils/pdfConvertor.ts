@@ -75,7 +75,7 @@ export const generateAndUploadPdf = async (data: candidateProfile) => {
 doc.setFontSize(16);
 doc.setTextColor(sectionColor);
 doc.setFont('Helvetica', 'bold');
-doc.text("Education", 15, data.experience.length * 30 + 140); 
+doc.text("Education", 15, data.experience.length * 30 + 150); 
 
 data.education.forEach((edu: Education, index: number) => {
   const yPos = data.experience.length * 30 + 150 + index * 13; 

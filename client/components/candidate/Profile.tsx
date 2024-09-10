@@ -160,9 +160,13 @@ const CandidateProfile: React.FC = () => {
   };
 
   const handleUpdateProfile = async () => {
-    const pdfLink = await generateAndUploadPdf(profileData);
-    const newProfile = { ...profileData, pdf: pdfLink}
-    await dispatch(updateprofile(newProfile));
+    if(profileData.experience.length && profileData.education.length){
+      const pdfLink = await generateAndUploadPdf(profileData);
+      const newProfile = { ...profileData, pdf: pdfLink}
+      await dispatch(updateprofile(newProfile));
+    }else{
+      await dispatch(updateprofile(profileData));
+    }
     setIsEditing(false);
   };
 
@@ -302,6 +306,7 @@ const CandidateProfile: React.FC = () => {
                 className="w-full px-3 py-2 border rounded"
                 placeholder="First Name"
                 disabled={!isEditing}
+                required
               />
               <input
                 type="text"
@@ -311,6 +316,7 @@ const CandidateProfile: React.FC = () => {
                 className="w-full px-3 py-2 border rounded"
                 placeholder="Last Name"
                 disabled={!isEditing}
+                required
               />
               <input
                 type="email"
@@ -320,6 +326,7 @@ const CandidateProfile: React.FC = () => {
                 className="w-full px-3 py-2 border rounded"
                 placeholder="Email"
                 disabled={!isEditing}
+                required
               />
               <input
                 type="tel"
@@ -329,6 +336,7 @@ const CandidateProfile: React.FC = () => {
                 className="w-full px-3 py-2 border rounded"
                 placeholder="Phone Number"
                 disabled={!isEditing}
+                required
               />
               <input
                 type="text"
@@ -338,6 +346,7 @@ const CandidateProfile: React.FC = () => {
                 className="w-full px-3 py-2 border rounded"
                 placeholder="LinkedIn URL"
                 disabled={!isEditing}
+                required
               />
               <input
                 type="text"
@@ -379,6 +388,7 @@ const CandidateProfile: React.FC = () => {
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="School Name"
                     disabled={!isEditing}
+                    required
                   />
                   <input
                     type="text"
@@ -389,6 +399,7 @@ const CandidateProfile: React.FC = () => {
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Degree"
                     disabled={!isEditing}
+                    required
                   />
                   <input
                     type="text"
@@ -403,6 +414,7 @@ const CandidateProfile: React.FC = () => {
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Field of Study"
                     disabled={!isEditing}
+                    required
                   />
                   <div className="flex gap-2">
                     <input
@@ -418,6 +430,7 @@ const CandidateProfile: React.FC = () => {
                       className="w-1/2 px-3 py-2 border rounded"
                       placeholder="Start Year"
                       disabled={!isEditing}
+                      required
                     />
                     <input
                       type="text"
@@ -428,6 +441,7 @@ const CandidateProfile: React.FC = () => {
                       className="w-1/2 px-3 py-2 border rounded"
                       placeholder="End Year"
                       disabled={!isEditing}
+                      required
                     />
                   </div>
                 </div>
@@ -454,6 +468,7 @@ const CandidateProfile: React.FC = () => {
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Job Title"
                     disabled={!isEditing}
+                    required
                   />
                   <input
                     type="text"
@@ -464,6 +479,7 @@ const CandidateProfile: React.FC = () => {
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Company"
                     disabled={!isEditing}
+                    required
                   />
                   <input
                     type="text"
@@ -474,6 +490,7 @@ const CandidateProfile: React.FC = () => {
                     className="w-full px-3 py-2 border rounded mb-2"
                     placeholder="Location"
                     disabled={!isEditing}
+                    required
                   />
                   <div className="flex gap-2 mb-2">
                     <input
@@ -488,6 +505,7 @@ const CandidateProfile: React.FC = () => {
                       }
                       className="w-1/2 px-3 py-2 border rounded"
                       disabled={!isEditing}
+                      required
                     />
                     <input
                       type="date"
@@ -497,6 +515,7 @@ const CandidateProfile: React.FC = () => {
                       }
                       className="w-1/2 px-3 py-2 border rounded"
                       disabled={!isEditing}
+                      required
                     />
                   </div>
                   <textarea
