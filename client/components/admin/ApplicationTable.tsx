@@ -29,7 +29,7 @@ export default function DataTable() {
       jobstatus: app.jobId.status ? "Active" : "Inactive",
       status: app.status,
       AIScore: app.AIScore,
-      pdf: app.candidateId.pdf,
+      pdf: app.candidateId.pdf || "",
       createdAt: new Date(app.createdAt).toLocaleDateString(),
     }));
     setRows(formattedRows || []);
