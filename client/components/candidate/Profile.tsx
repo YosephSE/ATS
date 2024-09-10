@@ -160,10 +160,6 @@ const CandidateProfile: React.FC = () => {
 
   const handleUpdateProfile = async () => {
     await dispatch(updateprofile(profileData));
-    const userToken = sessionStorage.getItem("userToken");
-    if (userToken) {
-      await dispatch(fetchuser({ token: userToken }));
-    }
     setIsEditing(false);
   };
 
