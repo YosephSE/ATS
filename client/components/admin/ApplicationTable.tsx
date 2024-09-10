@@ -35,7 +35,6 @@ export default function DataTable() {
     setRows(formattedRows || []);
   }, [allApplications]);
 
-  console.log()
   const columns: GridColDef[] = [
     {
       field: "name",
@@ -80,13 +79,15 @@ export default function DataTable() {
     },
   ];
   return (
-    <Paper sx={{ height: "auto", width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSizeOptions={[20, 50, 100, 1000]}
-        sx={{ border: 0 }}
-      />
-    </Paper>
+    <div className="h-auto w-full max-w-full overflow-x-auto">
+      <div className="min-w-[900px]">
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSizeOptions={[20, 50, 100, 1000]}
+          sx={{ border: 0 }}
+        />
+      </div>
+    </div>
   );
 }
