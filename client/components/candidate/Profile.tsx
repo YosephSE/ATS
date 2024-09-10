@@ -160,7 +160,7 @@ const CandidateProfile: React.FC = () => {
   };
 
   const handleUpdateProfile = async () => {
-    if(profileData.experience.length && profileData.education.length){
+    if(profileData.experience.length && profileData.education.length && profileData.skills){
       const pdfLink = await generateAndUploadPdf(profileData);
       const newProfile = { ...profileData, pdf: pdfLink}
       await dispatch(updateprofile(newProfile));
