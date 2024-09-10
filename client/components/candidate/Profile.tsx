@@ -172,7 +172,7 @@ const CandidateProfile: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row items-center gap-8">
+      <div className="flex flex-col md:flex-row gap-8">
         <div className="w-full md:w-1/3 order-1 md:order-none">
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex items-center justify-center mb-4">
