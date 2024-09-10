@@ -38,17 +38,17 @@ const createApplication = asyncHandler(
 
     const jobDetails = await Job.findById(jobId);
     const candidateDetails = await Candidate.findById(candidateId);
-    if (!candidateDetails?.skills) {
+    if (!candidateDetails?.skills || candidateDetails?.skills.length === 0) {
       res
         .status(400)
         .json({ message: "Please add your skills to your profile!" });
       return;
-    } else if (!candidateDetails?.education) {
+    } else if (!candidateDetails?.education || candidateDetails?.education.length === 0) {
       res
         .status(400)
         .json({ message: "Please add your education to your profile!" });
       return;
-    } else if (!candidateDetails?.experience) {
+    } else if (!candidateDetails?.experience || candidateDetails?.experience.length === 0) {
       res
         .status(400)
         .json({ message: "Please add your experience to your profile!" });
