@@ -6,15 +6,32 @@ import Chart from "@/components/stats/PieChart";
 import axios from "axios";
 import api from "@/redux/api";
 
-const Statistics = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+interface StatsData {
+  totalApplications: number;
+  totalJobs: number;
+  totalCandidates: number;
+  pendingApplications: number;
+  acceptedApplications: number;
+  rejectedApplications: number;
+  activeJobs: number;
+  inactiveJobs: number;
+}
 
+interface ChartData {
+  id: number;
+  value: number;
+  label: string;
+  color: string;
+}
+
+const Statistics: React.FC = () => {
+  const [data, setData] = useState<StatsData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${api}/admins/stats`);
+        const response = await axios.get<StatsData>(`${api}/admins/stats`);
         setData(response.data);
         setLoading(false);
       } catch (err) {
@@ -26,14 +43,14 @@ const Statistics = () => {
   }, []);
 
   if (loading) return <div>Loading...</div>;
+  if (!data) return <div>No data available</div>;
 
-
-  const jobs = [
+  const jobs: ChartData[] = [
     { id: 1, value: data.activeJobs, label: "Active", color: "#92BFB1" },
     { id: 2, value: data.inactiveJobs, label: "Inactive", color: "#FFD400" },
   ];
 
-  const applications = [
+  const applications: ChartData[] = [
     {
       id: 1,
       value: data.pendingApplications,
