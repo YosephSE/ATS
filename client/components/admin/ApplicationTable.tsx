@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { Button, Menu, MenuItem } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/Store";
 import { allapplications } from "@/redux/slices/ApplicationSlice";
 import ButtonMenu from "./ButtonMenu";
+import Link from "next/link";
 
 export default function DataTable() {
   const allApplications = useAppSelector((state: RootState) => state.applications.allApplications);
@@ -29,6 +29,7 @@ export default function DataTable() {
       jobstatus: app.jobId.status ? "Active" : "Inactive",
       status: app.status,
       AIScore: app.AIScore,
+      pdf: app.candidateId.pdf,
       createdAt: new Date(app.createdAt).toLocaleDateString(),
     }));
     setRows(formattedRows || []);
@@ -55,6 +56,14 @@ export default function DataTable() {
       field: "AIScore",
       headerName: "AI Score",
       flex: 1,
+    },
+    {
+      field: "pdf",
+      headerName: "Application",
+      flex: 1,
+      renderCell: (params) => (
+        <Link href={params.row.pdf} className="text-blue-600 hover:underline">View Application</Link>
+      )
     },
     {
       field: "status",
