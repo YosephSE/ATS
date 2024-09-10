@@ -295,7 +295,6 @@ const CandidateProfile: React.FC = () => {
           )}
         </div>
         <div className="w-full md:w-2/3 order-2 md:order-none mb-8">
-          <h2 className="text-2xl font-bold mb-4">User Details</h2>
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
