@@ -5,6 +5,8 @@ import { CardContent, Button, Card, IconButton, CircularProgress } from '@mui/ma
 import { apply } from '@/redux/slices/ApplicationSlice'
 import React from 'react'
 import { setLoginCandidate } from '@/redux/slices/ModalSlice'
+import Modal from "./Modal";
+
 
 const SingleJob = () => {
     const currentState = useAppSelector((state: RootState) => state.applications)
@@ -82,6 +84,7 @@ const SingleJob = () => {
                 </h3>
                 </CardContent>
             </Card>
+            <Modal />
             </div>
     )
 }
