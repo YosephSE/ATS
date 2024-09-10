@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Job from "../models/jobs";
 import asyncHandler from "express-async-handler";
+import Application from "../models/applications";
 
 interface CustomRequest extends Request {
   user?: any;
@@ -37,13 +38,29 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
     filter["maxSalary"] = { $gte: minSalary || 0 };
   }
 
+
   const jobs = await Job.find(filter).populate(
     "postedBy",
     "firstName lastName email"
   );
 
-  res.status(200).json(jobs);
+
+  const jobsWithApplicationCount = await Promise.all(
+    jobs.map(async (job) => {
+      const applicationCount = await Application.countDocuments({
+        jobId: job._id,
+      });
+
+      return {
+        ...job.toObject(),
+        applications: applicationCount,
+      };
+    })
+  );
+
+  res.status(200).json({ jobs: jobsWithApplicationCount });
 });
+
 
 const createJob = asyncHandler(async (req: CustomRequest, res: Response) => {
   const newJob = new Job(req.body);
