@@ -11,12 +11,13 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
+import Sidebar from '../SideBar';
 
 const LoadingSkeleton = () => {
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       {/* Sidebar */}
-      <Box sx={{ width: 60, bgcolor: '#f0f7ff', p: 1 }}>
+      {/* <Box sx={{ width: 60, bgcolor: '#f0f7ff', p: 1 }}>
         <List>
           {[...Array(5)].map((_, index) => (
             <ListItem key={index} sx={{ mb: 2 }}>
@@ -26,7 +27,9 @@ const LoadingSkeleton = () => {
             </ListItem>
           ))}
         </List>
-      </Box>
+      </Box> */}
+
+      <Sidebar />
 
       {/* Main content */}
       <Box sx={{ flexGrow: 1, p: 3 }}>

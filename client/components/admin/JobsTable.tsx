@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridColDef} from "@mui/x-data-grid";
-import { Switch, CircularProgress } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Switch, CircularProgress, IconButton } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { alljobs, editjob } from "@/redux/slices/JobSlice";
 import { RootState } from "@/redux/Store";
 import { Jobs } from "../../../types/job.types";
+import { Edit } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface LoadingState {
   [key: string]: boolean;
@@ -13,10 +15,10 @@ interface LoadingState {
 
 export default function DataTable() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const allJobs = useAppSelector((state: RootState) => state.jobs.allJobs);
   const [localJobs, setLocalJobs] = useState<Jobs[]>([]);
   const [loadingStates, setLoadingStates] = useState<LoadingState>({});
-
 
   useEffect(() => {
     if(allJobs){
@@ -25,7 +27,6 @@ export default function DataTable() {
       setLocalJobs([]);
     }
   }, [allJobs]);
-
 
   const rows = localJobs;
 
@@ -47,6 +48,10 @@ export default function DataTable() {
     }
   };
 
+  const handleEdit = (id: string) => {
+    router.push(`/admin/editjob/${id}`);
+  };
+
   const columns: GridColDef[] = [
     {
       field: "title",
@@ -66,8 +71,8 @@ export default function DataTable() {
         loadingStates[params.id.toString()] ? (
           <CircularProgress size={20} />
         ) : (
-          <Switch 
-            color="primary" 
+          <Switch
+            color="primary"
             checked={params.row.status}
             onChange={(event) => {
               event.stopPropagation();
@@ -98,8 +103,18 @@ export default function DataTable() {
       headerName: "Posted By",
       flex: 1,
     },
+    {
+      field: "edit",
+      headerName: "Edit",
+      flex: 1,
+      renderCell: (params) => (
+        <IconButton onClick={() => handleEdit(params.id.toString())}>
+          <Edit size={20} />
+        </IconButton>
+      ),
+    },
   ];
-  
+
   const paginationModel = { page: 0, pageSize: 10 };
 
   useEffect(() => {
@@ -108,7 +123,6 @@ export default function DataTable() {
     }
     fetchJobs();
   }, [dispatch]);
-
 
   return (
     <div className="h-auto w-full max-w-full overflow-x-auto">
