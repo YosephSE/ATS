@@ -144,17 +144,20 @@ const Sidebar = () => {
 
         <div className={`
           p-4
-          bg-transparent
           transition-all duration-300 ease-in-out
-          ${isOpen ? 'w-full text-left' : 'w-full text-center'}
+          ${isOpen 
+            ? 'mx-4 mb-4 bg-white rounded-lg shadow-md' 
+            : 'w-full flex justify-center items-center'
+          }
         `}>
-          {isOpen && (
+          {isOpen ? (
             <p className="text-sm text-gray-600 truncate">
               {user.loggedInUser?.email}
             </p>
-          )}
-          {!isOpen && (
-            <div className="w-8 h-8 mx-auto bg-gray-200 rounded-full" />
+          ) : (
+            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-medium">
+              {user.loggedInUser?.email ? user.loggedInUser.email[0].toUpperCase() : '?'}
+            </div>
           )}
         </div>
       </div>
