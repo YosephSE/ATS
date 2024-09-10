@@ -103,7 +103,8 @@ const updateApplication = asyncHandler(
       (error as any).status = 404;
       throw error;
     } 
-    res.status(200).json(updatedApplication);
+    const updateApplicationpopulated = await Application.findById(id).populate({"path": "jobId"}).populate({"path": "candidateId"});
+    res.status(200).json(updateApplicationpopulated);
   }
 );
 
