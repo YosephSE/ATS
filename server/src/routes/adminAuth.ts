@@ -16,7 +16,6 @@ import adminAuthorize from "../middleware/adminAuthorize";
 
 const router = Router();
 
-
 router.post("/login", loginAdmin);
 
 router.get(
@@ -35,14 +34,14 @@ router.put(
 
 router.post("/register", registerAdmin);
 
+router.get("/stats", stats);
+
 router.get(
-  "/stats",
+  "/jobs",
   verifyToken,
   adminAuthorize(["admin", "super admin"]),
-  stats
+  adminJobs
 );
-
-router.get("/jobs", verifyToken, adminAuthorize(["admin", "super admin"]), adminJobs);
 router.post("/approve/:id", approveAdmin);
 
 router.get("/adminsToApprove", adminsToApprove);

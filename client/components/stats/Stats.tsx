@@ -24,28 +24,36 @@ const StatCard = ({
   </Paper>
 );
 
-const Stats = () => {
+const Stats = ({
+  totalCandidates,
+  totalApplications,
+  totalJobs,
+}: {
+  totalCandidates: any;
+  totalApplications: any;
+  totalJobs: any;
+}) => {
   return (
     <Box className="p-6" style={{ marginLeft: "20px" }}>
       <Grid container spacing={4} className="mb-6">
         <Grid item xs={12} sm={4}>
           <StatCard
             icon={<People className="text-blue-400" />}
-            value="8,623"
+            value={totalCandidates}
             label="Candidates"
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <StatCard
             icon={<Description className="text-blue-400" />}
-            value="1,608"
+            value={totalApplications}
             label="Applications"
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <StatCard
             icon={<Work className="text-blue-400" />}
-            value="1,590"
+            value={totalJobs}
             label="Active jobs"
           />
         </Grid>
