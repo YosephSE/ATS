@@ -5,7 +5,7 @@ import Stats from "@/components/stats/Stats";
 import Chart from "@/components/stats/PieChart";
 import axios from "axios";
 import api from "@/redux/api";
-import DashboardSkeleton from "../../../components/skeletons/statistics";
+import DashboardSkeleton from "@/components/skeletons/statistics";
 
 interface StatsData {
   totalApplications: number;
