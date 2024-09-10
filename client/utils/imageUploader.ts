@@ -2,7 +2,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/config/firebase";
 import { v4 as uuidv4 } from "uuid";
 
-const uploadImage = async (file: File) => {
+const uploadImage = async (file: any) => {
   if (!file) return;
 
   const uniqueName = `${uuidv4()}${file.name.substring(
