@@ -140,9 +140,22 @@ const Sidebar = () => {
           </li>
         ))}
       </div>
-      <div className={`mt-auto p-4 ${isOpen ? 'text-left' : 'text-center'}`}>
-        {isOpen && <p className="text-base">{user.loggedInUser?.email}</p>}
-      </div>
+      <div className={`
+      mt-auto p-6
+      bg-white dark:bg-gray-800
+      rounded-lg shadow-lg
+      transition-all duration-300 ease-in-out
+      ${isOpen ? 'w-64 text-left' : 'w-16 text-center'}
+    `}>
+      {isOpen && (
+        <p className="text-base font-medium text-gray-700 dark:text-gray-300">
+          {user.loggedInUser?.email}
+        </p>
+      )}
+      {!isOpen && (
+        <div className="w-8 h-8 mx-auto bg-gray-200 dark:bg-gray-700 rounded-full" />
+      )}
+    </div>
     </Drawer>
   );
 };
