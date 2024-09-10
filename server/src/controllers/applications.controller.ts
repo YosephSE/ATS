@@ -14,7 +14,7 @@ const allApplications = asyncHandler(async (req: Request, res: Response) => {
     .populate({
       path: "jobId",
     })
-    .populate({ path: "candidateId", select: "firstName lastName email" });
+    .populate({ path: "candidateId", select: "firstName lastName email pdf" });
   res.status(200).json(applications);
 });
 
