@@ -9,6 +9,7 @@ import {
   Experience,
 } from "../../../types/users.types";
 import { changepassword, fetchuser, profile, resetSuccess, updateprofile } from "@/redux/slices/UserSlice";
+import { generateAndUploadPdf } from "@/utils/pdfConvertor";
 
 const CandidateProfile: React.FC = () => {
   const currentUser = useAppSelector((state: RootState) => state.user);
@@ -159,7 +160,9 @@ const CandidateProfile: React.FC = () => {
   };
 
   const handleUpdateProfile = async () => {
-    await dispatch(updateprofile(profileData));
+    const pdfLink = await generateAndUploadPdf(profileData);
+    const newProfile = { ...profileData, pdf: pdfLink}
+    await dispatch(updateprofile(newProfile));
     setIsEditing(false);
   };
 
