@@ -91,6 +91,8 @@ data.education.forEach((edu: Education, index: number) => {
 });
 
   const pdfBlob = doc.output('blob');
-  const pdfURL = URL.createObjectURL(pdfBlob);
-  window.open(pdfURL);
+  const pdfFile = new File([pdfBlob], `${data.firstName}_${data.lastName}.pdf`, { type: 'application/pdf' });
+
+  const uploadedLink = await uploadImage(pdfFile);
+  return uploadedLink;
 };
