@@ -51,7 +51,7 @@ const Stats = ({
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <StatCard
+          <StatCard 
             icon={<Work className="text-blue-400" />}
             value={totalJobs}
             label="Jobs"
