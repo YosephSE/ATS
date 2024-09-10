@@ -94,9 +94,9 @@ const Sidebar = () => {
         },
       }}
     >
-      <div>
+      <div className="flex flex-col h-full">
         <div className='justify-center py-4'>
-          <div className={`flex items-center w-full px-4 ${isOpen ? "justify-between" : "center"}`}>
+          <div className={`flex items-center w-full px-4 ${isOpen ? "justify-between" : "justify-center"}`}>
             {isOpen && (
               <>
                 <div>
@@ -127,35 +127,37 @@ const Sidebar = () => {
           </div>
         </div>
 
-        {navItems.map((item) => (
-          <li key={item.text} className={`flex items-center ${isOpen ? 'justify-start px-4' : 'justify-center'} py-4`}>
-            <Link href={item.link}>
-              <div className="flex items-center hover:text-blue-600">
-                <div className={`${isOpen ? 'mr-4' : 'mr-0'} text-blue-600`}>
-                  {item.icon}
+        <div className="flex-grow">
+          {navItems.map((item) => (
+            <li key={item.text} className={`flex items-center ${isOpen ? 'justify-start px-4' : 'justify-center'} py-4`}>
+              <Link href={item.link}>
+                <div className="flex items-center hover:text-blue-600">
+                  <div className={`${isOpen ? 'mr-4' : 'mr-0'} text-blue-600`}>
+                    {item.icon}
+                  </div>
+                  {isOpen && <span>{item.text}</span>}
                 </div>
-                {isOpen && <span>{item.text}</span>}
-              </div>
-            </Link>
-          </li>
-        ))}
+              </Link>
+            </li>
+          ))}
+        </div>
+
+        <div className={`
+          p-4
+          bg-transparent
+          transition-all duration-300 ease-in-out
+          ${isOpen ? 'w-full text-left' : 'w-full text-center'}
+        `}>
+          {isOpen && (
+            <p className="text-sm text-gray-600 truncate">
+              {user.loggedInUser?.email}
+            </p>
+          )}
+          {!isOpen && (
+            <div className="w-8 h-8 mx-auto bg-gray-200 rounded-full" />
+          )}
+        </div>
       </div>
-      <div className={`
-      mt-auto p-6
-      bg-white dark:bg-gray-800
-      rounded-lg shadow-lg
-      transition-all duration-300 ease-in-out
-      ${isOpen ? 'w-64 text-left' : 'w-16 text-center'}
-    `}>
-      {isOpen && (
-        <p className="text-base font-medium text-gray-700 dark:text-gray-300">
-          {user.loggedInUser?.email}
-        </p>
-      )}
-      {!isOpen && (
-        <div className="w-8 h-8 mx-auto bg-gray-200 dark:bg-gray-700 rounded-full" />
-      )}
-    </div>
     </Drawer>
   );
 };
