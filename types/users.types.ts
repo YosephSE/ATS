@@ -54,7 +54,6 @@ export interface Experience {
 export interface candidateProfile {
     firstName: string;
     lastName: string;
-    password: string;
     phoneNumber: string;
     email: string;
     skills: string[];

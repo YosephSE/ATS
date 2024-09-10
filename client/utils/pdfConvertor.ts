@@ -1,4 +1,3 @@
-// utils/pdfGenerator.js
 import { jsPDF } from 'jspdf';
 import uploadImage from './imageUploader';
 
@@ -16,7 +15,6 @@ export const generateAndUploadPdf = async (data: any) => {
 
   const doc = new jsPDF();
 
-  // Set title
   doc.setFontSize(22);
   doc.text(`${firstName} ${lastName}`, 20, 30);
   doc.setFontSize(12);
@@ -44,13 +42,11 @@ export const generateAndUploadPdf = async (data: any) => {
     doc.text(`• ${exp}`, 20, 140 + (skills.length + education.length + index) * 10);
   });
 
-  // Save PDF to a Blob
   const pdfBlob = doc.output('blob');
 
-  // Upload PDF
   const formData = new FormData();
   formData.append('file', pdfBlob, 'application.pdf');
 
-  const uploadedLink = await uploadImage(formData)
-  return uploadedLink
+  //const uploadedLink = await uploadImage(formData)
+  //return uploadedLink
 };

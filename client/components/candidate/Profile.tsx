@@ -22,7 +22,6 @@ const CandidateProfile: React.FC = () => {
   const [profileData, setProfileData] = useState<candidateProfile>({
     firstName: "",
     lastName: "",
-    password: "",
     phoneNumber: "",
     email: "",
     skills: [],
