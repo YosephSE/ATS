@@ -8,6 +8,7 @@ import { RootState } from "@/redux/Store";
 import { Jobs } from "../../../types/job.types";
 import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
+import JobListingSkeleton from "@/app/admin/alljobs/loading";
 
 interface LoadingState {
   [key: string]: boolean;
@@ -19,11 +20,19 @@ export default function DataTable() {
   const allJobs = useAppSelector((state: RootState) => state.jobs.allJobs);
   const [localJobs, setLocalJobs] = useState<Jobs[]>([]);
   const [loadingStates, setLoadingStates] = useState<LoadingState>({});
+  const [loading, setLoading] = useState<boolean>(true); // Add loading state
 
   useEffect(() => {
-    if(allJobs){
-      setLocalJobs(allJobs.map(job => ({ ...job, id: job._id, post: `${job.postedBy.firstName} ${job.postedBy.lastName}` })));
-    } else{
+    if (allJobs) {
+      setLocalJobs(
+        allJobs.map((job) => ({
+          ...job,
+          id: job._id,
+          post: `${job.postedBy.firstName} ${job.postedBy.lastName}`,
+        }))
+      );
+      setLoading(false); // Set loading to false when jobs are fetched
+    } else {
       setLocalJobs([]);
     }
   }, [allJobs]);
@@ -31,20 +40,22 @@ export default function DataTable() {
   const rows = localJobs;
 
   const handleStatusChange = async (id: string, newStatus: boolean) => {
-    setLoadingStates(prev => ({ ...prev, [id]: true }));
-    setLocalJobs(prev => 
-      prev.map(job => job._id === id ? { ...job, status: newStatus } : job)
+    setLoadingStates((prev) => ({ ...prev, [id]: true }));
+    setLocalJobs((prev) =>
+      prev.map((job) => (job._id === id ? { ...job, status: newStatus } : job))
     );
 
     try {
       await dispatch(editjob({ id, job: { status: newStatus } }));
     } catch (error) {
       console.error("Failed to update job status:", error);
-      setLocalJobs(prev => 
-        prev.map(job => job._id === id ? { ...job, status: !newStatus } : job)
+      setLocalJobs((prev) =>
+        prev.map((job) =>
+          job._id === id ? { ...job, status: !newStatus } : job
+        )
       );
     } finally {
-      setLoadingStates(prev => ({ ...prev, [id]: false }));
+      setLoadingStates((prev) => ({ ...prev, [id]: false }));
     }
   };
 
@@ -67,7 +78,7 @@ export default function DataTable() {
       field: "status",
       headerName: "Status",
       flex: 1,
-      renderCell: (params) => (
+      renderCell: (params) =>
         loadingStates[params.id.toString()] ? (
           <CircularProgress size={20} />
         ) : (
@@ -80,8 +91,7 @@ export default function DataTable() {
             }}
             onClick={(event) => event.stopPropagation()}
           />
-        )
-      ),
+        ),
     },
     {
       field: "department",
@@ -118,24 +128,29 @@ export default function DataTable() {
   const paginationModel = { page: 0, pageSize: 10 };
 
   useEffect(() => {
-    const fetchJobs = async() => {
+    const fetchJobs = async () => {
+      setLoading(true);
       await dispatch(alljobs());
-    }
+    };
     fetchJobs();
   }, [dispatch]);
 
   return (
     <div className="h-auto w-full max-w-full overflow-x-auto">
-      <div className="min-w-[900px]">
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[20, 50, 100, 1000]}
-          sx={{ border: 0 }}
-          autoHeight
-        />
-      </div>
+      {loading ? (
+        <JobListingSkeleton />
+      ) : (
+        <div className="min-w-[900px]">
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{ pagination: { paginationModel } }}
+            pageSizeOptions={[20, 50, 100, 1000]}
+            sx={{ border: 0 }}
+            autoHeight
+          />
+        </div>
+      )}
     </div>
-  )
+  );
 }
