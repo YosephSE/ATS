@@ -29,8 +29,8 @@ const Statistics = () => {
 
 
   const jobs = [
-    { id: 1, value: data.activeJobs, label: "Active", color: "#92BFB1" },
-    { id: 2, value: data.inactiveJobs, label: "Inactive", color: "#FFD400" },
+    { id: 1, value: data.activeJobs ?? 0, label: "Active", color: "#92BFB1" },
+    { id: 2, value: data.inactiveJobs ?? 0, label: "Inactive", color: "#FFD400" },
   ];
 
   const applications = [
