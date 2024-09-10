@@ -7,16 +7,22 @@ import { RootState } from "@/redux/Store";
 import { allapplications } from "@/redux/slices/ApplicationSlice";
 import ButtonMenu from "./ButtonMenu";
 import Link from "next/link";
+import ApplicationSkeleton from "@/app/admin/allapplications/loading";
+
 
 export default function DataTable() {
-  const allApplications = useAppSelector((state: RootState) => state.applications.allApplications);
+  const allApplications = useAppSelector(
+    (state: RootState) => state.applications.allApplications
+  );
   const dispatch = useAppDispatch();
-
+  const [loading, setLoading] = useState<boolean>(true); // Keep track of loading state
   const [rows, setRows] = useState<any>([]);
 
   useEffect(() => {
     const fetchApplication = async () => {
+      setLoading(true);
       await dispatch(allapplications());
+      setLoading(false);
     };
     fetchApplication();
   }, [dispatch]);
@@ -61,15 +67,17 @@ export default function DataTable() {
       headerName: "Application",
       flex: 1,
       renderCell: (params) => (
-        <Link href={params.row.pdf} className="text-blue-600 hover:underline">View Application</Link>
-      )
+        <Link href={params.row.pdf} className="text-blue-600 hover:underline">
+          View Application
+        </Link>
+      ),
     },
     {
       field: "status",
       headerName: "Application Status",
       flex: 1,
       renderCell: (params) => (
-        <ButtonMenu value = {params.row.status} id={params.row.id}/>
+        <ButtonMenu value={params.row.status} id={params.row.id} />
       ),
     },
     {
@@ -78,6 +86,11 @@ export default function DataTable() {
       flex: 1,
     },
   ];
+
+  if (loading) {
+    return <ApplicationSkeleton/>;
+  }
+
   return (
     <div className="h-auto w-full max-w-full overflow-x-auto">
       <div className="min-w-[900px]">
