@@ -78,7 +78,7 @@ export const profile = createAsyncThunk(
 
 export const updateprofile = createAsyncThunk(
     "user/updateprofile",
-    async( user: candidateProfile, { rejectWithValue }) => {
+    async( user: any, { rejectWithValue }) => {
         try{
             const response = await axios.put(`${api}/candidates/profile`, user)
             return response.data

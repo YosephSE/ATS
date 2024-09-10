@@ -4,14 +4,20 @@ import { BookmarkBorder } from '@mui/icons-material'
 import { CardContent, Button, Card, IconButton, CircularProgress } from '@mui/material'
 import { apply } from '@/redux/slices/ApplicationSlice'
 import React from 'react'
+import { setLoginCandidate } from '@/redux/slices/ModalSlice'
+import Modal from "./Modal";
+
 
 const SingleJob = () => {
     const currentState = useAppSelector((state: RootState) => state.applications)
+    const user = useAppSelector((state: RootState) => state.user.loggedInUser)
     const currentJob = useAppSelector((state: RootState) => state.jobs.currentJob)
     const dispatch = useAppDispatch()
     const handleApply = async () => {
-        if (currentJob?._id){
+        if (currentJob?._id && user){
             await dispatch(apply(currentJob?._id))
+        } else{
+            dispatch(setLoginCandidate())
         }
     }
     return (
@@ -78,6 +84,7 @@ const SingleJob = () => {
                 </h3>
                 </CardContent>
             </Card>
+            <Modal />
             </div>
     )
 }

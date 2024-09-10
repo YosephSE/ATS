@@ -33,6 +33,9 @@ const candidateSchema = new Schema({
   profilePicture: {
     type: String,
   },
+  pdf:{
+    type: String
+  },
   education: [
     {
       schoolName: {

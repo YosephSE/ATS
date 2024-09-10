@@ -6,6 +6,7 @@ interface User {
     firstName: string
     lastName: string
     email: string
+    pdf: string
 }
 export interface Application{
     _id: string
