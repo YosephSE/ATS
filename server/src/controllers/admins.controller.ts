@@ -174,8 +174,8 @@ const stats: any = asyncHandler(async (req: Request, res: Response) => {
   const rejectedApplications = await Application.countDocuments({
     status: "rejected",
   });
-  const activeJobs = await Job.countDocuments({ status: "active" });
-  const inactiveJobs = await Job.countDocuments({ status: "inactive" });
+  const activeJobs = await Job.countDocuments({ status: true });
+  const inactiveJobs = await Job.countDocuments({ status: false });
 
   const stat = {
     totalApplications,

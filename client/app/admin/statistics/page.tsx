@@ -2,6 +2,13 @@ import React from "react";
 import Sidebar from "@/components/SideBar";
 import Stats from "@/components/stats/Stats";
 import Chart from "@/components/stats/PieChart";
+import axios from "axios";
+import api from "@/redux/api";
+
+const response = axios.get(`${api}/admin/stats`);
+const data = await response.data;
+
+
 
 const Statistics = () => {
   const jobs = [
