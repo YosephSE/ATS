@@ -1,5 +1,6 @@
 const applicationScore = async (application: any): Promise<number> => {
-  const { GoogleGenerativeAI } = require("@google/generative-ai");
+  try{
+    const { GoogleGenerativeAI } = require("@google/generative-ai");
   require("dotenv").config();
   const genAI = new GoogleGenerativeAI(process.env.API_KEY!);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -10,6 +11,10 @@ const applicationScore = async (application: any): Promise<number> => {
   const scoreText = result.response.text();
   const score = parseInt(scoreText, 10);
   return Number.isNaN(score) ? 0 : score;
+  } catch (error) {
+    console.error(error);
+    return 0;
+  }
 };
 
 export default applicationScore;
