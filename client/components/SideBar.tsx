@@ -95,6 +95,7 @@ const Sidebar = () => {
       sx={{
         width: isOpen ? 240 : 72,
         flexShrink: 0,
+        transition: "width 0.3s ease", // Animation for expanding and collapsing
         [`& .MuiDrawer-paper`]: {
           width: isOpen ? 240 : 72,
           boxSizing: "border-box",
@@ -102,6 +103,7 @@ const Sidebar = () => {
           background:
             "linear-gradient(180deg,rgba(116, 200, 242, 0.65),#FFFFFF)",
           zIndex: 1,
+          transition: "width 0.3s ease", // Animation for drawer paper
         },
       }}
     >
@@ -138,6 +140,11 @@ const Sidebar = () => {
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
                     onClose={handleMenuClose}
+                    PaperProps={{
+                      style: {
+                        transform: "translateY(-20px)", // Moves the menu up by 20px
+                      },
+                    }}
                   >
                     <MenuItem onClick={handleMenuClose}>
                       <Link href="/admin/profile">Profile</Link>
@@ -166,11 +173,15 @@ const Sidebar = () => {
               key={item.text}
               className={`flex items-center ${
                 isOpen ? "justify-start px-4" : "justify-center"
-              } py-4`}
+              } py-4 transition duration-200 ease-in-out hover:bg-blue-100`} // Changed hover effect to background color
             >
               <Link href={item.link}>
                 <div className="flex items-center hover:text-blue-600">
-                  <div className={`${isOpen ? "mr-4" : "mr-0"} text-blue-600`}>
+                  <div
+                    className={`${
+                      isOpen ? "mr-4" : "mr-0"
+                    } text-blue-600 transition duration-200 ease-in-out`}
+                  >
                     {item.icon}
                   </div>
                   {isOpen && <span>{item.text}</span>}
@@ -190,14 +201,38 @@ const Sidebar = () => {
           }
         `}
         >
+          <div
+            className={`${
+              isOpen ? "hidden" : "block"
+            } w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-medium cursor-pointer`}
+            onClick={handleMenuOpen} // Click handler for dropdown in collapsed state
+          >
+            {user.loggedInUser?.email
+              ? user.loggedInUser.email[0].toUpperCase()
+              : "?"}
+          </div>
           {isOpen ? (
             <p className="text-sm truncate">{user.loggedInUser?.email}</p>
           ) : (
-            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-medium">
-              {user.loggedInUser?.email
-                ? user.loggedInUser.email[0].toUpperCase()
-                : "?"}
-            </div>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              PaperProps={{
+                style: {
+                  transform: "translateY(-20px)", // Moves the menu up by 20px
+                },
+              }}
+            >
+              <MenuItem onClick={handleMenuClose}>
+                <Link href="/admin/profile">Profile</Link>
+              </MenuItem>
+              {user.isLoading ? (
+                <CircularProgress size={24} className="text-white" />
+              ) : (
+                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+              )}
+            </Menu>
           )}
         </div>
       </div>
