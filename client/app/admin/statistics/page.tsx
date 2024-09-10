@@ -5,6 +5,7 @@ import Stats from "@/components/stats/Stats";
 import Chart from "@/components/stats/PieChart";
 import axios from "axios";
 import api from "@/redux/api";
+import DashboardSkeleton from "@/components/skeletons/statistics";
 
 interface StatsData {
   totalApplications: number;
@@ -42,7 +43,7 @@ const Statistics: React.FC = () => {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div><DashboardSkeleton/></div>;
   if (!data) return <div>No data available</div>;
 
   const jobs: ChartData[] = [
