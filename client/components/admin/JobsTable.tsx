@@ -20,7 +20,7 @@ export default function DataTable() {
 
   useEffect(() => {
     if(allJobs){
-      setLocalJobs(allJobs.map(job => ({ ...job, id: job._id })));
+      setLocalJobs(allJobs.map(job => ({ ...job, id: job._id, post: `${job.postedBy.firstName} ${job.postedBy.lastName}` })));
     } else{
       setLocalJobs([]);
     }
@@ -94,7 +94,7 @@ export default function DataTable() {
       flex: 1,
     },
     {
-      field: "postedBy",
+      field: "post",
       headerName: "Posted By",
       flex: 1,
     },

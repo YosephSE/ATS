@@ -20,7 +20,7 @@ const AdminProfile: React.FC = () => {
   });
 
   const [image, setImage] = useState<File | null>(null);
-  const [imgLink, setImgLink] = useState<string | null>(profileData.profilePicture);
+  const [imgLink, setImgLink] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const oldPasswordRef = useRef<HTMLInputElement>(null);
@@ -38,6 +38,7 @@ const AdminProfile: React.FC = () => {
   useEffect(() => {
     if (currentProfile.profile) {
       setProfileData(currentProfile.profile);
+      setImgLink(currentProfile.profile.profilePicture)
     }
   }, [currentProfile.profile]);
 
@@ -61,10 +62,6 @@ const AdminProfile: React.FC = () => {
 
   const handleUpdateProfile = async () => {
     await dispatch(updateprofile(profileData));
-    const userToken = sessionStorage.getItem('userToken');
-    if (userToken) {
-      await dispatch(fetchuser({ token: userToken }));
-    }
     setIsEditing(false);
   };
 

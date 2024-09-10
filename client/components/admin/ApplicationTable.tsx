@@ -28,11 +28,13 @@ export default function DataTable() {
       title: app.jobId.title,
       jobstatus: app.jobId.status ? "Active" : "Inactive",
       status: app.status,
-      createdAt: app.createdAt,
+      AIScore: app.AIScore,
+      createdAt: new Date(app.createdAt).toLocaleDateString(),
     }));
     setRows(formattedRows || []);
   }, [allApplications]);
 
+  console.log()
   const columns: GridColDef[] = [
     {
       field: "name",
@@ -47,6 +49,11 @@ export default function DataTable() {
     {
       field: "jobstatus",
       headerName: "Job Status",
+      flex: 1,
+    },
+    {
+      field: "AIScore",
+      headerName: "AI Score",
       flex: 1,
     },
     {

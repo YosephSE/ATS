@@ -22,7 +22,6 @@ const CandidateProfile: React.FC = () => {
   const [profileData, setProfileData] = useState<candidateProfile>({
     firstName: "",
     lastName: "",
-    password: "",
     phoneNumber: "",
     email: "",
     skills: [],
@@ -49,6 +48,7 @@ const CandidateProfile: React.FC = () => {
   useEffect(() => {
     if (currentUser.profile) {
       setProfileData(currentUser.profile);
+      setImgLink(currentUser.profile.profilePicture)
     }
   }, [currentUser.profile]);
 
