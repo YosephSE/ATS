@@ -1,31 +1,28 @@
 import { jsPDF } from 'jspdf';
 import uploadImage from './imageUploader';
-import { Education, Experience } from '../../types/users.types';
-import hero from "../public/hero.png"
+import { candidateProfile, Education, Experience } from '../../types/users.types';
 
-const placeholderAvatar = hero;
 
-export const generateAndUploadPdf = async (data: any) => {
+export const generateAndUploadPdf = async (data: candidateProfile) => {
   const doc = new jsPDF();
   const titleColor = '#007BFF'; 
   const sectionColor = '#343A40'; 
   const textColor = '#212529'; 
 
+  const placeholderAvatar = "https://i.postimg.cc/GtBKLRbj/l60Hf.png";
+
   //Profile
   doc.setFontSize(22);
   doc.setTextColor(titleColor);
   doc.text("Profile", 15, 20);
+
   const avatar = data.profilePicture || placeholderAvatar;
-  const imageType = avatar.endsWith('.png') ? 'PNG' : 'JPEG';
-  doc.addImage(avatar, imageType, 15, 30, 50, 50);
+  doc.addImage(avatar,"JPEG", 15, 30, 50, 50);
 
   // Name and Job Title
   doc.setFontSize(18);
-  doc.setTextColor(textColor);
+  doc.setTextColor(titleColor);
   doc.text(`${data.firstName} ${data.lastName}`, 70, 40);
-  doc.setFontSize(14);
-  doc.setFont('Helvetica', 'italic');
-  doc.text(data.jobTitle, 70, 50); // Job Title
 
   // Contact Details
   doc.setFontSize(12);
