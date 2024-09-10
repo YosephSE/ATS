@@ -9,7 +9,7 @@ import api from "@/redux/api";
 const Statistics = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +18,6 @@ const Statistics = () => {
         setData(response.data);
         setLoading(false);
       } catch (err) {
-        // setError("Failed to fetch data");
         setLoading(false);
       }
     };
@@ -27,7 +26,7 @@ const Statistics = () => {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  // if (error) return <div>Error: {error}</div>;
+
 
   const jobs = [
     { id: 1, value: data.activeJobs, label: "Active", color: "#92BFB1" },

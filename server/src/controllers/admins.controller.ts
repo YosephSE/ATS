@@ -169,7 +169,7 @@ const stats: any = asyncHandler(async (req: Request, res: Response) => {
     status: "pending",
   });
   const acceptedApplications = await Application.countDocuments({
-    status: "accepted",
+    status: "approved",
   });
   const rejectedApplications = await Application.countDocuments({
     status: "rejected",
