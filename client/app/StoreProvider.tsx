@@ -2,6 +2,7 @@
 import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { makeStore, AppStore } from '../redux/Store'
+import { ThemeProvider } from 'next-themes'
 
 
 export default function StoreProvider({
@@ -15,5 +16,11 @@ export default function StoreProvider({
     storeRef.current = makeStore()
   }
 
-  return <Provider store={storeRef.current}>{children}</Provider>
+  return (
+  <ThemeProvider>
+    <Provider store={storeRef.current}>
+      {children}
+    </Provider>
+  </ThemeProvider>
+  )
 }
