@@ -33,11 +33,11 @@ const Jobs = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-100 dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900">
       <Header page="home" />
       <main className="container mx-auto mt-8 px-4 lg:px-10">
         <div className="flex justify-center">
-          <Tabs value={0} className="mb-6 border-b-2 border-gray-300">
+          <Tabs value={0} className="mb-6 border-b-2 border-gray-300 dark:border-gray-700">
             <Tab
               label="Jobs"
               className="text-lg font-semibold text-blue-600 hover:text-blue-700 transition-colors"
