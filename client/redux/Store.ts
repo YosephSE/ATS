@@ -13,7 +13,7 @@ export const makeStore = () => {
             user: UserReducer,
             admin: AdminReducer,
             jobs: JobReducer,
-            applications: ApplicationReducer
+            applications: ApplicationReducer,
         }
     })
 }
