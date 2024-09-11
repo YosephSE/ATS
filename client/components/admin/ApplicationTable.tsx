@@ -67,7 +67,7 @@ export default function DataTable() {
       headerName: "Application",
       flex: 1,
       renderCell: (params) => (
-        <Link href={params.row.pdf} className="text-blue-600 hover:underline">
+        <Link href={params.row.pdf} target="_blank" className="text-blue-600 hover:underline">
           View Application
         </Link>
       ),
