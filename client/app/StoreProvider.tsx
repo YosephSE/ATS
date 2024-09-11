@@ -17,7 +17,7 @@ export default function StoreProvider({
   }
 
   return (
-  <ThemeProvider>
+  <ThemeProvider attribute='class'>
     <Provider store={storeRef.current}>
       {children}
     </Provider>
