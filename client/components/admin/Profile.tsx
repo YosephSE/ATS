@@ -130,7 +130,7 @@ const AdminProfile: React.FC = () => {
                   onClick={() => setPasswordEditing(!passwordEditing)}
                   className="w-1/2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
                 >
-                  Change Password
+                  {passwordEditing ? "Cancel Edit": "Change Password"}
                 </button>
                 <button
                   className="w-1/2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
