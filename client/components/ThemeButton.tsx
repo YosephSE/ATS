@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { Switch } from '@mui/material';
-import { Brightness7, Brightness4 } from '@mui/icons-material';
+import { Sun, Moon } from 'lucide-react';
 
 const ThemeButton = () => {
     const { resolvedTheme, setTheme } = useTheme();
@@ -10,7 +9,7 @@ const ThemeButton = () => {
     useEffect(() => setMounted(true), []);
 
     if (!mounted) {
-        return null; // Avoid rendering during the initial mount
+        return null; 
     }
 
     const handleChange = () => {
@@ -18,13 +17,12 @@ const ThemeButton = () => {
     };
 
     return (
-        <Switch
-            color="primary"
-            checked={resolvedTheme === 'dark'}
-            onChange={handleChange}
-            icon={<Brightness7 />}
-            checkedIcon={<Brightness4 />}
-        />
+        <div
+            className="flex items-center justify-center w-10 h-10 cursor-pointer"
+            onClick={handleChange}
+        >
+            {resolvedTheme === 'dark' ? <Moon className="text-white" /> : <Sun className="text-gray-800" />}
+        </div>
     );
 };
 

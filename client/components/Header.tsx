@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { RootState } from '@/redux/Store'
 import { logout, resetSuccess } from '@/redux/slices/UserSlice'
 import { ExpandMore } from '@mui/icons-material'
+import ThemeButton from './ThemeButton'
 
 interface Props {
     page?: "home" | "roles"
@@ -64,6 +65,7 @@ const Header = ({ page }: Props) => {
                 />
             </Link>
             <div className="flex items-center space-x-6">
+                <ThemeButton />
                 <Link href="/candidate/jobs" className="text-base text-gray-600 hover:text-gray-800">
                     Jobs
                 </Link>
