@@ -1,9 +1,9 @@
 import React, { useState, ChangeEvent, useEffect, useRef } from "react";
-import uploadImage from "@/utils/imageUploader";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/Store";
-import { fetchuser, profile, updateprofile, changepassword, resetSuccess } from "@/redux/slices/AdminSlice";
+import { profile, updateprofile, changepassword, resetSuccess } from "@/redux/slices/AdminSlice";
 import { adminProfile } from "../../../types/users.types";
+import uploadImage from "@/utils/imageUploader";
 
 const AdminProfile: React.FC = () => {
   const currentProfile = useAppSelector((state: RootState) => state.admin);
@@ -30,7 +30,7 @@ const AdminProfile: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       await dispatch(profile());
-      dispatch(resetSuccess())
+      dispatch(resetSuccess());
     };
     fetchUser();
   }, [dispatch]);
@@ -38,7 +38,7 @@ const AdminProfile: React.FC = () => {
   useEffect(() => {
     if (currentProfile.profile) {
       setProfileData(currentProfile.profile);
-      setImgLink(currentProfile.profile.profilePicture)
+      setImgLink(currentProfile.profile.profilePicture);
     }
   }, [currentProfile.profile]);
 
@@ -83,155 +83,163 @@ const AdminProfile: React.FC = () => {
   };
 
   useEffect(() => {
-    if (currentProfile.isSuccess){
+    if (currentProfile.isSuccess) {
       setError(null);
-    }else{
-      setError(currentProfile.error)
+    } else {
+      setError(currentProfile.error);
     }
-  }, [currentProfile])
+  }, [currentProfile]);
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="p-6">
-        <div className="flex items-center justify-center mb-4">
-          {imgLink ? (
-            <img
-              src={imgLink}
-              alt={profileData.firstName}
-              className="w-24 h-24 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold text-gray-600">
-              {profileData.firstName.charAt(0)}
+    <div className="max-w-6xl mx-auto mt-10 p-6">
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* Profile Box */}
+        <div className="w-full md:w-1/3 bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-6">
+            <div className="flex items-center justify-center mb-4">
+              {imgLink ? (
+                <img
+                  src={imgLink}
+                  alt={profileData.firstName}
+                  className="w-32 h-32 rounded-full object-cover "
+                />
+              ) : (
+                <div className="w-32 h-32 rounded-full bg-blue-200 flex items-center justify-center text-4xl font-bold text-blue-600">
+                  {profileData.firstName.charAt(0)}
+                </div>
+              )}
             </div>
-          )}
+            <h2 className="text-2xl font-bold text-center mb-2 text-gray-800">
+              {profileData.firstName} {profileData.lastName}
+            </h2>
+            <p className="text-gray-600 text-center mb-1">
+              Email: {profileData.email}
+            </p>
+            <p className="text-gray-600 text-center mb-4">
+              Phone: {profileData.phoneNumber}
+            </p>
+            <div className="space-y-2">
+              <button
+                onClick={() => setIsEditing(!isEditing)}
+                className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+              >
+                {isEditing ? "Cancel Edit" : "Edit Profile"}
+              </button>
+              <div className="flex justify-between space-x-2">
+                <button
+                  onClick={() => setPasswordEditing(!passwordEditing)}
+                  className="w-1/2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+                >
+                  Change Password
+                </button>
+                <button
+                  className="w-1/2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 className="text-2xl font-bold text-center mb-2">
-          {profileData.firstName} {profileData.lastName}
-        </h2>
-        <p className="text-gray-600 text-center mb-1">
-          Email: {profileData.email}
-        </p>
-        <p className="text-gray-600 text-center mb-4">
-          Phone Number: {profileData.phoneNumber}
-        </p>
 
-        {!isEditing ? (
-          <div className="flex justify-center space-x-2">
-            <button
-              onClick={() => setIsEditing(true)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
-            >
-              Edit Profile
-            </button>
-            <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300">
-              Delete
-            </button>
-            <button
-              onClick={() => setPasswordEditing(true)}
-              className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-300"
-            >
-              Change Password
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <input
-              type="text"
-              name="firstName"
-              value={profileData.firstName}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded"
-              placeholder="First Name"
-            />
-            <input
-              type="text"
-              name="lastName"
-              value={profileData.lastName}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded"
-              placeholder="Last Name"
-            />
-            <input
-              type="text"
-              name="phoneNumber"
-              value={profileData.phoneNumber}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded"
-              placeholder="Phone Number"
-            />
-            <input
-              type="email"
-              name="email"
-              value={profileData.email}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded"
-              placeholder="Email"
-            />
-            <input
-              type="file"
-              onChange={handleImageChange}
-              className="w-full px-3 py-2 border rounded"
-              accept="image/*"
-            />
-            <div className="flex justify-center space-x-2">
-              <button
-                onClick={handleUpdateProfile}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
-              >
-                Update Profile
-              </button>
-              <button
-                onClick={() => setIsEditing(false)}
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
-              >
-                Cancel
-              </button>
+        {/* Edit Profile Form */}
+        <div className="w-full md:w-2/3 bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-6">
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">Profile Information</h3>
+            <div className="space-y-4">
+              <input
+                type="text"
+                name="firstName"
+                value={profileData.firstName}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="First Name"
+                disabled={!isEditing}
+              />
+              <input
+                type="text"
+                name="lastName"
+                value={profileData.lastName}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Last Name"
+                disabled={!isEditing}
+              />
+              <input
+                type="text"
+                name="phoneNumber"
+                value={profileData.phoneNumber}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Phone Number"
+                disabled={!isEditing}
+              />
+              <input
+                type="email"
+                name="email"
+                value={profileData.email}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Email"
+                disabled={!isEditing}
+              />
+              {isEditing && (
+                <input
+                  type="file"
+                  onChange={handleImageChange}
+                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  accept="image/*"
+                />
+              )}
+              {isEditing && (
+                <button
+                  onClick={handleUpdateProfile}
+                  className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+                >
+                  Update Profile
+                </button>
+              )}
             </div>
           </div>
-        )}
+        </div>
+      </div>
 
-        {passwordEditing && (
-          <div className="mt-5 space-y-4">
-            <input
-              ref={oldPasswordRef}
-              className="w-full px-3 py-2 border rounded"
-              type="password"
-              placeholder="Old Password"
-            />
-            <input
-              ref={newPasswordRef}
-              className="w-full px-3 py-2 border rounded"
-              type="password"
-              placeholder="New Password"
-            />
-            <input
-              ref={confirmPasswordRef}
-              className="w-full px-3 py-2 border rounded"
-              type="password"
-              placeholder="Confirm Password"
-            />
-            <div>
-              {error && <p className="mt-2 text-red-500">{error}</p>}
-              {currentProfile.isSuccess && <p className="mt-2 text-blue-800">Password Changed Successfully</p>}
-            </div>
-            <div className="flex justify-center space-x-2 mt-5">
+      {/* Change Password Box */}
+      {passwordEditing && (
+        <div className="mt-6 w-full bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-6">
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">Change Password</h3>
+            <div className="space-y-4">
+              <input
+                ref={oldPasswordRef}
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type="password"
+                placeholder="Old Password"
+              />
+              <input
+                ref={newPasswordRef}
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type="password"
+                placeholder="New Password"
+              />
+              <input
+                ref={confirmPasswordRef}
+                className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type="password"
+                placeholder="Confirm Password"
+              />
               <button
                 onClick={handleUpdatePassword}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+                className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
               >
                 Update Password
               </button>
-              <button
-                onClick={() => setPasswordEditing(false)}
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
-              >
-                Cancel
-              </button>
+              {error && <p className="mt-2 text-red-500">{error}</p>}
+              {currentProfile.isSuccess && <p className="mt-2 text-green-500">Password Changed Successfully</p>}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
