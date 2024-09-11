@@ -1,9 +1,10 @@
-import React, { useState, ChangeEvent, useEffect, useRef } from "react";
+import React, { useState, ChangeEvent, useEffect, useRef, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/Store";
 import { profile, updateprofile, changepassword, resetSuccess } from "@/redux/slices/AdminSlice";
 import { adminProfile } from "../../../types/users.types";
 import uploadImage from "@/utils/imageUploader";
+import { useDropzone } from 'react-dropzone';
 
 const AdminProfile: React.FC = () => {
   const currentProfile = useAppSelector((state: RootState) => state.admin);
@@ -47,9 +48,9 @@ const AdminProfile: React.FC = () => {
     setProfileData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedImage = e.target.files[0];
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    if (acceptedFiles && acceptedFiles[0]) {
+      const selectedImage = acceptedFiles[0];
       setImage(selectedImage);
       
       const uploadedImgLink = await uploadImage(selectedImage);
@@ -58,7 +59,15 @@ const AdminProfile: React.FC = () => {
         setProfileData((prev) => ({ ...prev, profilePicture: uploadedImgLink }));
       }
     }
-  };
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif']
+    },
+    multiple: false
+  });
 
   const handleUpdateProfile = async () => {
     await dispatch(updateprofile(profileData));
@@ -101,7 +110,7 @@ const AdminProfile: React.FC = () => {
                 <img
                   src={imgLink}
                   alt={profileData.firstName}
-                  className="w-32 h-32 rounded-full object-cover "
+                  className="w-32 h-32 rounded-full object-cover"
                 />
               ) : (
                 <div className="w-32 h-32 rounded-full bg-blue-200 flex items-center justify-center text-4xl font-bold text-blue-600">
@@ -184,12 +193,24 @@ const AdminProfile: React.FC = () => {
                 disabled={!isEditing}
               />
               {isEditing && (
-                <input
-                  type="file"
-                  onChange={handleImageChange}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  accept="image/*"
-                />
+                <div 
+                  {...getRootProps()} 
+                  className={`w-full p-6 border-2 border-dashed rounded-lg text-center cursor-pointer transition duration-300 ${
+                    isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-500 hover:bg-gray-50'
+                  }`}
+                >
+                  <input {...getInputProps()} />
+                  {isDragActive ? (
+                    <p className="text-blue-500">Drop the image here ...</p>
+                  ) : (
+                    <div>
+                      <p className="text-gray-600">Drag 'n' drop an image here, or click to select one</p>
+                      {imgLink && (
+                        <img src={imgLink} alt="Preview" className="mt-4 mx-auto h-32 w-32 object-cover rounded-full" />
+                      )}
+                    </div>
+                  )}
+                </div>
               )}
               {isEditing && (
                 <button
