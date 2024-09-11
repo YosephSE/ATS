@@ -23,6 +23,7 @@ import { RootState } from "@/redux/Store";
 import { logout, resetSuccess } from "@/redux/slices/AdminSlice";
 import { useRouter } from "next/navigation";
 import { FileClock } from "lucide-react";
+import ThemeButton from "./ThemeButton";
 
 interface NavItem {
   text: string;
@@ -190,7 +191,9 @@ const Sidebar = () => {
             </li>
           ))}
         </div>
-
+        <div className=" flex justify-center items-center w-full">
+          <ThemeButton />
+        </div>
         <div
           className={`
           p-4
