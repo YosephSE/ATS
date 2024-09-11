@@ -2,90 +2,118 @@ import { jsPDF } from 'jspdf';
 import uploadImage from './imageUploader';
 import { candidateProfile, Education, Experience } from '../../types/users.types';
 
-
 export const generateAndUploadPdf = async (data: candidateProfile) => {
   const doc = new jsPDF();
   const titleColor = '#007BFF'; 
   const sectionColor = '#343A40'; 
   const textColor = '#212529'; 
+  const pageHeight = doc.internal.pageSize.height; // get the page height
 
   const placeholderAvatar = "https://i.postimg.cc/GtBKLRbj/l60Hf.png";
 
-  //Profile
+  let currentY = 20; // Track current Y position for overflow handling
+
+  // Profile Section
   doc.setFontSize(22);
   doc.setTextColor(titleColor);
-  doc.text("Profile", 15, 20);
+  doc.text("Profile", 15, currentY);
+  currentY += 10;
 
   const avatar = data.profilePicture || placeholderAvatar;
-  doc.addImage(avatar,"JPEG", 15, 30, 50, 50);
+  doc.addImage(avatar, "JPEG", 15, currentY, 50, 50);
+  currentY += 55;
 
   // Name and Job Title
   doc.setFontSize(18);
   doc.setTextColor(titleColor);
-  doc.text(`${data.firstName} ${data.lastName}`, 70, 40);
+  doc.text(`${data.firstName} ${data.lastName}`, 70, currentY - 25); // Adjusted to align with avatar
 
   // Contact Details
   doc.setFontSize(12);
   doc.setFont('Helvetica', 'bold');
   doc.setTextColor(titleColor);
-  doc.text(`Details`, 15, 70);
+  doc.text(`Details`, 15, currentY);
   doc.setFont('Helvetica', 'normal');
   doc.setTextColor(textColor);
-  doc.text(`Phone: ${data.phoneNumber}`, 15, 80);
-  doc.text(`Email: ${data.email}`, 15, 85);
-  doc.text(`LinkedIn: ${data.linkedIn}`, 15, 90);
+  doc.text(`Phone: ${data.phoneNumber}`, 15, currentY + 10);
+  doc.text(`Email: ${data.email}`, 15, currentY + 15);
+  doc.text(`LinkedIn: ${data.linkedIn}`, 15, currentY + 20);
+
+  currentY += 30;
 
   doc.setDrawColor(textColor);
-  doc.line(15, 95, 195, 95); 
+  doc.line(15, currentY, 195, currentY); 
+  currentY += 10;
 
-  // Skills section
+  // Page overflow handler
+  const checkPageOverflow = (additionalSpace: number) => {
+    if (currentY + additionalSpace > pageHeight - 20) { 
+      doc.addPage();
+      currentY = 20; 
+    }
+  };
+
+  // Skills Section
   doc.setFontSize(16);
   doc.setTextColor(sectionColor);
   doc.setFont('Helvetica', 'bold');
-  doc.text("Skills", 15, 110);
+  doc.text("Skills", 15, currentY);
+  currentY += 10;
+
   doc.setFontSize(12);
   doc.setTextColor(textColor);
   const skillsList = data.skills.join(", ");
-  doc.text(skillsList, 15, 120);
+  const skillsText = doc.splitTextToSize(skillsList, 180); 
+  checkPageOverflow(skillsText.length * 6); 
+  doc.text(skillsText, 15, currentY);
+  currentY += skillsText.length * 6 + 5;
 
   doc.setDrawColor(textColor);
-  doc.line(15, 125, 195, 125); 
+  doc.line(15, currentY, 195, currentY); 
+  currentY += 10;
 
-  //Experience
+  // Experience Section
   doc.setFontSize(16);
   doc.setTextColor(sectionColor);
   doc.setFont('Helvetica', 'bold');
-  doc.text("Experience", 15, 140);
+  doc.text("Experience", 15, currentY);
+  currentY += 10;
+
   data.experience.forEach((exp: Experience, index: number) => {
-    const yPos = 150 + index * 20; // Adjusted spacing
+    checkPageOverflow(25); 
     doc.setFontSize(12);
     doc.setTextColor(textColor);
     doc.setFont('Helvetica', 'bold');
-    doc.text(`${exp.title} at ${exp.company}`, 15, yPos);
+    doc.text(`${exp.title} at ${exp.company}`, 15, currentY);
     doc.setFont('Helvetica', 'italic');
-    doc.text(`${exp.location} (${exp.startDate} - ${exp.endDate})`, 15, yPos + 5);
+    doc.text(`${exp.location} (${exp.startDate} - ${exp.endDate})`, 15, currentY + 5);
     doc.setFont('Helvetica', 'normal');
-    doc.text(`${exp.description}`, 15, yPos + 10);
+    const experienceDesc = doc.splitTextToSize(exp.description, 180);
+    doc.text(experienceDesc, 15, currentY + 10);
+    currentY += experienceDesc.length * 6 + 15;
   });
 
   doc.setDrawColor(textColor);
-  doc.line(15, data.experience.length * 20 + 145, 195, data.experience.length * 20 + 145); // Draw a line
+  doc.line(15, currentY, 195, currentY); 
+  currentY += 10;
 
-  // Education section
-doc.setFontSize(16);
-doc.setTextColor(sectionColor);
-doc.setFont('Helvetica', 'bold');
-doc.text("Education", 15, data.experience.length * 30 + 150); 
-
-data.education.forEach((edu: Education, index: number) => {
-  const yPos = data.experience.length * 30 + 150 + index * 13; 
-  doc.setFontSize(12);
-  doc.setTextColor(textColor);
+  // Education Section
+  doc.setFontSize(16);
+  doc.setTextColor(sectionColor);
   doc.setFont('Helvetica', 'bold');
-  doc.text(`${edu.degree} in ${edu.fieldOfStudy}`, 15, yPos);
-  doc.setFont('Helvetica', 'italic');
-  doc.text(`${edu.schoolName} (${edu.startYear} - ${edu.endYear})`, 15, yPos + 5);
-});
+  doc.text("Education", 15, currentY);
+  currentY += 10;
+
+  data.education.forEach((edu: Education, index: number) => {
+    checkPageOverflow(20); 
+    doc.setFontSize(12);
+    doc.setTextColor(textColor);
+    doc.setFont('Helvetica', 'bold');
+    doc.text(`${edu.degree} in ${edu.fieldOfStudy}`, 15, currentY);
+    doc.setFont('Helvetica', 'italic');
+    doc.text(`${edu.schoolName} (${edu.startYear} - ${edu.endYear})`, 15, currentY + 5);
+    currentY += 15;
+  });
 
   const pdfBlob = doc.output('blob');
   const pdfFile = new File([pdfBlob], `${data.firstName}_${data.lastName}.pdf`, { type: 'application/pdf' });
