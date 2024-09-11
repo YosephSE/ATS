@@ -18,13 +18,13 @@ const ApplicationList = () => {
 
   return (
     <div className="max-w-[1000px] mx-auto">
-      <div className="relative flex flex-col w-full h-full text-slate-700 bg-white shadow-md rounded-xl bg-clip-border">
+      <div className="relative flex flex-col w-full h-full text-slate-200 dark:text-slate-200 dark:bg-slate-700 bg-white shadow-md rounded-xl bg-clip-border">
         <div className="p-6">
           <table className="w-full text-left table-auto min-w-max">
             <thead>
               <tr>
-                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-500">
+                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100">
                     Title
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -43,8 +43,8 @@ const ApplicationList = () => {
                     </svg>
                   </p>
                 </th>
-                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-500">
+                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100">
                     Location
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -63,8 +63,8 @@ const ApplicationList = () => {
                     </svg>
                   </p>
                 </th>
-                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-500">
+                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100">
                     Status
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -83,8 +83,8 @@ const ApplicationList = () => {
                     </svg>
                   </p>
                 </th>
-                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-500">
+                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100">
                     Department
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -103,8 +103,8 @@ const ApplicationList = () => {
                     </svg>
                   </p>
                 </th>
-                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-500"></p>
+                <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100"></p>
                 </th>
               </tr>
             </thead>
@@ -117,7 +117,7 @@ const ApplicationList = () => {
                         <p className="text-sm font-semibold text-slate-700">
                           {application.jobId.title}
                         </p>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-slate-100">
                           {application.jobId.type}
                         </p>
                       </div>
@@ -144,7 +144,7 @@ const ApplicationList = () => {
                     </div>
                   </td>
                   <td className="p-4 border-b border-slate-200">
-                    <p className="text-sm text-slate-500">{application.jobId.department}</p>
+                    <p className="text-sm text-slate-100">{application.jobId.department}</p>
                   </td>
                   <td className="p-4 border-b border-slate-200">
                     <button

@@ -65,7 +65,7 @@ const Jobs = () => {
           {alljobs?.length ? (
             <SingleJob />
           ) : (
-            <div className="flex items-center justify-center bg-gradient-to-b from-blue-50 to-gray-100">
+            <div className="flex items-center justify-center bg-gradient-to-b from-blue-50 to-gray-100 dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900">
               <div className="text-center p-8 bg-white shadow-lg rounded-lg">
                 <h1 className="text-4xl font-bold text-gray-800 mb-4">No Jobs</h1>
                 <p className="text-lg text-gray-600 mb-6">

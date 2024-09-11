@@ -87,7 +87,7 @@ const SignUpForm = () => {
                 label="First Name"
                 type="text"
                 required
-                className="w-[80%] bg-white dark:bg-gray-800 dark:bg-gray-800"
+                className="w-[80%] bg-white dark:bg-gray-800"
                 InputLabelProps={{
                     shrink: true,
                     sx: {
