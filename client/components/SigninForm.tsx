@@ -7,6 +7,7 @@ import { RootState } from '@/redux/Store';
 import { useRouter } from 'next/navigation';
 import useLoginHandler from '@/customHooks/loginHandler';
 import useLoginState from '@/customHooks/loginState';
+import { useTheme } from 'next-themes';
 
 const SignInForm = () => {
   const [email, setEmail] = useState('');
@@ -19,6 +20,7 @@ const SignInForm = () => {
   const modalState = useAppSelector((state: RootState) => state.modal.user);
   const { currentState, redirect } = useLoginState(modalState === "candidate");
   const loginHandler = useLoginHandler(modalState);
+  const { resolvedTheme } = useTheme();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,7 +44,7 @@ const SignInForm = () => {
     if (currentState.isSuccess) {
       if (!currentState.loggedInUser?.firstTime) {
         router.push(redirect);
-        dispatch(setClosed())
+        dispatch(setClosed());
       }
       dispatch(resetSuccess());
     } else if (currentState.isError) {
@@ -62,8 +64,8 @@ const SignInForm = () => {
 
   return (
     <div>
-      <h2 id="sign-in-modal" className="text-2xl font-semibold mb-4 text-center">
-        {modalState === "candidate" ? "Sign in as a Candidate" : currentState.loggedInUser?.firstTime ? "Change Password": "Sign in as an Employee"}
+      <h2 id="sign-in-modal" className="text-2xl font-semibold mb-4 text-center text-gray-800 dark:text-white">
+        {modalState === "candidate" ? "Sign in as a Candidate" : currentState.loggedInUser?.firstTime ? "Change Password" : "Sign in as an Employee"}
       </h2>
       <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
         {!currentState.loggedInUser?.firstTime ? (
@@ -74,21 +76,32 @@ const SignInForm = () => {
               label="Email"
               type="email"
               required
-              className="w-[80%] bg-white"
+              className="w-[80%] bg-white dark:bg-gray-800"
               sx={{
-                    '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
                     borderColor: '#0F6CF6',
-                    },
-                    '&:hover fieldset': {
+                  },
+                  '&:hover fieldset': {
                     borderColor: 'blue',
-                    },
-                    '&.Mui-focused fieldset': {
+                  },
+                  '&.Mui-focused fieldset': {
                     borderColor: 'blue',
-                    },
-                    },
-                }}
-              InputLabelProps={{ shrink: true }}
+                  },
+                  '& .MuiInputBase-input': {
+                    color: resolvedTheme === "dark" ? "white" : "black",
+                  }
+                },
+              }}
+              InputLabelProps={{
+                shrink: true,
+                sx: {
+                  color: resolvedTheme === "dark" ? "white" : "grey",
+                  '&.Mui-focused': {
+                    color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                  },
+                }
+              }}
             />
             <TextField
               value={password}
@@ -96,21 +109,32 @@ const SignInForm = () => {
               label="Password"
               type="password"
               required
-              className="w-[80%] bg-white"
+              className="w-[80%] bg-white dark:bg-gray-800 dark:text-white"
               sx={{
-                    '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
                     borderColor: '#0F6CF6',
-                    },
-                    '&:hover fieldset': {
+                  },
+                  '&:hover fieldset': {
                     borderColor: 'blue',
-                    },
-                    '&.Mui-focused fieldset': {
+                  },
+                  '&.Mui-focused fieldset': {
                     borderColor: 'blue',
-                    },
-                    },
-                }}
-              InputLabelProps={{ shrink: true }}
+                  },
+                  '& .MuiInputBase-input': {
+                    color: resolvedTheme === "dark" ? "white" : "black",
+                  }
+                },
+              }}
+              InputLabelProps={{
+                shrink: true,
+                sx: {
+                  color: resolvedTheme === "dark" ? "white" : "grey",
+                  '&.Mui-focused': {
+                    color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                  },
+                }
+              }}
             />
           </>
         ) : (
@@ -121,21 +145,32 @@ const SignInForm = () => {
               label="Old Password"
               type="password"
               required
-              className="w-[80%] bg-white"
+              className="w-[80%] bg-white dark:bg-gray-800 dark:text-white"
               sx={{
-                    '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
                     borderColor: '#0F6CF6',
-                    },
-                    '&:hover fieldset': {
+                  },
+                  '&:hover fieldset': {
                     borderColor: 'blue',
-                    },
-                    '&.Mui-focused fieldset': {
+                  },
+                  '&.Mui-focused fieldset': {
                     borderColor: 'blue',
-                    },
+                  },
+                  '& .MuiInputBase-input': {
+                    color: resolvedTheme === "dark" ? "white" : "black",
+                  }
                 },
-            }}
-              InputLabelProps={{ shrink: true }}
+              }}
+              InputLabelProps={{
+                shrink: true,
+                sx: {
+                  color: resolvedTheme === "dark" ? "white" : "grey",
+                  '&.Mui-focused': {
+                    color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                  },
+                }
+              }}
             />
             <TextField
               value={newPassword}
@@ -143,21 +178,32 @@ const SignInForm = () => {
               label="New Password"
               type="password"
               required
-              className="w-[80%] bg-white"
+              className="w-[80%] bg-white dark:bg-gray-800 dark:text-white"
               sx={{
-                    '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
                     borderColor: '#0F6CF6',
-                    },
-                    '&:hover fieldset': {
+                  },
+                  '&:hover fieldset': {
                     borderColor: 'blue',
-                    },
-                    '&.Mui-focused fieldset': {
+                  },
+                  '&.Mui-focused fieldset': {
                     borderColor: 'blue',
-                    },
-                    },
-                }}
-              InputLabelProps={{ shrink: true }}
+                  },
+                  '& .MuiInputBase-input': {
+                    color: resolvedTheme === "dark" ? "white" : "black",
+                  }
+                },
+              }}
+              InputLabelProps={{
+                shrink: true,
+                sx: {
+                  color: resolvedTheme === "dark" ? "white" : "grey",
+                  '&.Mui-focused': {
+                    color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                  },
+                }
+              }}
             />
           </>
         )}
@@ -185,7 +231,7 @@ const SignInForm = () => {
         </Button>
       </form>
       {!currentState.loggedInUser?.firstTime && (
-        <p className="text-center mt-5">
+        <p className="text-center mt-5 text-gray-800 dark:text-gray-300">
           Don’t have an account?{' '}
           <span
             className="text-blue-500 hover:underline hover:text-blue-700 hover:cursor-pointer"

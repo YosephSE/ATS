@@ -28,7 +28,7 @@ const SignInModal = () => {
             aria-labelledby="modal"
             aria-describedby="form">
 
-            <div className="w-[90%] bg-[#F8FDFF] max-w-xl shadow-2xl p-6 rounded-3xl">
+            <div className="w-[90%] bg-[#F8FDFF] dark:bg-gray-900 max-w-xl shadow-2xl p-6 rounded-3xl">
                 {
                     modalValue === "signin"
                     ?

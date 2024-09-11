@@ -22,14 +22,14 @@ const SingleJob = () => {
     }
     return (
         <div className='w-full'>
-            <Card className="mb-4">
-                <CardContent className='rounded-lg shadow-lg'>
+            <Card className="mb-4 dark:bg-slate-600">
+                <CardContent className='rounded-lg shadow-lg dark:text-white'>
                 <div className="flex justify-between items-start">
                     <div className="flex items-start gap-2 flex-col">
                         <h1 className="text-2xl font-bold">
                             {currentJob?.title}
                         </h1>
-                        <p className="text-gray-500">
+                        <p className="text-gray-500 dark:text-gray-200">
                             {currentJob?.location}
                         </p>
                         <h2 className='text-xl font-bold mt-4'>Department: <span className='text-base font-semibold'>{currentJob?.department}</span></h2>

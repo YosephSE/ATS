@@ -18,8 +18,8 @@ const RolesPage = () => {
       <div className="sticky top-0 z-10">
         <Header page="roles" />
       </div>
-      <div className="grid md:grid-cols-2 min-h-scren">
-        <div className="bg-[radial-gradient(circle,#94CFFA,#F5FFF6)] flex justify-center items-center min-h-screen">
+      <div className="grid md:grid-cols-2 min-h-screen">
+        <div className="bg-[radial-gradient(circle,#94CFFA,#F5FFF6)] dark:bg-[radial-gradient(circle,rgba(0,35,99,0.88),rgba(40,105,138,0.94))] flex justify-center items-center min-h-screen">
           <div className="w-[80%] flex flex-col items-center gap-10">
             <h1 className="text-3xl text-center">For Employee</h1>
             <p className="text-center">
@@ -58,7 +58,7 @@ const RolesPage = () => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex justify-center dark:bg-slate-700 items-center min-h-screen">
           <div className="w-[80%] flex flex-col items-center gap-10">
             <h1 className="text-3xl text-center">For Candidate</h1>
             <p className="text-center">

@@ -26,6 +26,7 @@
     "jspdf": "^2.5.1",
     "lucide-react": "^0.439.0",
     "next": "14.2.7",
+    "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",

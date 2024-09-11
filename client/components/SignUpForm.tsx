@@ -11,6 +11,7 @@ import { register, resetSuccess} from '@/redux/slices/UserSlice';
 import { useAppSelector } from '@/redux/Hooks';
 import { RootState } from '@/redux/Store';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 
 const SignUpForm = () => {
     const currentState = useAppSelector((state: RootState) => state.user)
@@ -23,7 +24,8 @@ const SignUpForm = () => {
 
     const dispatch = useAppDispatch()
     const router = useRouter()
-
+    const { resolvedTheme } = useTheme();
+    
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (
@@ -65,73 +67,100 @@ const SignUpForm = () => {
         <h2 id="sign-in-modal" className="text-2xl font-semibold mb-4 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-4">
             <TextField
-                sx={{
-                        '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                        borderColor: '#0F6CF6',
-                        },
-                        '&:hover fieldset': {
-                        borderColor: 'blue',
-                        },
-                        '&.Mui-focused fieldset': {
-                        borderColor: 'blue',
-                        },
-                    },
-                }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: '#0F6CF6',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'blue',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'blue',
+                  },
+                  '& .MuiInputBase-input': {
+                    color: resolvedTheme === "dark" ? "white" : "black",
+                  }
+                },
+              }}
                 inputRef={firstNameRef}
                 label="First Name"
                 type="text"
                 required
-                className="w-[80%] bg-white"
+                className="w-[80%] bg-white dark:bg-gray-800"
                 InputLabelProps={{
                     shrink: true,
-                }}
+                    sx: {
+                      color: resolvedTheme === "dark" ? "white" : "grey",
+                      '&.Mui-focused': {
+                        color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                      },
+                    }
+                  }}
             />
             <TextField
-                sx={{
-                        '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                        borderColor: '#0F6CF6',
-                        },
-                        '&:hover fieldset': {
-                        borderColor: 'blue',
-                        },
-                        '&.Mui-focused fieldset': {
-                        borderColor: 'blue',
-                        },
-                    },
-                }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: '#0F6CF6',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'blue',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'blue',
+                  },
+                  '& .MuiInputBase-input': {
+                    color: resolvedTheme === "dark" ? "white" : "black",
+                  }
+                },
+              }}
                 inputRef={lastNameRef}
                 label="Last Name"
                 type="text"
                 required
-                className="w-[80%] bg-white"
+                className="w-[80%] bg-white dark:bg-gray-800"
                 InputLabelProps={{
                     shrink: true,
-                }}
+                    sx: {
+                      color: resolvedTheme === "dark" ? "white" : "grey",
+                      '&.Mui-focused': {
+                        color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                      },
+                    }
+                  }}
             />
             <TextField
-                sx={{
-                        '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                        borderColor: '#0F6CF6',
-                        },
-                        '&:hover fieldset': {
-                        borderColor: 'blue',
-                        },
-                        '&.Mui-focused fieldset': {
-                        borderColor: 'blue',
-                        },
-                    },
-                }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: '#0F6CF6',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'blue',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'blue',
+                  },
+                  '& .MuiInputBase-input': {
+                    color: resolvedTheme === "dark" ? "white" : "black",
+                  }
+                },
+              }}
                 inputRef={emailRef}
                 label="Email"
                 type="email"
                 required
-                className="w-[80%] bg-white"
+                className="w-[80%] bg-white dark:bg-gray-800"
                 InputLabelProps={{
                     shrink: true,
-                }}
+                    sx: {
+                      color: resolvedTheme === "dark" ? "white" : "grey",
+                      '&.Mui-focused': {
+                        color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                      },
+                    }
+                  }}
             />
             <TextField
                 sx={{
@@ -151,33 +180,48 @@ const SignUpForm = () => {
                 label="Password"
                 type="password"
                 required
-                className="w-[80%] bg-white"
+                className="w-[80%] bg-white dark:bg-gray-800"
                 InputLabelProps={{
                     shrink: true,
-                }}
+                    sx: {
+                      color: resolvedTheme === "dark" ? "white" : "grey",
+                      '&.Mui-focused': {
+                        color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                      },
+                    }
+                  }}
             />
             <TextField
-                sx={{
-                        '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                        borderColor: '#0F6CF6',
-                        },
-                        '&:hover fieldset': {
-                        borderColor: 'blue',
-                        },
-                        '&.Mui-focused fieldset': {
-                        borderColor: 'blue',
-                        },
-                    },
-                }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: '#0F6CF6',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'blue',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'blue',
+                  },
+                  '& .MuiInputBase-input': {
+                    color: resolvedTheme === "dark" ? "white" : "black",
+                  }
+                },
+              }}
                 inputRef={confirmPasswordRef}
                 label="Confirm Password"
                 type="password"
                 required
-                className="w-[80%] bg-white"
+                className="w-[80%] bg-white dark:bg-gray-800"
                 InputLabelProps={{
                     shrink: true,
-                }}
+                    sx: {
+                      color: resolvedTheme === "dark" ? "white" : "grey",
+                      '&.Mui-focused': {
+                        color: resolvedTheme === "dark" ? "lightblue" : "blue", 
+                      },
+                    }
+                  }}
             />
             <div>
                 {
