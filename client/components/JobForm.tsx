@@ -21,24 +21,32 @@ interface Props {
 }
 
 const JobForm = ({ page, id}: Props) => {
+    const postStatus = useAppSelector((state: RootState) => state.jobs);
     const dispatch = useAppDispatch()
+    console.log(postStatus.currentJob)
     useEffect(() => {
-        const fetchUser = async () => {
-            if(id){
-                await dispatch(singlejob(id))
-            }
+        if(!id){
+            dispatch(resetCurrentJob())
         }
-        dispatch(resetCurrentJob())
-        dispatch(resetSuccess())
-        fetchUser()
+    })
+
+    useEffect(() => {
+        const fetchUser = async (_id: string) => {
+            await dispatch(singlejob(_id))
+            console.log("requested")
+            dispatch(resetSuccess())
+        }
+        if (id){
+            fetchUser(id)
+        }
+
     }, [])
 
-    const postStatus = useAppSelector((state: RootState) => state.jobs);
-    const initialData = postStatus.currentJob
-    const [jobType, setJobType] = useState<string>(initialData?.type || "");
-    const [status, setStatus] = useState<boolean>(initialData?.status || true)
-    const [requirements, setRequirements] = useState<string[]>(initialData?.requirements || []);
-    const [responsibilities, setResponsibilities] = useState<string[]>(initialData?.responsibilities || []);
+
+    const [jobType, setJobType] = useState<string>(postStatus.currentJob?.type || "");
+    const [status, setStatus] = useState<boolean>(postStatus.currentJob?.status || true)
+    const [requirements, setRequirements] = useState<string[]>(postStatus.currentJob?.requirements || []);
+    const [responsibilities, setResponsibilities] = useState<string[]>(postStatus.currentJob?.responsibilities || []);
 
     const titleRef = useRef<HTMLInputElement>(null);
     const departmentRef = useRef<HTMLInputElement>(null);
@@ -49,20 +57,40 @@ const JobForm = ({ page, id}: Props) => {
 
     useEffect(() => {
         if (
-            initialData && 
             titleRef.current && departmentRef.current &&
             locationRef.current && minSalaryRef.current &&
             maxSalaryRef.current && jobDescriptionRef.current 
         ){
-            titleRef.current.value = initialData.title
-            departmentRef.current.value = initialData.department
-            locationRef.current.value = initialData.location
-            minSalaryRef.current.value = String(initialData.minSalary)
-            maxSalaryRef.current.value = String(initialData.maxSalary)
-            jobDescriptionRef.current.value = initialData.description
+            if(postStatus.currentJob){
+                titleRef.current.value = postStatus.currentJob.title;
+                departmentRef.current.value = postStatus.currentJob.department;
+                locationRef.current.value = postStatus.currentJob.location;
+                minSalaryRef.current.value = String(postStatus.currentJob.minSalary);
+                maxSalaryRef.current.value = String(postStatus.currentJob.maxSalary);
+                jobDescriptionRef.current.value = postStatus.currentJob.description;
+        
+                setJobType(postStatus.currentJob.type);
+                setStatus(postStatus.currentJob.status);
+                setRequirements(postStatus.currentJob.requirements);
+                setResponsibilities(postStatus.currentJob.responsibilities);
+            }else{
+
+                titleRef.current.value = "";
+                departmentRef.current.value = "";
+                locationRef.current.value = "";
+                minSalaryRef.current.value = "";
+                maxSalaryRef.current.value = "";
+                jobDescriptionRef.current.value = "";
+        
+                setJobType("");
+                setStatus(true);
+                setRequirements([]);
+                setResponsibilities([]);
+            }
+
         }
-        dispatch(resetError())
-    },[])
+        dispatch(resetError());
+    }, [postStatus.currentJob, dispatch]);  
 
     const handleJobTypeChange = (event: SelectChangeEvent<string>) => {
         setJobType(event.target.value);
@@ -132,10 +160,10 @@ const JobForm = ({ page, id}: Props) => {
             }
 
             if(page){
-                dispatch(postjob(data))
+                await dispatch(postjob(data))
             }else{
                 if (id){
-                    dispatch(editjob({id: id, job: data}))
+                    await dispatch(editjob({id: id, job: data}))
                 }
             }
         }
