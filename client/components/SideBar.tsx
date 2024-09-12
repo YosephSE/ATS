@@ -163,7 +163,7 @@ const Sidebar = () => {
             )}
             <IconButton
               onClick={toggleDrawer}
-              sx={{ textAlign: "center", ml: isOpen ? "auto" : 0 }}
+              sx={{ textAlign: "center", ml: isOpen ? "auto" : 0, color: resolvedTheme === "dark" ? "white" : "black" }}
             >
               <MenuIcon />
             </IconButton>
