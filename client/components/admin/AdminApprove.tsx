@@ -26,7 +26,7 @@ const AdminApprove = () => {
 
   return (
     <div className="max-w-[1000px] mx-auto">
-      <div className="relative flex flex-col w-full h-full text-slate-700 bg-white shadow-md rounded-xl bg-clip-border">
+      <div className="relative flex flex-col w-full h-full text-slate-700 bg-white dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 shadow-md rounded-xl bg-clip-border">
         <div className="p-6">
           <table className="w-full text-left table-auto min-w-max">
             <thead>
@@ -42,19 +42,19 @@ const AdminApprove = () => {
             <tbody>
               {adminsState.admins.map((application) => (
                 <tr key={application._id}>
-                  <td className="p-4 border-b border-slate-200">
+                  <td className="p-4 border-b dark:text-white border-slate-200">
                     {application.firstName}
                   </td>
-                  <td className="p-4 border-b border-slate-200">
+                  <td className="p-4 border-b dark:text-white border-slate-200">
                     {application.lastName}
                   </td>
-                  <td className="p-4 border-b border-slate-200">
+                  <td className="p-4 border-b dark:text-white border-slate-200">
                     {application.email}
                   </td>
-                  <td className="p-4 border-b border-slate-200">
+                  <td className="p-4 border-b dark:text-white border-slate-200">
                     {application.phoneNumber}
                   </td>
-                  <td className="p-4 border-b border-slate-200">
+                  <td className="p-4 border-b dark:text-white border-slate-200">
                     <label className="flex items-center cursor-pointer">
                       <Switch
                         color="primary"
@@ -63,9 +63,9 @@ const AdminApprove = () => {
                       />
                     </label>
                   </td>
-                  <td className="p-4 border-b border-slate-200">
+                  <td className="p-4 border-b dark:text-white border-slate-200">
                     <button
-                      className="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-slate-900 transition-all hover:bg-slate-900/10 active:bg-slate-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                      className="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase dark:text-white text-slate-900 transition-all hover:bg-slate-900/10 active:bg-slate-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                       type="button"
                     >
                       <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
