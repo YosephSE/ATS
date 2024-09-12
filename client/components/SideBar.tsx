@@ -24,6 +24,7 @@ import { logout, resetSuccess } from "@/redux/slices/AdminSlice";
 import { useRouter } from "next/navigation";
 import { FileClock } from "lucide-react";
 import ThemeButton from "./ThemeButton";
+import { useTheme } from "next-themes";
 
 interface NavItem {
   text: string;
@@ -48,6 +49,7 @@ const Sidebar = () => {
     { text: "Add Jobs", link: "/admin/postjob", icon: <AddBox /> },
   ]);
 
+  const { resolvedTheme } = useTheme()
   useEffect(() => {
     if (user.loggedInUser?.role === "super admin") {
       setNavItems((prevNavItems) => {
@@ -102,7 +104,7 @@ const Sidebar = () => {
           boxSizing: "border-box",
           borderRight: "none",
           background:
-            "linear-gradient(180deg,rgba(116, 200, 242, 0.65),#FFFFFF)",
+            resolvedTheme === "dark" ? "linear-gradient(0deg, #1f265f 0%, rgba(0, 35, 99, 0.88) 55%, rgba(40, 105, 138, 0.94) 100%)" : "linear-gradient(180deg,rgba(116, 200, 242, 0.65),#FFFFFF)",
           zIndex: 1,
           transition: "width 0.3s ease", // Animation for drawer paper
         },
@@ -120,7 +122,7 @@ const Sidebar = () => {
                 <div>
                   <Button
                     onClick={handleMenuOpen}
-                    className="flex items-center space-x-2"
+                    className="flex items-center dark:text-blue-400 space-x-2"
                   >
                     <svg
                       className="w-5 h-5 mr-1"
@@ -177,11 +179,11 @@ const Sidebar = () => {
               } py-4 transition duration-200 ease-in-out hover:bg-blue-100`} // Changed hover effect to background color
             >
               <Link href={item.link}>
-                <div className="flex items-center hover:text-blue-600">
+                <div className="flex items-center text-black dark:text-white hover:text-blue-600">
                   <div
                     className={`${
                       isOpen ? "mr-4" : "mr-0"
-                    } text-blue-600 transition duration-200 ease-in-out`}
+                    } text-blue-600 dark:text-blue-400 transition duration-200 ease-in-out`}
                   >
                     {item.icon}
                   </div>
