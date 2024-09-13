@@ -18,7 +18,7 @@ const ApplicationList = () => {
 
   return (
     <div className="max-w-[1000px] mx-auto">
-      <div className="relative flex flex-col w-full h-full text-slate-200 dark:text-slate-200 dark:bg-slate-700 bg-white shadow-md rounded-xl bg-clip-border">
+      <div className="relative flex flex-col w-full h-full dark:text-slate-200 dark:bg-slate-700 bg-white shadow-md rounded-xl bg-clip-border">
         <div className="p-6">
           <table className="w-full text-left table-auto min-w-max">
             <thead>
