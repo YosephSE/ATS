@@ -192,7 +192,7 @@ const Sidebar = () => {
           ))}
         </div>
         <div className=" flex justify-center items-center w-full">
-          <ThemeButton />
+          {/* <ThemeButton /> */}
         </div>
         <div
           className={`
