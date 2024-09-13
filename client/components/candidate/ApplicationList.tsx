@@ -24,7 +24,7 @@ const ApplicationList = () => {
             <thead>
               <tr>
                 <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none">
                     Title
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ const ApplicationList = () => {
                   </p>
                 </th>
                 <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none ">
                     Location
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@ const ApplicationList = () => {
                   </p>
                 </th>
                 <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none">
                     Status
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ const ApplicationList = () => {
                   </p>
                 </th>
                 <th className="p-4 transition-colors cursor-pointer border-y border-slate-200 bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 dark:border-slate-500 hover:bg-slate-100">
-                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none text-slate-100">
+                  <p className="flex items-center justify-between gap-2 font-sans text-sm font-normal leading-none">
                     Department
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
