@@ -74,12 +74,12 @@ const SingleJob = () => {
                 </CardContent>
             </Card>
 
-            <Card className='rounded-lg shadow-lg'>
+            <Card className='rounded-lg shadow-lg dark:bg-slate-600'>
                 <CardContent>
-                <h2 className="text-lg font-semibold">
+                <h2 className="text-lg font-semibold dark:text-white">
                     Salary Range
                 </h2>
-                <h3 className="text-xl font-bold text-blue-500">
+                <h3 className="text-xl font-bold text-blue-500 dark:text-blue-400">
                     {`${currentJob?.minSalary} birr - ${currentJob?.maxSalary} birr per month`}
                 </h3>
                 </CardContent>
