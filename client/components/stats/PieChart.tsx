@@ -1,12 +1,15 @@
 "use client";
 import React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
+import { useTheme } from "next-themes";
 
 export default function Chart({
   data,
 }: {
   data: { id: number; value: number; label: string; color: string }[];
 }) {
+  const { resolvedTheme } = useTheme();
+
   return (
     <PieChart
       series={[
@@ -21,6 +24,13 @@ export default function Chart({
       ]}
       width={400}
       height={200}
+      slotProps={{
+        legend: {
+          labelStyle: {
+            fill: resolvedTheme === 'dark' ? '#ffffff' : '#000000',
+          },
+        },
+      }}
     />
   );
 }
