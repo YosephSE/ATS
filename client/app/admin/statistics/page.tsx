@@ -73,7 +73,7 @@ const Statistics: React.FC = () => {
   ];
 
   return (
-    <div className="flex bg-[#F8FDFF]">
+    <div className="flex bg-[#F8FDFF] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900">
       <Sidebar />
       <div className="w-[80%] mx-auto p-6 min-h-screen">
         <h2 className="text-3xl font-bold text-blue-600 mb-6">Statistics</h2>
@@ -88,7 +88,7 @@ const Statistics: React.FC = () => {
               <h1 className="text-sky-600 font-bold text-3xl pl-12 py-6">
                 Jobs
               </h1>
-              <Chart data={jobs} />
+              <Chart data={jobs}/>
             </div>
             <div className="w-full sm:w-1/2">
               <h1 className="text-sky-600 font-bold text-3xl pl-12 py-6">
