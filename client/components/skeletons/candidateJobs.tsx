@@ -16,43 +16,37 @@ const JobListingLoadingSkeleton = () => {
   return (
     <>
       <Header />
-      <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f5f5f5", p: 3 }}>
+      <Box className="flex h-screen bg-gray-100 dark:bg-gray-800 p-3">
         {/* Left sidebar */}
-        <Box sx={{ width: 300, mr: 3 }}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
+        <Box className="w-72 mr-3">
+          <Typography variant="h6" className="mb-2">
             <Skeleton width={100} />
           </Typography>
           <List>
             {[...Array(4)].map((_, index) => (
               <React.Fragment key={index}>
                 <ListItem>
-                  <Card sx={{ width: "100%", mb: 2 }}>
+                  <Card className="w-full mb-2 dark:bg-gray-700">
                     <CardContent>
                       <Skeleton
                         variant="text"
                         width="60%"
                         height={24}
-                        sx={{ mb: 1 }}
+                        className="mb-1"
                       />
                       <Skeleton
                         variant="text"
                         width="40%"
                         height={20}
-                        sx={{ mb: 1 }}
+                        className="mb-1"
                       />
                       <Skeleton
                         variant="text"
                         width="80%"
                         height={20}
-                        sx={{ mb: 1 }}
+                        className="mb-1"
                       />
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
+                      <Box className="flex justify-between items-center">
                         <Skeleton variant="text" width="30%" height={20} />
                         <Skeleton variant="circular" width={20} height={20} />
                       </Box>
@@ -66,14 +60,24 @@ const JobListingLoadingSkeleton = () => {
         </Box>
 
         {/* Main content */}
-        <Box sx={{ flexGrow: 1 }}>
-          <Typography variant="h5" sx={{ mb: 3 }}>
+        <Box className="flex-grow">
+          <Typography variant="h5" className="mb-3">
             <Skeleton width={100} />
           </Typography>
-          <Card>
+          <Card className="dark:bg-gray-700">
             <CardContent>
-              <Skeleton variant="text" width="40%" height={32} sx={{ mb: 2 }} />
-              <Skeleton variant="text" width="20%" height={24} sx={{ mb: 3 }} />
+              <Skeleton
+                variant="text"
+                width="40%"
+                height={32}
+                className="mb-2"
+              />
+              <Skeleton
+                variant="text"
+                width="20%"
+                height={24}
+                className="mb-3"
+              />
 
               {[
                 "Department",
@@ -82,7 +86,7 @@ const JobListingLoadingSkeleton = () => {
                 "Job Requirement",
                 "Job Responsibility",
               ].map((item, index) => (
-                <Box key={index} sx={{ mb: 3 }}>
+                <Box key={index} className="mb-3">
                   <Typography variant="h6">
                     <Skeleton width={150} />
                   </Typography>
@@ -98,14 +102,7 @@ const JobListingLoadingSkeleton = () => {
                 </Box>
               ))}
 
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  mt: 3,
-                }}
-              >
+              <Box className="flex justify-between items-center mt-3">
                 <Skeleton variant="circular" width={24} height={24} />
                 <Skeleton variant="rectangular" width={100} height={36} />
               </Box>
