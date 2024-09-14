@@ -212,7 +212,7 @@ const JobForm = ({ page, id}: Props) => {
                     },
                 },
                 '& .MuiInputBase-input': {
-                    color: 'currentColor',
+                    color: 'inherit',
                 },
             }}
             fullWidth
@@ -227,13 +227,24 @@ const JobForm = ({ page, id}: Props) => {
                     fullWidth
                     displayEmpty
                     variant="outlined"
-                    className="bg-white dark:bg-gray-700"
+                    className="bg-white dark:bg-gray-700 dark:text-white"
                     sx={{
                         ...selectSx,
-                        color: 'currentColor',
+                        color: 'inherit',
                         '& .MuiOutlinedInput-notchedOutline': {
                             ...selectSx['& .MuiOutlinedInput-notchedOutline'],
                             borderColor: 'currentColor',
+                        },
+                        '& .MuiSelect-icon': {
+                            color: 'inherit',
+                        },
+                    }}
+                    MenuProps={{
+                        PaperProps: {
+                            className: 'dark:bg-gray-800 dark:text-white',
+                        },
+                        MenuListProps: {
+                            className: 'dark:bg-gray-800 dark:text-white',
                         },
                     }}
                     value={jobType}
@@ -245,12 +256,12 @@ const JobForm = ({ page, id}: Props) => {
                     return selected;
                     }}
                 >
-                    <MenuItem disabled value="">
+                    <MenuItem disabled value="" className="dark:text-gray-400">
                     <em>Job Type</em>
                     </MenuItem>
-                    <MenuItem value="Full-Time">Full Time</MenuItem>
-                    <MenuItem value="Part-Time">Part Time</MenuItem>
-                    <MenuItem value="Contract">Contract</MenuItem>
+                    <MenuItem value="Full-Time" className="dark:hover:bg-gray-700">Full Time</MenuItem>
+                    <MenuItem value="Part-Time" className="dark:hover:bg-gray-700">Part Time</MenuItem>
+                    <MenuItem value="Contract" className="dark:hover:bg-gray-700">Contract</MenuItem>
                 </Select>
             </div>
             
@@ -266,7 +277,7 @@ const JobForm = ({ page, id}: Props) => {
                     },
                 },
                 '& .MuiInputBase-input': {
-                    color: 'currentColor',
+                    color: 'inherit',
                 },
             }}
             fullWidth
@@ -288,7 +299,7 @@ const JobForm = ({ page, id}: Props) => {
                     },
                 },
                 '& .MuiInputBase-input': {
-                    color: 'currentColor',
+                    color: 'inherit',
                 },
             }}
             fullWidth
@@ -311,7 +322,7 @@ const JobForm = ({ page, id}: Props) => {
                         },
                     },
                     '& .MuiInputBase-input': {
-                        color: 'currentColor',
+                        color: 'inherit',
                     },
                 }}
                 label="Min Salary"
@@ -332,7 +343,7 @@ const JobForm = ({ page, id}: Props) => {
                         },
                     },
                     '& .MuiInputBase-input': {
-                        color: 'currentColor',
+                        color: 'inherit',
                     },
                 }}
                 label="Max Salary"
@@ -355,7 +366,7 @@ const JobForm = ({ page, id}: Props) => {
                     },
                 },
                 '& .MuiInputBase-input': {
-                    color: 'currentColor',
+                    color: 'inherit',
                 },
             }}
             fullWidth
@@ -389,7 +400,7 @@ const JobForm = ({ page, id}: Props) => {
                             },
                         },
                         '& .MuiInputBase-input': {
-                            color: 'currentColor',
+                            color: 'inherit',
                         },
                     }}
                     fullWidth
@@ -399,8 +410,8 @@ const JobForm = ({ page, id}: Props) => {
                     onChange={(e) => handleFieldChange(index, e.target.value, 'requirements')}
                     onBlur={() => handleFieldBlur(index, 'requirements')}
                 />
-                <IconButton onClick={() => removeField(index, 'requirements')} color="error">
-                    <DeleteIcon className="dark:text-red-400" />
+                <IconButton onClick={() => removeField(index, 'requirements')} className="text-red-500 dark:text-red-400">
+                    <DeleteIcon />
                 </IconButton>
                 </div>
             ))}
@@ -429,7 +440,7 @@ const JobForm = ({ page, id}: Props) => {
                             },
                         },
                         '& .MuiInputBase-input': {
-                            color: 'currentColor',
+                            color: 'inherit',
                         },
                     }}
                     fullWidth
@@ -439,8 +450,8 @@ const JobForm = ({ page, id}: Props) => {
                     onChange={(e) => handleFieldChange(index, e.target.value, 'responsibilities')}
                     onBlur={() => handleFieldBlur(index, 'responsibilities')}
                 />
-                <IconButton onClick={() => removeField(index, 'responsibilities')} color="error">
-                    <DeleteIcon className="dark:text-red-400" />
+                <IconButton onClick={() => removeField(index, 'responsibilities')} className="text-red-500 dark:text-red-400">
+                    <DeleteIcon />
                 </IconButton>
                 </div>
             ))}
@@ -449,10 +460,10 @@ const JobForm = ({ page, id}: Props) => {
                 <div>
                 {postStatus.isError && <p className='text-red-700 dark:text-red-400 mb-2'>{postStatus.error}</p>}
                 {postStatus.isSuccess && <p className='text-blue-600 dark:text-blue-400 mb-2'>Job Posted Successfully</p>}
-                    <Button variant="contained" disabled={postStatus.isLoading} onClick={handleSubmit} color="primary" className="px-8 py-2 dark:bg-blue-600 dark:text-white">
+                    <Button variant="contained" disabled={postStatus.isLoading} onClick={handleSubmit} color="primary" className="px-8 py-2 bg-blue-600 text-white dark:bg-blue-700 dark:hover:bg-blue-600">
                         {
                             postStatus.isLoading?
-                            <CircularProgress size={24} className="text-white dark:text-gray-200"/>
+                            <CircularProgress size={24} className="text-white"/>
                             :
                             page ? "Post" : "Update"
                         }
@@ -464,7 +475,7 @@ const JobForm = ({ page, id}: Props) => {
                         color="primary" 
                         checked={status} 
                         onChange={() => { setStatus(!status)}} 
-                        className="dark:text-blue-400"
+                        className="text-blue-600 dark:text-blue-400"
                     />
                 </div>
             </div>
