@@ -199,173 +199,277 @@ const JobForm = ({ page, id}: Props) => {
     }
 
     return (            
-                <form className="space-y-6">
-                    <TextField
-                    InputLabelProps={inputLabelProps}
-                    sx={inputSx}
+        <form className="space-y-6 dark:bg-gray-800 dark:text-white">
+            <TextField
+            InputLabelProps={{...inputLabelProps, className: 'dark:text-gray-300'}}
+            sx={{
+                ...inputSx,
+                '& .MuiOutlinedInput-root': {
+                    ...inputSx['& .MuiOutlinedInput-root'],
+                    '& fieldset': {
+                        ...inputSx['& .MuiOutlinedInput-root']['& fieldset'],
+                        borderColor: 'currentColor',
+                    },
+                },
+                '& .MuiInputBase-input': {
+                    color: 'currentColor',
+                },
+            }}
+            fullWidth
+            label="Job Title"
+            variant="outlined"
+            className="bg-white dark:bg-gray-700"
+            inputRef={titleRef}
+            />
+    
+            <div>
+                <Select<string>
                     fullWidth
-                    label="Job Title"
+                    displayEmpty
                     variant="outlined"
-                    className="bg-white"
-                    inputRef={titleRef}
-                    />
-
-                    <div>
-                        <Select<string>
-                            fullWidth
-                            displayEmpty
-                            variant="outlined"
-                            className="bg-white"
-                            sx={selectSx}
-                            value={jobType}
-                            onChange={handleJobTypeChange}
-                            renderValue={(selected) => {
-                            if (selected === '') {
-                                return <em className="text-gray-400">Job Type</em>;
-                            }
-                            return selected;
-                            }}
-                        >
-                            <MenuItem disabled value="">
-                            <em>Job Type</em>
-                            </MenuItem>
-                            <MenuItem value="Full-Time">Full Time</MenuItem>
-                            <MenuItem value="Part-Time">Part Time</MenuItem>
-                            <MenuItem value="Contract">Contract</MenuItem>
-                        </Select>
-                    </div>
-                    
-                    <TextField
-                    InputLabelProps={inputLabelProps}
-                    sx={inputSx}
+                    className="bg-white dark:bg-gray-700"
+                    sx={{
+                        ...selectSx,
+                        color: 'currentColor',
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            ...selectSx['& .MuiOutlinedInput-notchedOutline'],
+                            borderColor: 'currentColor',
+                        },
+                    }}
+                    value={jobType}
+                    onChange={handleJobTypeChange}
+                    renderValue={(selected) => {
+                    if (selected === '') {
+                        return <em className="text-gray-400 dark:text-gray-500">Job Type</em>;
+                    }
+                    return selected;
+                    }}
+                >
+                    <MenuItem disabled value="">
+                    <em>Job Type</em>
+                    </MenuItem>
+                    <MenuItem value="Full-Time">Full Time</MenuItem>
+                    <MenuItem value="Part-Time">Part Time</MenuItem>
+                    <MenuItem value="Contract">Contract</MenuItem>
+                </Select>
+            </div>
+            
+            <TextField
+            InputLabelProps={{...inputLabelProps, className: 'dark:text-gray-300'}}
+            sx={{
+                ...inputSx,
+                '& .MuiOutlinedInput-root': {
+                    ...inputSx['& .MuiOutlinedInput-root'],
+                    '& fieldset': {
+                        ...inputSx['& .MuiOutlinedInput-root']['& fieldset'],
+                        borderColor: 'currentColor',
+                    },
+                },
+                '& .MuiInputBase-input': {
+                    color: 'currentColor',
+                },
+            }}
+            fullWidth
+            label="Location"
+            variant="outlined"
+            className="bg-white dark:bg-gray-700"
+            inputRef={locationRef}
+            />
+            
+            <TextField
+            InputLabelProps={{...inputLabelProps, className: 'dark:text-gray-300'}}
+            sx={{
+                ...inputSx,
+                '& .MuiOutlinedInput-root': {
+                    ...inputSx['& .MuiOutlinedInput-root'],
+                    '& fieldset': {
+                        ...inputSx['& .MuiOutlinedInput-root']['& fieldset'],
+                        borderColor: 'currentColor',
+                    },
+                },
+                '& .MuiInputBase-input': {
+                    color: 'currentColor',
+                },
+            }}
+            fullWidth
+            label="Department"
+            variant="outlined"
+            className="bg-white dark:bg-gray-700"
+            inputRef={departmentRef}
+            />
+            
+            <div className="flex space-x-4">
+            <TextField
+            InputLabelProps={{...inputLabelProps, className: 'dark:text-gray-300'}}
+                sx={{
+                    ...inputSx,
+                    '& .MuiOutlinedInput-root': {
+                        ...inputSx['& .MuiOutlinedInput-root'],
+                        '& fieldset': {
+                            ...inputSx['& .MuiOutlinedInput-root']['& fieldset'],
+                            borderColor: 'currentColor',
+                        },
+                    },
+                    '& .MuiInputBase-input': {
+                        color: 'currentColor',
+                    },
+                }}
+                label="Min Salary"
+                variant="outlined"
+                className="bg-white dark:bg-gray-700 flex-1"
+                type="number"
+                inputRef={minSalaryRef}
+            />
+            <TextField
+            InputLabelProps={{...inputLabelProps, className: 'dark:text-gray-300'}}
+                sx={{
+                    ...inputSx,
+                    '& .MuiOutlinedInput-root': {
+                        ...inputSx['& .MuiOutlinedInput-root'],
+                        '& fieldset': {
+                            ...inputSx['& .MuiOutlinedInput-root']['& fieldset'],
+                            borderColor: 'currentColor',
+                        },
+                    },
+                    '& .MuiInputBase-input': {
+                        color: 'currentColor',
+                    },
+                }}
+                label="Max Salary"
+                variant="outlined"
+                className="bg-white dark:bg-gray-700 flex-1"
+                type="number"
+                inputRef={maxSalaryRef}
+            />
+            </div>
+            
+            <TextField
+            InputLabelProps={{...inputLabelProps, className: 'dark:text-gray-300'}}
+            sx={{
+                ...inputSx,
+                '& .MuiOutlinedInput-root': {
+                    ...inputSx['& .MuiOutlinedInput-root'],
+                    '& fieldset': {
+                        ...inputSx['& .MuiOutlinedInput-root']['& fieldset'],
+                        borderColor: 'currentColor',
+                    },
+                },
+                '& .MuiInputBase-input': {
+                    color: 'currentColor',
+                },
+            }}
+            fullWidth
+            label="Job Description"
+            variant="outlined"
+            multiline
+            rows={4}
+            className="bg-white dark:bg-gray-700"
+            inputRef={jobDescriptionRef}
+            />
+    
+            <div className="space-y-2">
+            <div className="flex items-center justify-between bg-white dark:bg-gray-700 p-3 rounded-md shadow">
+                <span>Requirements</span>
+                <Button className="min-w-0 p-1" onClick={() => addField('requirements')}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6 text-blue-500 dark:text-blue-400">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                </Button>
+            </div>
+            {requirements.map((req, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                <TextField
+                    sx={{
+                        ...inputSx,
+                        '& .MuiOutlinedInput-root': {
+                            ...inputSx['& .MuiOutlinedInput-root'],
+                            '& fieldset': {
+                                ...inputSx['& .MuiOutlinedInput-root']['& fieldset'],
+                                borderColor: 'currentColor',
+                            },
+                        },
+                        '& .MuiInputBase-input': {
+                            color: 'currentColor',
+                        },
+                    }}
                     fullWidth
-                    label="Location"
                     variant="outlined"
-                    className="bg-white"
-                    inputRef={locationRef}
-                    />
-                    
-                    <TextField
-                    InputLabelProps={inputLabelProps}
-                    sx={inputSx}
+                    className="bg-white dark:bg-gray-700"
+                    value={req}
+                    onChange={(e) => handleFieldChange(index, e.target.value, 'requirements')}
+                    onBlur={() => handleFieldBlur(index, 'requirements')}
+                />
+                <IconButton onClick={() => removeField(index, 'requirements')} color="error">
+                    <DeleteIcon className="dark:text-red-400" />
+                </IconButton>
+                </div>
+            ))}
+            </div>
+    
+            <div className="space-y-2">
+            <div className="flex items-center justify-between bg-white dark:bg-gray-700 p-3 rounded-md shadow">
+                <span>Responsibilities</span>
+                <Button className="min-w-0 p-1" onClick={() => addField('responsibilities')}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6 text-blue-500 dark:text-blue-400">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                </Button>
+            </div>
+            {responsibilities.map((resp, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                <TextField
+                InputLabelProps={{...inputLabelProps, className: 'dark:text-gray-300'}}
+                    sx={{
+                        ...inputSx,
+                        '& .MuiOutlinedInput-root': {
+                            ...inputSx['& .MuiOutlinedInput-root'],
+                            '& fieldset': {
+                                ...inputSx['& .MuiOutlinedInput-root']['& fieldset'],
+                                borderColor: 'currentColor',
+                            },
+                        },
+                        '& .MuiInputBase-input': {
+                            color: 'currentColor',
+                        },
+                    }}
                     fullWidth
-                    label="Department"
                     variant="outlined"
-                    className="bg-white"
-                    inputRef={departmentRef}
+                    className="bg-white dark:bg-gray-700"
+                    value={resp}
+                    onChange={(e) => handleFieldChange(index, e.target.value, 'responsibilities')}
+                    onBlur={() => handleFieldBlur(index, 'responsibilities')}
+                />
+                <IconButton onClick={() => removeField(index, 'responsibilities')} color="error">
+                    <DeleteIcon className="dark:text-red-400" />
+                </IconButton>
+                </div>
+            ))}
+            </div>
+            <div className="flex md:flex-row md:items-center md:justify-between gap-2 flex-col-reverse">
+                <div>
+                {postStatus.isError && <p className='text-red-700 dark:text-red-400 mb-2'>{postStatus.error}</p>}
+                {postStatus.isSuccess && <p className='text-blue-600 dark:text-blue-400 mb-2'>Job Posted Successfully</p>}
+                    <Button variant="contained" disabled={postStatus.isLoading} onClick={handleSubmit} color="primary" className="px-8 py-2 dark:bg-blue-600 dark:text-white">
+                        {
+                            postStatus.isLoading?
+                            <CircularProgress size={24} className="text-white dark:text-gray-200"/>
+                            :
+                            page ? "Post" : "Update"
+                        }
+                    </Button>
+                </div>
+                <div className="flex items-center">
+                    <span className="mr-2">Active</span>
+                    <Switch 
+                        color="primary" 
+                        checked={status} 
+                        onChange={() => { setStatus(!status)}} 
+                        className="dark:text-blue-400"
                     />
-                    
-                    <div className="flex space-x-4">
-                    <TextField
-                    InputLabelProps={inputLabelProps}
-                        sx={inputSx}
-                        label="Min Salary"
-                        variant="outlined"
-                        className="bg-white flex-1"
-                        type="number"
-                        inputRef={minSalaryRef}
-                    />
-                    <TextField
-                    InputLabelProps={inputLabelProps}
-                        sx={inputSx}
-                        label="Max Salary"
-                        variant="outlined"
-                        className="bg-white flex-1"
-                        type="number"
-                        inputRef={maxSalaryRef}
-                    />
-                    </div>
-                    
-                    <TextField
-                    InputLabelProps={inputLabelProps}
-                    sx={inputSx}
-                    fullWidth
-                    label="Job Description"
-                    variant="outlined"
-                    multiline
-                    rows={4}
-                    className="bg-white"
-                    inputRef={jobDescriptionRef}
-                    />
-
-                    <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white p-3 rounded-md shadow">
-                        <span>Requirements</span>
-                        <Button className="min-w-0 p-1" onClick={() => addField('requirements')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6 text-blue-500">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        </Button>
-                    </div>
-                    {requirements.map((req, index) => (
-                        <div key={index} className="flex items-center space-x-2">
-                        <TextField
-                            sx={inputSx}
-                            fullWidth
-                            variant="outlined"
-                            className="bg-white"
-                            value={req}
-                            onChange={(e) => handleFieldChange(index, e.target.value, 'requirements')}
-                            onBlur={() => handleFieldBlur(index, 'requirements')}
-                        />
-                        <IconButton onClick={() => removeField(index, 'requirements')} color="error">
-                            <DeleteIcon />
-                        </IconButton>
-                        </div>
-                    ))}
-                    </div>
-
-                    <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white p-3 rounded-md shadow">
-                        <span>Responsibilities</span>
-                        <Button className="min-w-0 p-1" onClick={() => addField('responsibilities')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6 text-blue-500">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        </Button>
-                    </div>
-                    {responsibilities.map((resp, index) => (
-                        <div key={index} className="flex items-center space-x-2">
-                        <TextField
-                        InputLabelProps={inputLabelProps}
-                            sx={inputSx}
-                            fullWidth
-                            variant="outlined"
-                            className="bg-white"
-                            value={resp}
-                            onChange={(e) => handleFieldChange(index, e.target.value, 'responsibilities')}
-                            onBlur={() => handleFieldBlur(index, 'responsibilities')}
-                        />
-                        <IconButton onClick={() => removeField(index, 'responsibilities')} color="error">
-                            <DeleteIcon />
-                        </IconButton>
-                        </div>
-                    ))}
-                    </div>
-                    <div className="flex md:flex-row md:items-center md:justify-between gap-2 flex-col-reverse">
-                        <div>
-                        {postStatus.isError && <p className='text-red-700 mb-2'>{postStatus.error}</p>}
-                        {postStatus.isSuccess && <p className='text-blue-600 mb-2'>Job Posted Succefully</p>}
-                            <Button variant="contained" disabled={postStatus.isLoading} onClick={handleSubmit} color="primary" className="px-8 py-2">
-                                {
-                                    postStatus.isLoading?
-                                    <CircularProgress size={24} className="text-white"/>
-                                    :
-                                    page ? "Post" : "Update"
-                                }
-                            </Button>
-                        </div>
-                        <div className="flex items-center">
-                            <span className="mr-2">Active</span>
-                            <Switch 
-                                color="primary" 
-                                checked={status} 
-                                onChange={() => { setStatus(!status)}} 
-                            />
-                        </div>
-                    </div>
-                </form>
-        );
+                </div>
+            </div>
+        </form>
+    );
 };
 
 export default JobForm;
