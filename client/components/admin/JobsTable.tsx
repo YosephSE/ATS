@@ -9,6 +9,7 @@ import { Jobs } from "../../../types/job.types";
 import { Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import JobListingSkeleton from "@/app/admin/alljobs/loading";
+import { useTheme } from "next-themes";
 
 interface LoadingState {
   [key: string]: boolean;
@@ -21,6 +22,7 @@ export default function DataTable() {
   const [localJobs, setLocalJobs] = useState<Jobs[]>([]);
   const [loadingStates, setLoadingStates] = useState<LoadingState>({});
   const [loading, setLoading] = useState<boolean>(true); // Add loading state
+  const { resolvedTheme } = useTheme()
 
   useEffect(() => {
     if (allJobs) {
@@ -118,7 +120,7 @@ export default function DataTable() {
       headerName: "Edit",
       flex: 1,
       renderCell: (params) => (
-        <IconButton onClick={() => handleEdit(params.id.toString())}>
+        <IconButton onClick={() => handleEdit(params.id.toString())} className = "dark:text-white">
           <Edit size={20} />
         </IconButton>
       ),
@@ -146,7 +148,28 @@ export default function DataTable() {
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
             pageSizeOptions={[20, 50, 100, 1000]}
-            sx={{ border: 0 }}
+            sx={{
+              border: 0,
+              color: resolvedTheme === "dark" ? "white" : "black",
+              "& .MuiDataGrid-columnHeaders": {
+                color: "black",
+              },
+              "& .MuiDataGrid-footerContainer": {
+                color: resolvedTheme === "dark" ? "white" : "black",
+              },
+              "& .MuiTablePagination-root": {
+                color: resolvedTheme === "dark" ? "white" : "black", 
+              },
+              "& .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows": {
+                color: resolvedTheme === "dark" ? "white" : "black", 
+              },
+              "& .MuiSelect-icon": {
+                color: resolvedTheme === "dark" ? "white" : "black", 
+              },
+              "& .MuiTablePagination-actions .MuiSvgIcon-root": {
+                color: resolvedTheme === "dark" ? "white" : "black",
+              },
+            }}
             autoHeight
           />
         </div>

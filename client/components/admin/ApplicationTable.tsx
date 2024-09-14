@@ -8,15 +8,16 @@ import { allapplications } from "@/redux/slices/ApplicationSlice";
 import ButtonMenu from "./ButtonMenu";
 import Link from "next/link";
 import ApplicationSkeleton from "@/app/admin/allapplications/loading";
-
+import { useTheme } from "next-themes";
 
 export default function DataTable() {
   const allApplications = useAppSelector(
     (state: RootState) => state.applications.allApplications
   );
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState<boolean>(true); // Keep track of loading state
+  const [loading, setLoading] = useState<boolean>(true);
   const [rows, setRows] = useState<any>([]);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const fetchApplication = async () => {
@@ -88,7 +89,7 @@ export default function DataTable() {
   ];
 
   if (loading) {
-    return <ApplicationSkeleton/>;
+    return <ApplicationSkeleton />;
   }
 
   return (
@@ -98,7 +99,28 @@ export default function DataTable() {
           rows={rows}
           columns={columns}
           pageSizeOptions={[20, 50, 100, 1000]}
-          sx={{ border: 0 }}
+          sx={{
+            border: 0,
+            color: resolvedTheme === "dark" ? "white" : "black",
+            "& .MuiDataGrid-columnHeaders": {
+              color: "black",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              color: resolvedTheme === "dark" ? "white" : "black",
+            },
+            "& .MuiTablePagination-root": {
+              color: resolvedTheme === "dark" ? "white" : "black", 
+            },
+            "& .MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows": {
+              color: resolvedTheme === "dark" ? "white" : "black", 
+            },
+            "& .MuiSelect-icon": {
+              color: resolvedTheme === "dark" ? "white" : "black", 
+            },
+            "& .MuiTablePagination-actions .MuiSvgIcon-root": {
+              color: resolvedTheme === "dark" ? "white" : "black",
+            },
+          }}
         />
       </div>
     </div>
