@@ -15,30 +15,18 @@ const StatCard = ({
   const { resolvedTheme } = useTheme();
 
   return (
-    <Paper 
-      elevation={5} 
-      className={`p-4 flex items-center space-x-4 ${
-        resolvedTheme === 'dark' ? 'bg-slate-800' : ''
-      }`}
+    <Paper
+      elevation={5}
+      className="p-4 flex items-center space-x-4 dark:bg-slate-800"
     >
-      <div className={`p-5 rounded-full ${
-        resolvedTheme === 'dark' ? 'bg-slate-700' : 'bg-sky-100'
-      }`}>
+      <div className="p-5 rounded-full bg-sky-100 dark:bg-slate-700">
         {icon}
       </div>
       <div>
-        <Typography 
-          variant="h5" 
-          className={`font-bold ${
-            resolvedTheme === 'dark' ? 'text-blue-300' : 'text-blue-500'
-          }`}
-        >
+        <Typography variant="h5" className="font-bold text-blue-500 dark:text-blue-300">
           {value}
         </Typography>
-        <Typography 
-          variant="body2" 
-          className={resolvedTheme === 'dark' ? 'text-gray-300' : 'text-gray-600'}
-        >
+        <Typography variant="body2" className="text-gray-600 dark:text-gray-300">
           {label}
         </Typography>
       </div>
@@ -62,21 +50,21 @@ const Stats = ({
       <Grid container spacing={4} className="mb-6">
         <Grid item xs={12} sm={4}>
           <StatCard
-            icon={<People className={resolvedTheme === 'dark' ? 'text-blue-300' : 'text-blue-400'} />}
+            icon={<People className="text-blue-400 dark:text-blue-300" />}
             value={totalCandidates}
             label="Candidates"
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <StatCard
-            icon={<Description className={resolvedTheme === 'dark' ? 'text-blue-300' : 'text-blue-400'} />}
+            icon={<Description className="text-blue-400 dark:text-blue-300" />}
             value={totalApplications}
             label="Applications"
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <StatCard 
-            icon={<Work className={resolvedTheme === 'dark' ? 'text-blue-300' : 'text-blue-400'} />}
+          <StatCard
+            icon={<Work className="text-blue-400 dark:text-blue-300" />}
             value={totalJobs}
             label="Jobs"
           />
