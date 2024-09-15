@@ -55,8 +55,6 @@ const SingleJob = () => {
                     {/* <IconButton>
                         <BookmarkBorder />
                     </IconButton> */}
-                    {currentState.isError && <p className='text-red-700'>{currentState.error}</p>}
-                    {currentState.isSuccess && <p className='text-blue-700'>Applied Successfully</p>}
                     <Button onClick={handleApply} variant="contained" color="primary" className="mt-2">
                     {
                         currentState?.isLoading ? 
@@ -69,6 +67,8 @@ const SingleJob = () => {
                         )
                     }
                     </Button>
+                    {currentState.isError && <p className='text-red-700'>{currentState.error}</p>}
+                    {currentState.isSuccess && <p className='text-blue-700'>Applied Successfully</p>}
                     </div>
                 </div>
                 </CardContent>
