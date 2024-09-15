@@ -52,9 +52,9 @@ const SingleJob = () => {
                         </ul>
                     </div>
                     <div className="flex flex-col items-end">
-                    <IconButton>
+                    {/* <IconButton>
                         <BookmarkBorder />
-                    </IconButton>
+                    </IconButton> */}
                     {currentState.isError && <p className='text-red-700'>{currentState.error}</p>}
                     {currentState.isSuccess && <p className='text-blue-700'>Applied Successfully</p>}
                     <Button onClick={handleApply} variant="contained" color="primary" className="mt-2">
