@@ -38,10 +38,10 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
     filter["maxSalary"] = { $gte: minSalary || 0 };
   }
 
-  const jobs = await Job.find(filter).populate(
-    "postedBy",
-    "firstName lastName email"
-  );
+
+  const jobs = await Job.find(filter)
+    .populate("postedBy", "firstName lastName email")
+    .sort({ createdAt: -1 });
 
   const jobsWithApplicationCount = await Promise.all(
     jobs.map(async (job) => {
@@ -58,6 +58,7 @@ const allJobs = asyncHandler(async (req: Request, res: Response) => {
 
   res.status(200).json(jobsWithApplicationCount);
 });
+
 
 const createJob = asyncHandler(async (req: CustomRequest, res: Response) => {
   const newJob = new Job(req.body);
