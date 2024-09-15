@@ -16,10 +16,10 @@ const JobCard = ({job}: {job: Jobs}) => {
         <p className="text-gray-600 dark:text-gray-300 text-sm">{`${job.minSalary} birr - ${job.maxSalary} birr per month`}</p>
       </div>
       <div className="flex flex-col space-y-9 items-end justify-between">
-        <div>
+        {/* <div>
             <BookmarkBorderIcon className="text-gray-400" />
-        </div>
-        <p className="text-gray-400 text-sm">2 days</p>
+        </div> */}
+        <p className="text-gray-400 text-sm">{job.createdAt}</p>
       </div>
     </div>
   );

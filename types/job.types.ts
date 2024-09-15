@@ -4,6 +4,7 @@ export interface Jobs{
     location: string
     department: string
     type: string
+    createdAt: string
     status: boolean
     description: string
     minSalary: number
