@@ -494,7 +494,7 @@ const CandidateProfile: React.FC = () => {
                   <div className="flex gap-2 mb-2">
                     <input
                       type="date"
-                      value={exp.startDate}
+                      value={new Date(exp.startDate).toISOString().split("T")[0]}
                       onChange={(e) =>
                         handleExperienceChange(
                           index,
@@ -508,7 +508,7 @@ const CandidateProfile: React.FC = () => {
                     />
                     <input
                       type="date"
-                      value={exp.endDate}
+                      value={new Date(exp.endDate).toISOString().split("T")[0]}
                       onChange={(e) =>
                         handleExperienceChange(index, "endDate", e.target.value)
                       }
