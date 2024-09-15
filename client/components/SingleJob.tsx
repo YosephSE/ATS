@@ -1,5 +1,7 @@
+"use client";
 import { useAppDispatch, useAppSelector } from "@/redux/Hooks";
 import { RootState } from "@/redux/Store";
+import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import {
   CardContent,
@@ -25,16 +27,18 @@ const SingleJob = () => {
   const handleApply = async () => {
     if (currentJob?._id && user) {
       await dispatch(apply(currentJob?._id));
-      if (currentState.isError) {
-        errorToast(currentState.error);
-      }
-      if (currentState.isSuccess) {
-        successToast("Application submitted successfully");
-      }
     } else {
       dispatch(setLoginCandidate());
     }
   };
+  useEffect(() => {
+    if (currentState.isError) {
+        errorToast(currentState.error);
+    }
+    if (currentState.isSuccess) {
+        successToast("Application submitted successfully");
+    }
+}, [currentState.isError, currentState.isSuccess]);
 
   return (
     <div className="w-full">
