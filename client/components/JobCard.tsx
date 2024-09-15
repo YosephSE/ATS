@@ -1,4 +1,4 @@
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import { formatDistanceToNow } from 'date-fns';
 import { Jobs } from '../../types/job.types'
 import { useAppDispatch } from '@/redux/Hooks';
 import { singlejob } from '@/redux/slices/JobSlice';
@@ -16,10 +16,8 @@ const JobCard = ({job}: {job: Jobs}) => {
         <p className="text-gray-600 dark:text-gray-300 text-sm">{`${job.minSalary} birr - ${job.maxSalary} birr per month`}</p>
       </div>
       <div className="flex flex-col space-y-9 items-end justify-between">
-        {/* <div>
-            <BookmarkBorderIcon className="text-gray-400" />
-        </div> */}
-        <p className="text-gray-400 text-sm">{job.createdAt}</p>
+        <p className="text-gray-400 text-sm">{formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</p>
+
       </div>
     </div>
   );
