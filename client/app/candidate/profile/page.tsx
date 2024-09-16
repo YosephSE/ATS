@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import CandidteProfile from '@/components/candidate/Profile';
+import CandidateProfile from '@/components/candidate/Profile';
 import Header from '@/components/Header';
 
 const AllApp = () => {
@@ -11,7 +11,7 @@ const AllApp = () => {
         <div className="w-full mx-auto p-6 min-h-screen">
           <div>
             <h2 className="text-3xl font-bold mb-1 pl-20">Profile Detail</h2>
-            <CandidteProfile />
+            <CandidateProfile />
           </div>
         </div>
     </div>
