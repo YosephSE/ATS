@@ -134,19 +134,19 @@ const AdminProfile: React.FC = () => {
               >
                 {isEditing ? "Cancel Edit" : "Edit Profile"}
               </button>
-              <div className="flex justify-between space-x-2">
+              {/* <div className="flex justify-between space-x-2"> */}
                 <button
                   onClick={() => setPasswordEditing(!passwordEditing)}
-                  className="w-1/2 bg-green-500 dark:bg-green-700 text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-800 transition duration-300"
+                  className="w-full bg-green-500 dark:bg-green-700 text-white px-4 py-2 rounded hover:bg-green-600 dark:hover:bg-green-800 transition duration-300"
                 >
                   {passwordEditing ? "Cancel Edit" : "Change Password"}
                 </button>
-                <button
+                {/* <button
                   className="w-1/2 bg-red-500 dark:bg-red-700 text-white px-4 py-2 rounded hover:bg-red-600 dark:hover:bg-red-800 transition duration-300"
                 >
                   Delete
-                </button>
-              </div>
+                </button> */}
+              {/* </div> */}
             </div>
           </div>
         </div>

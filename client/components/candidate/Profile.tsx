@@ -8,7 +8,13 @@ import {
   Education,
   Experience,
 } from "../../../types/users.types";
-import { changepassword, fetchuser, profile, resetSuccess, updateprofile } from "@/redux/slices/UserSlice";
+import {
+  changepassword,
+  fetchuser,
+  profile,
+  resetSuccess,
+  updateprofile,
+} from "@/redux/slices/UserSlice";
 import { generateAndUploadPdf } from "@/utils/pdfConvertor";
 
 const CandidateProfile: React.FC = () => {
@@ -41,7 +47,7 @@ const CandidateProfile: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       await dispatch(profile());
-      dispatch(resetSuccess())
+      dispatch(resetSuccess());
     };
     fetchUser();
   }, [dispatch]);
@@ -49,7 +55,7 @@ const CandidateProfile: React.FC = () => {
   useEffect(() => {
     if (currentUser.profile) {
       setProfileData(currentUser.profile);
-      setImgLink(currentUser.profile.profilePicture)
+      setImgLink(currentUser.profile.profilePicture);
     }
   }, [currentUser.profile]);
 
@@ -126,10 +132,12 @@ const CandidateProfile: React.FC = () => {
       confirmPasswordRef.current
     ) {
       if (newPasswordRef.current.value === confirmPasswordRef.current.value) {
-        await dispatch(changepassword({
-          newPassword: newPasswordRef.current.value,
-          oldPassword: oldPasswordRef.current.value
-        }));
+        await dispatch(
+          changepassword({
+            newPassword: newPasswordRef.current.value,
+            oldPassword: oldPasswordRef.current.value,
+          })
+        );
       } else {
         setError("Passwords do not match");
       }
@@ -137,12 +145,12 @@ const CandidateProfile: React.FC = () => {
   };
 
   useEffect(() => {
-    if (currentUser.isSuccess){
+    if (currentUser.isSuccess) {
       setError(null);
-    }else{
-      setError(currentUser.error)
+    } else {
+      setError(currentUser.error);
     }
-  }, [currentUser])
+  }, [currentUser]);
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedImage = e.target.files[0];
@@ -160,11 +168,15 @@ const CandidateProfile: React.FC = () => {
   };
 
   const handleUpdateProfile = async () => {
-    if(profileData.experience.length && profileData.education.length && profileData.skills){
+    if (
+      profileData.experience.length &&
+      profileData.education.length &&
+      profileData.skills
+    ) {
       const pdfLink = await generateAndUploadPdf(profileData);
-      const newProfile = { ...profileData, pdf: pdfLink}
+      const newProfile = { ...profileData, pdf: pdfLink };
       await dispatch(updateprofile(newProfile));
-    }else{
+    } else {
       await dispatch(updateprofile(profileData));
     }
     setIsEditing(false);
@@ -208,7 +220,15 @@ const CandidateProfile: React.FC = () => {
                     Edit Profile
                   </button>
                 </div>
-                <div className="flex justify-center space-x-2 w-full">
+                <div className="w-full">
+                  <button
+                    onClick={() => setPasswordEditing(true)}
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  >
+                  Update Password
+                  </button>
+                </div>
+                {/* <div className="flex justify-center space-x-2 w-full">
                   <div className="w-1/2">
                     <button
                       onClick={() => setPasswordEditing(true)}
@@ -222,7 +242,7 @@ const CandidateProfile: React.FC = () => {
                       Delete
                     </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className="space-y-4">
@@ -275,7 +295,11 @@ const CandidateProfile: React.FC = () => {
               />
               <div>
                 {error && <p className="mt-2 text-red-500">{error}</p>}
-                {currentUser.isSuccess && <p className="mt-2 text-blue-800">Password Changed Successfully</p>}
+                {currentUser.isSuccess && (
+                  <p className="mt-2 text-blue-800">
+                    Password Changed Successfully
+                  </p>
+                )}
               </div>
               <div className="flex justify-center space-x-2 mt-5">
                 <button
@@ -494,7 +518,11 @@ const CandidateProfile: React.FC = () => {
                   <div className="flex gap-2 mb-2">
                     <input
                       type="date"
-                      value={new Date(exp.startDate).toISOString().split("T")[0]}
+                      value={
+                        exp.startDate
+                          ? new Date(exp.startDate).toISOString().split("T")[0]
+                          : ""
+                      }
                       onChange={(e) =>
                         handleExperienceChange(
                           index,
@@ -508,7 +536,11 @@ const CandidateProfile: React.FC = () => {
                     />
                     <input
                       type="date"
-                      value={new Date(exp.endDate).toISOString().split("T")[0]}
+                      value={
+                        exp.endDate
+                          ? new Date(exp.endDate).toISOString().split("T")[0]
+                          : ""
+                      }
                       onChange={(e) =>
                         handleExperienceChange(index, "endDate", e.target.value)
                       }
