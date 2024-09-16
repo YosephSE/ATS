@@ -220,7 +220,15 @@ const CandidateProfile: React.FC = () => {
                     Edit Profile
                   </button>
                 </div>
-                <div className="flex justify-center space-x-2 w-full">
+                <div className="w-full">
+                  <button
+                    onClick={() => setPasswordEditing(true)}
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  >
+                  Update Password
+                  </button>
+                </div>
+                {/* <div className="flex justify-center space-x-2 w-full">
                   <div className="w-1/2">
                     <button
                       onClick={() => setPasswordEditing(true)}
@@ -234,7 +242,7 @@ const CandidateProfile: React.FC = () => {
                       Delete
                     </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className="space-y-4">
@@ -528,7 +536,11 @@ const CandidateProfile: React.FC = () => {
                     />
                     <input
                       type="date"
-                      value={exp.endDate ? new Date(exp.endDate).toISOString().split("T")[0] : ""}
+                      value={
+                        exp.endDate
+                          ? new Date(exp.endDate).toISOString().split("T")[0]
+                          : ""
+                      }
                       onChange={(e) =>
                         handleExperienceChange(index, "endDate", e.target.value)
                       }
