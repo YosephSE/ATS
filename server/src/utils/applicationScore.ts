@@ -12,7 +12,7 @@ const applicationScore = async (application: any): Promise<number> => {
     return Number.isNaN(score) ? 0 : score;
   } catch (error) {
     console.error(error);
-    return Math.floor(Math.random() * 100);
+    return 0;
   }
 };
 
