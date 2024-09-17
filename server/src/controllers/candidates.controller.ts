@@ -67,19 +67,7 @@ const updateProfile = asyncHandler(
   }
 );
 
-const deleteProfile = asyncHandler(
-  async (req: CustomRequest, res: Response) => {
-    const id = req.user._id;
 
-    const deletedCandidate = await Candidate.findByIdAndDelete(id);
-    if (!deletedCandidate) {
-      const error = new Error();
-      (error as any).status = 404;
-      throw error;
-    }
-    res.status(200).json({ message: "Candidate deleted successfully" });
-  }
-);
 
 const loginCandidate = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -257,7 +245,6 @@ export {
   singleCandidate,
   candidateProfile,
   updateProfile,
-  deleteProfile,
   registerCandidate,
   loginCandidate,
   logoutCandidate,

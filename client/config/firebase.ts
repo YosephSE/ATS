@@ -10,7 +10,9 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// creates a new Firebase app instance
 const app = initializeApp(firebaseConfig);
+// retrieves a reference to the Firebase storage
 const storage = getStorage(app);
 
 export { storage };
