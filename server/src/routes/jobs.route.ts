@@ -4,7 +4,6 @@ import {
   createJob,
   singleJob,
   updateJob,
-  deleteJob,
 } from "../controllers/jobs.controller";
 import verifyToken from "../middleware/verifyToken";
 import adminAuthorize from "../middleware/adminAuthorize";
@@ -28,11 +27,5 @@ router.put(
   updateJob
 );
 
-router.delete(
-  "/:id",
-  verifyToken,
-  adminAuthorize(["admin", "super admin"]),
-  deleteJob
-);
 
 export default router;
