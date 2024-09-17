@@ -1,8 +1,8 @@
 "use client"
 import React, { useRef, useState, useEffect } from 'react';
-import { 
-  TextField, 
-  Button, 
+import {
+  TextField,
+  Button,
   CircularProgress,
   Select,
   MenuItem,
@@ -44,12 +44,12 @@ const ContactForm = () => {
     ){
       const fullPhoneNumber = `${dialCode}${phoneRef.current.value}`;
       dispatch(contact({
-        firstName: firstRef.current.value,
-        lastName: lastRef.current.value,
-        phoneNumber: fullPhoneNumber,
+          firstName: firstRef.current.value,
+          lastName: lastRef.current.value,
+          phoneNumber: fullPhoneNumber,
         email: emailRef.current.value
       }))
-    } 
+    }
   };
 
   const handleCountryChange = (event: SelectChangeEvent<string>) => {
@@ -62,7 +62,7 @@ const ContactForm = () => {
   const handleDialCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputDialCode = event.target.value;
     setDialCode(inputDialCode);
-    
+
     const country = countries.find(c => c.dialCode === inputDialCode);
     if (country) {
       setSelectedCountry(country);
@@ -86,30 +86,30 @@ const ContactForm = () => {
           required
           fullWidth
           InputLabelProps={{
-              shrink: true,
-              sx: {
-                color: resolvedTheme === "dark" ? "white" : "grey",
+            shrink: true,
+            sx: {
+              color: resolvedTheme === "dark" ? "white" : "grey",
                 '&.Mui-focused': {
-                  color: resolvedTheme === "dark" ? "lightblue" : "blue", 
-                },
+                color: resolvedTheme === "dark" ? "lightblue" : "blue",
+              },
               }
-            }}
-            sx={{
+          }}
+          sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#0F6CF6',
-                },
+              },
                 '&:hover fieldset': {
                   borderColor: 'blue',
-                },
+              },
                 '&.Mui-focused fieldset': {
                   borderColor: 'blue',
-                },
-                '& .MuiInputBase-input': {
-                  color: resolvedTheme === "dark" ? "white" : "black",
-                }
               },
-            }}
+                '& .MuiInputBase-input': {
+                color: resolvedTheme === "dark" ? "white" : "black",
+                }
+            },
+          }}
         />
         <TextField
           inputRef={lastRef}
@@ -118,117 +118,120 @@ const ContactForm = () => {
           required
           fullWidth
           InputLabelProps={{
-              shrink: true,
-              sx: {
-                color: resolvedTheme === "dark" ? "white" : "grey",
+            shrink: true,
+            sx: {
+              color: resolvedTheme === "dark" ? "white" : "grey",
                 '&.Mui-focused': {
-                  color: resolvedTheme === "dark" ? "lightblue" : "blue", 
-                },
+                color: resolvedTheme === "dark" ? "lightblue" : "blue",
+              },
               }
-            }}
-            sx={{
+          }}
+          sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderColor: '#0F6CF6',
-                },
+              },
                 '&:hover fieldset': {
                   borderColor: 'blue',
-                },
+              },
                 '&.Mui-focused fieldset': {
                   borderColor: 'blue',
-                },
-                '& .MuiInputBase-input': {
-                  color: resolvedTheme === "dark" ? "white" : "black",
-                }
               },
-            }}
+              "& .MuiInputBase-input": {
+                color: resolvedTheme === "dark" ? "white" : "black",
+              },
+            },
+          }}
         />
         <TextField
-            label="Phone number"
-            type="tel"
-            required
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-              sx: {
-                color: resolvedTheme === "dark" ? "white" : "grey",
-                '&.Mui-focused': {
-                  color: resolvedTheme === "dark" ? "lightblue" : "blue", 
-                },
-              }
-            }}
-            InputProps={{
-                startAdornment: (
-                  <InputAdornment sx={{}} position="start">
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <TextField
-                              value={dialCode}
-                              onChange={handleDialCodeChange}
-                              sx={{ 
-                                  minWidth: '20px',
-                                  width: `${(dialCode.length + 1) * 8}px`,
-                                  '& .MuiOutlinedInput-root': {
-                                      '& fieldset': { border: 'none' },
-                                  },
-                                  '& .MuiInputBase-input': {
-                                      padding: '0',
-                                      color: resolvedTheme === 'dark' ? 'white' : 'black', 
-                                  },
-                              }}
-                              inputProps={{ 
-                                  style: { padding: '0', color: resolvedTheme === 'dark' ? 'white' : 'black' } 
-                              }}
-                          />
-                          <Select
-                              value={selectedCountry.dialCode}
-                              onChange={handleCountryChange}
-                              sx={{ 
-                                  minWidth: 20,
-                                  '& .MuiOutlinedInput-notchedOutline': {
-                                      border: 'none',
-                                  },
-                                  '& .MuiSelect-select': {
-                                      color: resolvedTheme === 'dark' ? 'white' : 'black', 
-                                  },
-                                  '& .MuiSelect-icon': {
-                                      color: resolvedTheme === 'dark' ? 'white' : 'black', 
-                                  }
-                              }}
-                              renderValue={(value) => (
-                                  <span>{selectedCountry.flag}</span>
-                              )}
-                          >
-                              {countries.map((country) => (
-                                  <MenuItem key={country.code} value={country.dialCode}>
-                                      <div className="flex items-center">
-                                          <span className="mr-2">{country.flag}</span>
-                                          <span>{country.name} ({country.dialCode})</span>
-                                      </div>
-                                  </MenuItem>
-                              ))}
-                          </Select>
-                      </Box>
-                  </InputAdornment>
-                ),
-            }}
-            inputRef={phoneRef}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#0F6CF6',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'blue',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: 'blue',
-                },
-                '& .MuiInputBase-input': {
-                  color: resolvedTheme === "dark" ? "white" : "black",
-                }
+          label="Phone number"
+          type="tel"
+          required
+          fullWidth
+          InputLabelProps={{
+            shrink: true,
+            sx: {
+              color: resolvedTheme === "dark" ? "white" : "grey",
+              "&.Mui-focused": {
+                color: resolvedTheme === "dark" ? "lightblue" : "blue",
               },
-            }}
-            />
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment sx={{}} position="start">
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <TextField
+                    value={dialCode}
+                    onChange={handleDialCodeChange}
+                    sx={{
+                      minWidth: "20px",
+                      width: `${(dialCode.length + 1) * 8}px`,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { border: "none" },
+                      },
+                      "& .MuiInputBase-input": {
+                        padding: "0",
+                        color: resolvedTheme === "dark" ? "white" : "black",
+                      },
+                    }}
+                    inputProps={{
+                      style: {
+                        padding: "0",
+                        color: resolvedTheme === "dark" ? "white" : "black",
+                      },
+                    }}
+                  />
+                  <Select
+                    value={selectedCountry.dialCode}
+                    onChange={handleCountryChange}
+                    sx={{
+                      minWidth: 20,
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        border: "none",
+                      },
+                      "& .MuiSelect-select": {
+                        color: resolvedTheme === "dark" ? "white" : "black",
+                      },
+                      "& .MuiSelect-icon": {
+                        color: resolvedTheme === "dark" ? "white" : "black",
+                      },
+                    }}
+                    renderValue={(value) => <span>{selectedCountry.flag}</span>}
+                  >
+                    {countries.map((country) => (
+                      <MenuItem key={country.code} value={country.dialCode}>
+                        <div className="flex items-center">
+                          <span className="mr-2">{country.flag}</span>
+                          <span>
+                            {country.name} ({country.dialCode})
+                          </span>
+                        </div>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Box>
+              </InputAdornment>
+            ),
+          }}
+          inputRef={phoneRef}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#0F6CF6",
+              },
+              "&:hover fieldset": {
+                borderColor: "blue",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "blue",
+              },
+              "& .MuiInputBase-input": {
+                color: resolvedTheme === "dark" ? "white" : "black",
+              },
+            },
+          }}
+        />
 
         <TextField
           inputRef={emailRef}
@@ -237,56 +240,66 @@ const ContactForm = () => {
           required
           fullWidth
           InputLabelProps={{
-              shrink: true,
-              sx: {
-                color: resolvedTheme === "dark" ? "white" : "grey",
-                '&.Mui-focused': {
-                  color: resolvedTheme === "dark" ? "lightblue" : "blue", 
-                },
-              }
-            }}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#0F6CF6',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'blue',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: 'blue',
-                },
-                '& .MuiInputBase-input': {
-                  color: resolvedTheme === "dark" ? "white" : "black",
-                }
+            shrink: true,
+            sx: {
+              color: resolvedTheme === "dark" ? "white" : "grey",
+              "&.Mui-focused": {
+                color: resolvedTheme === "dark" ? "lightblue" : "blue",
               },
-            }}
+            },
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#0F6CF6",
+              },
+              "&:hover fieldset": {
+                borderColor: "blue",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "blue",
+              },
+              "& .MuiInputBase-input": {
+                color: resolvedTheme === "dark" ? "white" : "black",
+              },
+            },
+          }}
         />
         {error && <p className="text-red-500">{error}</p>}
-        {currentState.isSuccess && <p className='text-blue-800'>Your request has been submitted</p>}
+        {currentState.isSuccess && (
+          <p className="text-blue-800">Your request has been submitted</p>
+        )}
         <Button
           type="submit"
           variant="contained"
           disabled={currentState.isLoading}
           sx={{
-            backgroundColor: '#1976d2',
-            '&:hover': {
-              backgroundColor: '#1565c0',
+            backgroundColor: "#1976d2",
+            "&:hover": {
+              backgroundColor: "#1565c0",
             },
-            '&.Mui-disabled': {
-              backgroundColor: '#1976d2', 
-              color: 'white', 
+            "&.Mui-disabled": {
+              backgroundColor: "#1976d2",
+              color: "white",
             },
           }}
         >
           {currentState.isLoading ? (
-            <CircularProgress size={24} sx={{ color: 'white' }}/>
+            <CircularProgress size={24} sx={{ color: "white" }} />
           ) : (
-            'Submit'
+            "Submit"
           )}
         </Button>
       </form>
-      <p className='text-center mt-5'>Have an account? <span className='text-blue-500 hover:underline hover:text-blue-700 cursor-pointer' onClick={() => dispatch(setLoginAdmin())}>Sign In</span></p>
+      <p className="text-center mt-5">
+        Have an account?{" "}
+        <span
+          className="text-blue-500 hover:underline hover:text-blue-700 cursor-pointer"
+          onClick={() => dispatch(setLoginAdmin())}
+        >
+          Sign In
+        </span>
+      </p>
     </div>
   );
 };
