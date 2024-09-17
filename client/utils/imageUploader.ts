@@ -11,8 +11,6 @@ const uploadImage = async (file: any) => {
   const storageRef = ref(storage, `images/${uniqueName}`);
   const snapshot = await uploadBytes(storageRef, file);
   const image = await getDownloadURL(snapshot.ref);
-  console.log("Image uploaded successfully");
-  console.log(image);
   return image;
 };
 

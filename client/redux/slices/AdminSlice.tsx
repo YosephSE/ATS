@@ -116,7 +116,6 @@ export const approve = createAsyncThunk(
     async(id: string, { rejectWithValue }) => {
         try{
             const response = await axios.post(`${api}/admins/approve/${id}`)
-            console.log(response.data)
             return response.data
         } catch(error: any) {
             return rejectWithValue(error.response?.data?.error || error.response.data.message)

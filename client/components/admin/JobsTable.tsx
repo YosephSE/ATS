@@ -32,7 +32,6 @@ export default function DataTable() {
     fetchJobs();
   }, [dispatch]);
 
-  console.log(allJobs)
   useEffect(() => {
     if (allJobs) {
       setLocalJobs(
