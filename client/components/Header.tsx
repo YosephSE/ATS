@@ -51,6 +51,7 @@ const Header = ({ page }: Props) => {
         await dispatch(logout())
         dispatch(resetSuccess())
         handleMenuClose()
+        router.push('/')
     }
 
     return (
