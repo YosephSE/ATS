@@ -59,7 +59,6 @@ const createApplication = asyncHandler(
       job: jobDetails,
       candidate: candidateDetails,
     };
-    console.log(toBeScored);
     const score = await applicationScore(toBeScored);
 
     const newApplication = {
