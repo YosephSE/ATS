@@ -23,17 +23,16 @@ interface Props {
 const JobForm = ({ page, id}: Props) => {
     const postStatus = useAppSelector((state: RootState) => state.jobs);
     const dispatch = useAppDispatch()
-    console.log(postStatus.currentJob)
     useEffect(() => {
         if(!id){
             dispatch(resetCurrentJob())
         }
-    })
+        dispatch(resetSuccess())
+    }, [])
 
     useEffect(() => {
         const fetchUser = async (_id: string) => {
             await dispatch(singlejob(_id))
-            console.log("requested")
             dispatch(resetSuccess())
         }
         if (id){

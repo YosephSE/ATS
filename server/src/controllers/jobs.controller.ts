@@ -64,8 +64,8 @@ const createJob = asyncHandler(async (req: CustomRequest, res: Response) => {
   const newJob = new Job(req.body);
   const postedBy = req.user._id;
   newJob.postedBy = postedBy;
-  await newJob.save();
-  res.status(201).json({ message: "Job created successfully" });
+  const job = await newJob.save();
+  res.status(201).json(job);
 });
 
 const updateJob = asyncHandler(async (req: Request, res: Response) => {

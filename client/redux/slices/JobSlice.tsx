@@ -101,7 +101,6 @@ const jobSlice = createSlice({
       .addCase(postjob.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.allJobs?.push(action.payload);
       })
       .addCase(postjob.rejected, (state, action) => {
         state.isLoading = false;
