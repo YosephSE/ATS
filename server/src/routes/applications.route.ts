@@ -5,7 +5,7 @@ import {
   allApplications,
   singleApplication,
   updateApplication,
-  deleteApplication,
+  
 } from "../controllers/applications.controller";
 import verifyToken from "../middleware/verifyToken";
 import adminAuthorize from "../middleware/adminAuthorize";
@@ -26,6 +26,6 @@ router.get(
   singleApplication
 );
 router.put("/:id", verifyToken, updateApplication);
-router.delete("/:id", verifyToken, deleteApplication);
+
 
 export default router;
