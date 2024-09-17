@@ -108,27 +108,11 @@ const updateApplication = asyncHandler(
   }
 );
 
-const deleteApplication = asyncHandler(
-  async (req: CustomRequest, res: Response) => {
-    const application = await Application.findByIdAndDelete(req.params.id);
-    if (!application) {
-      const error = new Error();
-      (error as any).status = 404;
-      throw error;
-    } else if (application.candidateId !== req.user._id) {
-      const error = new Error(
-        "You do not have permission to delete this application"
-      );
-      (error as any).status = 403;
-      res.status(200).json({ message: "Application deleted successfully" });
-    }
-  }
-);
 
 export {
   allApplications,
   singleApplication,
   createApplication,
   updateApplication,
-  deleteApplication,
+  
 };
