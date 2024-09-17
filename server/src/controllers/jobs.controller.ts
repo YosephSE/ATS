@@ -97,15 +97,6 @@ const singleJob = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json(job);
 });
 
-const deleteJob = asyncHandler(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const deletedJob = await Job.findByIdAndDelete(id);
-  if (!deletedJob) {
-    const error = new Error();
-    (error as any).status = 404;
-    throw error;
-  }
-  res.status(201).json({ message: "Job deleted successfully" });
-});
 
-export { allJobs, singleJob, createJob, updateJob, deleteJob };
+
+export { allJobs, singleJob, createJob, updateJob };

@@ -150,29 +150,7 @@ const ApplicationList = () => {
                       {application.jobId.department}
                     </p>
                   </td>
-                  <td className="p-4 border-b border-slate-200">
-                    <button
-                      className="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-slate-900 dark:text-slate-200 transition-all hover:bg-slate-900/10 active:bg-slate-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                      type="button"
-                    >
-                      <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          aria-hidden="true"
-                          className="w-4 h-4"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zM9 4.505v-.027a1.647 1.647 0 011.544-1.46c.987-.03 1.986-.03 2.873 0A1.647 1.647 0 0115 4.478v.027a50.708 50.708 0 00-6 0zM7.584 19.5h8.832a1.5 1.5 0 001.496-1.385L18.91 6.793a48.894 48.894 0 00-13.82 0l.998 11.322a1.5 1.5 0 001.496 1.385z"
-                            clipRule="evenodd"
-                          ></path>
-                          <path d="M9.732 9.75a.75.75 0 01.75.75v5a.75.75 0 11-1.5 0v-5a.75.75 0 01.75-.75zm4.536 0a.75.75 0 01.75.75v5a.75.75 0 11-1.5 0v-5a.75.75 0 01.75-.75z"></path>
-                        </svg>
-                      </span>
-                    </button>
-                  </td>
+                  
                 </tr>
               ))}
             </tbody>

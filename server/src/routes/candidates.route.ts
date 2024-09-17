@@ -5,7 +5,6 @@ import {
   allCandidates,
   singleCandidate,
   updateProfile,
-  deleteProfile,
   candidateProfile,
   myApplications,
   status,
@@ -45,8 +44,6 @@ router.get(
 );
 
 router.put("/profile", verifyToken, updateProfile);
-
-router.delete("/profile", verifyToken, deleteProfile);
 
 router.post("/status", status);
 

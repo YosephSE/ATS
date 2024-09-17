@@ -10,7 +10,6 @@ import Job from "../models/jobs";
 import Candidate from "../models/candidates";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import applicationScore from "../utils/applicationScore";
 dotenv.config();
 
 const jwtsecret = process.env.SECRET_KEY;
