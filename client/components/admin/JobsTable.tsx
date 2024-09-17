@@ -25,6 +25,15 @@ export default function DataTable() {
   const { resolvedTheme } = useTheme()
 
   useEffect(() => {
+    const fetchJobs = async () => {
+      setLoading(true);
+      await dispatch(alljobs());
+    };
+    fetchJobs();
+  }, [dispatch]);
+
+  console.log(allJobs)
+  useEffect(() => {
     if (allJobs) {
       setLocalJobs(
         allJobs.map((job) => ({
@@ -128,14 +137,6 @@ export default function DataTable() {
   ];
 
   const paginationModel = { page: 0, pageSize: 10 };
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      setLoading(true);
-      await dispatch(alljobs());
-    };
-    fetchJobs();
-  }, [dispatch]);
 
   return (
     <div className="h-auto w-full max-w-full overflow-x-auto">
