@@ -64,7 +64,16 @@ export const updateapplication = createAsyncThunk(
 const applicationSlice = createSlice({
     name: 'applications',
     initialState,
-    reducers: {},
+    reducers: {
+      resetError(state){
+        state.isError = false
+        state.error = null
+        state.error = null
+    },
+    resetSuccess(state) {
+      state.isSuccess = false
+    }
+    },
     extraReducers: (builder) => {
       builder
         //All Applications
@@ -127,5 +136,5 @@ const applicationSlice = createSlice({
     },
   });
   
-
+  export const { resetError, resetSuccess } = applicationSlice.actions
 export default applicationSlice.reducer;
