@@ -222,7 +222,10 @@ const CandidateProfile: React.FC = () => {
                 </div>
                 <div className="w-full">
                   <button
-                    onClick={() => setPasswordEditing(true)}
+                    onClick={() => {
+                      setPasswordEditing(true)
+                      dispatch(resetSuccess())
+                    }}
                     className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
                   >
                   Update Password
