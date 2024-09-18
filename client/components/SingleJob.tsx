@@ -10,7 +10,7 @@ import {
   IconButton,
   CircularProgress,
 } from "@mui/material";
-import { apply } from "@/redux/slices/ApplicationSlice";
+import { apply, resetError, resetSuccess } from "@/redux/slices/ApplicationSlice";
 import React from "react";
 import { setLoginCandidate } from "@/redux/slices/ModalSlice";
 import Modal from "./Modal";
@@ -24,6 +24,17 @@ const SingleJob = () => {
   const dispatch = useAppDispatch();
   const errorToast = (message: string | null) => toast.error(message);
   const successToast = (message: string | null) => toast.success(message);
+
+  useEffect(() => {
+    dispatch(resetError())
+    dispatch(resetSuccess())
+    return () => {
+      
+      dispatch(resetError());
+      dispatch(resetSuccess());
+    };
+  }, [dispatch])
+
   const handleApply = async () => {
     if (currentJob?._id && user) {
       await dispatch(apply(currentJob?._id));
@@ -34,11 +45,13 @@ const SingleJob = () => {
   useEffect(() => {
     if (currentState.isError) {
         errorToast(currentState.error);
+        dispatch(resetError());
     }
     if (currentState.isSuccess) {
         successToast("Application submitted successfully");
+        dispatch(resetSuccess());
     }
-}, [currentState.isError, currentState.isSuccess]);
+}, [currentState.isError, currentState.isSuccess, dispatch]);
 
   return (
     <div className="w-full">

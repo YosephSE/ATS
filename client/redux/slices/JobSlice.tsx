@@ -82,6 +82,7 @@ const jobSlice = createSlice({
     resetError(state){
         state.isError = false
         state.error = null
+        state.error = null
     },
     resetCurrentJob(state) {
       state.currentJob = null
