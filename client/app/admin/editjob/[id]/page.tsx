@@ -1,7 +1,8 @@
 import Sidebar from '@/components/SideBar';
 import JobForm from '@/components/JobForm';
 
-const EditJob = ({params: {id}}: {params: {id: string}}) => {
+const EditJob = async ({params}: {params: Promise<{id: string}>}) => {
+  const {id} = await params;
   return (
     <div className='flex min-h-screen bg-[#F8FDFF] dark:bg-slate-800 dark:text-white'>
         <Sidebar />
