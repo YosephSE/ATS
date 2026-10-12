@@ -10,7 +10,7 @@ export default function StoreProvider({
 }: {
   children: React.ReactNode
 }) {
-  const storeRef = useRef<AppStore>()
+  const storeRef = useRef<AppStore | null>(null)
 
   if (!storeRef.current) {
     storeRef.current = makeStore()

@@ -7,8 +7,8 @@
     "start": "node server/dist/index.js",
     "server": "ts-node-dev server/src/index.ts",
     "build": "tsc",
-    "client": "cd client && npm run dev",
-    "dev": "concurrently \"npm run client\" \"npm run server\""
+    "client": "cd client && pnpm run dev",
+    "dev": "concurrently \"pnpm run client\" \"pnpm run server\""
   },
   "keywords": [],
   "author": "",
@@ -22,11 +22,11 @@
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
-    "jspdf": "^2.5.1",
+    "jspdf": "^4.2.1",
     "mongoose": "^8.5.4",
     "morgan": "^1.10.0",
     "next-themes": "^0.3.0",
-    "nodemailer": "^6.9.15",
+    "nodemailer": "^10.1.0",
     "typescript": "^5.5.4",
     "winston": "^3.14.2"
   },
@@ -43,5 +43,30 @@
     "concurrently": "^8.2.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.4"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "pnpm": {
+    "overrides": {
+      "@babel/runtime@^7.0.0": "^7.26.10",
+      "body-parser@^1.0.0": "^1.20.6",
+      "brace-expansion@^1.0.0": "^1.1.21",
+      "cookie@^0.4.0": "^0.7.0",
+      "cookie@^0.6.0": "^0.7.0",
+      "diff@^4.0.0": "^4.0.4",
+      "express@^4.0.0": "^4.20.0",
+      "jws@^3.0.0": "^3.2.3",
+      "lodash@^4.0.0": "^4.18.0",
+      "minimatch@^3.0.0": "^3.1.4",
+      "mongoose@^8.0.0": "^8.24.1",
+      "morgan@^1.0.0": "^1.12.1",
+      "on-headers@^1.0.0": "^1.1.0",
+      "path-to-regexp@^0.1.0": "^0.1.13",
+      "picomatch@^2.0.0": "^2.3.2",
+      "proxy-addr@^2.0.0": "^2.0.8",
+      "qs@^6.0.0": "^6.16.0",
+      "send@^0.18.0": "^0.19.0",
+      "serve-static@^1.0.0": "^1.16.0",
+      "shell-quote@^1.0.0": "^1.9.0"
+    }
   }
 }

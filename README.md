@@ -32,13 +32,13 @@ cd ATS
 3. Install dependencies:
 
 ```
-npm install
+pnpm install
 ```
 ```
 cd client
 ```
 ```
-npm install
+pnpm install
 ```
 
 4. Configure the environment variables (see Configuration section)
@@ -46,14 +46,14 @@ npm install
  - Backend
 
 ```
-npm start
+pnpm start
 ```
   - Frontend
 ```
 cd client
 ```
 ```
-npm start
+pnpm start
 ```
 ## Configuration
 
